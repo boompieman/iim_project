@@ -39,7 +39,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/macbook/Desktop/project/project_python2"
+VIRTUAL_ENV="/Users/macbook/Desktop/iim_project/project_python2"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
