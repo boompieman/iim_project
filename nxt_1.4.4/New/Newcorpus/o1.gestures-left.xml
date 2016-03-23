@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<nite:stream nite:id="gest_str_1" nite:content="set" xmlns:nite="http://nite.sourceforge.net/" xmlns:xlink="http://www.w3.org/1999/xlink">
+   <lgest nite:id="lge_1" nite:start="1.8" nite:end="3.0" target="children">
+      <nite:pointer role="TYPE"  xlink:href="gtypes.xml#xpointer(id(g_4))" xlink:type="simple"/>
+   </lgest>
+</nite:stream>

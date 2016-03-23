@@ -1,0 +1,144 @@
+<section id="data"><title>Data</title>
+<para>Our approach to data modelling is motivated by the need to have many
+different kinds of annotations for the same basic language data,
+for linguistic levels ranging from phonology to pragmatics.
+There are two reasons why such cross-annotation
+is prevalent.  First, corpora are expensive to collect even without
+annotating them; projects tend to reuse collected materials where
+they can.  Second, with the advent of statistical methods in language
+engineering, corpus builders are interested in having the widest
+possible range of features to train upon.  Understanding how the
+annotations relate is essential to developing better modelling
+techniques for our systems.  
+</para>
+
+<para>
+Although how annotations relate to time on signal is important in
+corpus annotation, it is not the only concern.  Some entities that
+must be modelled are timeless (dictionaries of lexical entries or
+prosodic tones, universal entities that are targets of referring
+expressions).  Others (sentences, chains of reference) are
+essentially structures built on top of other annotations (in these
+cases, the words that make up an orthographic transcription) and may
+or may not have an implicit timing, but if they do, derive their
+timings from the annotations on which they are based.  Tree structures
+are common in describing a coherent sets of tags, but where several
+distinct types of annotation are present on the same material
+(syntax, discourse structure), the entire set may well not fit into a
+single tree.  This is because different trees can draw on different
+leaves (gestural units, words) and because even where they share the
+same leaves, they can draw on them in different and overlapping ways
+(e.g.,disfluency structure and syntax in relation to words).  As well
+as the data itself being structured, data types may also exhibit
+structure (for instance, in a typology of gesture that provides more
+refined distinctions about the meaning of a gesture that can be drawn
+upon as needed).  
+</para>
+
+<para>The best way to introduce the kind of data NXT can represent is
+by an example.</para>
+
+
+    <mediaobject>
+      <imageobject>
+        <imagedata fileref="images/data-example.jpg"/>
+      </imageobject>
+    </mediaobject>
+
+
+<para> 
+     The picture, which is artificially constructed to keep it simple,
+     contains a spoken sentence that has been coded with fairly
+     standard linguistic information, shown above the representation
+     of the timeline, and gestural information, shown below it.  The
+     lowest full layer of linguistic information is an orthographic
+     transcription consisting of words marked with part-of-speech tags
+     (in this set, the tag <literal>PP$</literal> stands for “personal
+     pronoun”).  Some words have some limited prosodic information
+     associated with them in the form of pitch accents, designated by
+     their TOBI codes.  Building upon the words is a syntactic
+     structure — in this formalism, a tree — with a category giving
+     the type of syntactic constituent (sentence, noun phrase, verb
+     phrase, and so on) and the lemma, or root form, of the word that
+     is that constituent’s head.  Prepositional phrases, or PPs,
+     additionally specify the preposition type.  The syntactic
+     constituents are not directly aligned to signal, but they inherit
+     timing information from the words below them.  The very same
+     syntactic constituents slot into a semantic structure that
+     describes the meaning of the utterance in terms of a semantic
+     frame (in this case, a buying event) and the elements that fill
+     the roles in the frame (the agent, patient, and beneficiary).
+     The last piece of linguistic information, a link between the
+     syntactic constituent “the man” and the personal pronoun “his”,
+     shows that the former is the antecedent of the latter in a
+     coreference relationship.
+</para>
+
+<para> 
+     Meanwhile, the gesture coding shows two timed gestures and their
+      relationship to a static gesture ontology.  In the ontology, one
+      type is below another if the former is a subtype of the latter.
+      The first gesture, with the right hand, is a deictic, or
+      pointing, gesture where the target of the pointing is some toys.
+      This gesture is divided into the usual phases of preparation,
+      stroke, hold, and retraction.  The second gesture, made with the
+      left hand, is discursive, but the coder has chosen not to
+      qualify this type further.  Gesture types could be represented
+      on the gestures directly in the same way as parts of speech are
+      represented for words.  However, linking into an ontology has
+      the advantage of making clear the hierarchical nature of the
+      gesture tag set.
+</para>
+ 
+<para>
+      All of these kinds of information are used frequently within
+      their individual research communities.  No previous software
+      allows them to be integrated in a way that expresses fully how
+      they are related and makes the relationships easy to access.
+      And yet this integration is exactly what is required in order to
+      understand this communicative act fully.  No one really believes
+      that linguistic phenomena are independent; as the example
+      demonstrates, deictic speech can only be decoded using the
+      accompanying gesture.  Meanwhile, many linguistic phenomena are
+      correlated.  Speaker pauses and hearer backchannel continuers
+      tend to occur at major syntactic boundaries, an argument builds
+      up using rhetorical relations that together span a text,
+      postural shifts often signal a desire to take a speaking turn,
+      and so on.  The NITE XML Toolkit supports representing the full
+      temporal and structural relationships among different
+      annotations both as a way of keeping all of the annotations
+      together and to allow these relationships to be explored, since
+      understanding them should help our research.
+</para>
+
+<para> Although the example shows a particular data structure that
+    necessarily makes choices about for instance, how to represent
+    coreferential relationships and what gestures to include in a
+    taxonomy, NXT deliberately does not prescribe any particular
+    arrangement.  Instead, it is designed to be theory-neutral.  NXT
+    allows users to define their annotations and how they relate to
+    each other, within constraints imposed by its internal data
+    representation, the NITE Object Model.  Notice that in the
+    example, although the overall graph is not a tree, it contains
+    trees as prominent components.  The NITE Object Model treats
+    annotations as nodes in a set of intersecting trees.  Each node in
+    the model must have at most a single set of children, but might
+    have several parents, defining its placement in different trees.
+    Each tree has an ordering for the nodes that it contains, but
+    there is no order for the set of annotations overall.  In addition
+    to the intersecting tree structure, each node can have out-of-tree
+    links, called "pointers", to other nodes.  In the NITE Object
+    Model, pointers can introduce cycles into the data structure, but
+    parent-child relationships cannot.  This makes it technically
+    possible to represent any graph structure in the model, but at a
+    high processing cost for operations involving pointers.
+</para>
+
+  &datamodel;
+  &dataformat;
+  &metadata;
+  &resources;
+  &validation; 
+  &datasetdesign;
+  &databuilds;
+</section>

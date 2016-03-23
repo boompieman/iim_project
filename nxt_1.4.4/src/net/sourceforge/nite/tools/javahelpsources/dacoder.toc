@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!DOCTYPE toc
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+
+<toc version="1.0">
+<tocitem text="Dialogue Act Annotation Help" image="img.top">
+
+   <tocitem text="Overview" image="img.topic" target="top"/>
+
+	<tocitem text="User's Guide" image="img.openchapter" target="guide.top">
+		<tocitem text="Starting the Dialogue Act Annotation Tool" image="img.topic" target="guide.startapp"/>
+		<tocitem text="Starting annotations" image="img.topic" target="guide.start"/>
+		<tocitem text="Dialogue act annotation" image="img.topic" target="guide.da"/>
+		<tocitem text="Adjacency pairs annotation" image="img.topic" target="guide.ap"/>
+		<tocitem text="Saving and closing annotations" image="img.topic" target="guide.save"/>
+		<tocitem text="Printing annotations" image="img.topic" target="guide.print"/>
+	</tocitem>
+	<tocitem text="Reference" image="img.openchapter" target="reference.top">
+		<tocitem text="Windows" image="img.openchapter" target="reference.windows.top">
+			<tocitem text="Main window" image="img.topic" target="reference.windows.main"/>
+			<tocitem text="Transcription area" image="img.topic" target="reference.windows.transcription"/>
+			<tocitem text="Media player" image="img.topic" target="reference.windows.media"/>
+			<tocitem text="Dialogue act editor" image="img.topic" target="reference.windows.daeditor"/>
+			<tocitem text="Adjacency pairs editor" image="img.topic" target="reference.windows.apeditor"/>
+			<tocitem text="Adjacency pairs area" image="img.topic" target="reference.windows.aparea"/>
+			<tocitem text="Status and feedback window" image="img.topic" target="reference.windows.status"/>
+		</tocitem>
+		<tocitem text="Keyboard and mouse shortcuts" image="img.topic" target="reference.shortcuts"/>
+	</tocitem>
+
+   <tocitem text="Customization" image="img.topic" target="customization"/>
+   
+   <tocitem text="Acknowledgements" image="img.topic" target="acknowledgements"/>
+   <tocitem text="Contact" image="img.topic" target="contact"/>
+</tocitem>
+</toc>

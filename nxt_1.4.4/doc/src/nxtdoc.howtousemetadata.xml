@@ -1,0 +1,116 @@
+<appendix id="howtousemetadata">
+	<title>How To Use Metadata</title>
+	<para>
+		The main investment involved in allowing your own data to be used by the NITE XML toolkit is the production of 
+		a <firstterm>metadata</firstterm> file and the provision of your data in a conformant fashion (especially as regards file-naming). 
+		Understanding the format of metadata files will be important if you wish to import your data, though we 
+		provide several example metadata files to help. Once you have a metadata file that describes your data, 
+		you will be able to use all the NITE tools to validate, analyse and edit your data.
+	</para>
+	
+	<section id="metadata_use_what_for">
+		<title>What metadata files do</title>
+		<para>
+			Metadata files describe all aspects of a corpus including:
+		</para>
+		<itemizedlist mark="bullet">
+			<listitem><para>where on disk the parts of the corpus reside;</para></listitem>
+			<listitem><para>the codings that can validly be made on the data;</para></listitem>
+			<listitem><para>the observations that have been made already along with their status;</para></listitem>
+			<listitem><para>the NITE editors and viewers that can be used on the corpus;</para></listitem>
+			<listitem><para>much more (see below).</para></listitem>
+		</itemizedlist>
+		
+	</section>
+	
+	<section id="metadata_use_look">
+		<title>What metadata files look like</title>
+		<para>
+			Metadata files are XML and conform to a DTD. There is one metadata DTD for simple 
+			(single file) corpora and one for standoff corpora. They both share 
+			much in common, so import the same basic DTD. The set of DTDs (zipped) 
+			can be downloaded <ulink url="http://www.ltg.ed.ac.uk/NITE/metadata/dtd.zip">here</ulink>. If you are more familiar 
+			with XML Schema and have 
+			a schema validator installed you may prefer <ulink url="http://www.ltg.ed.ac.uk/NITE/metadata/schema.zip">this set of zipped schemas</ulink>.
+		</para>
+	</section>
+	
+	<section id="metadata_use_examples">
+		<title>Metadata examples</title>
+		<para>
+			Save these to disk and have a look at them in your favourite XML or text editor.
+		</para>
+		<orderedlist>
+			<listitem><para><ulink url="http://www.ltg.ed.ac.uk/NITE/metadata/example.corpus">Metadata for NITE's simple example</ulink>
+				 (you may also want to see <ulink url="http://www.ltg.ed.ac.uk/NITE/metadata/simple.zip">the data it describes</ulink> - 5K zip)
+			</para></listitem>
+			<listitem><para><ulink url="http://www.ltg.ed.ac.uk/NITE/metadata/maptask.corpus">Metadata for the Maptask corpus</ulink>
+				 (<ulink url="http://www.ltg.ed.ac.uk/NITE/metadata/maptask.zip">here is a single maptask observation</ulink> - 165K zip)
+			</para></listitem>
+			<listitem><para><ulink url="http://www.ltg.ed.ac.uk/NITE/metadata/smartkom.corpus">Metadata for the Smartkom corpus (simple corpus case)</ulink>
+				 (here's a <ulink url="http://www.ltg.ed.ac.uk/NITE/metadata/smartkom.xml">single Smartkom interaction file</ulink> - 15K XML)
+			</para></listitem>
+		</orderedlist>
+	</section>
+	
+	<section id="metadata_use_validation">
+		<title>Using Metadata to validate data</title>
+		<para>
+			Since metadata describes the format of the data and where to find it on disk, it is used by the NITE software 
+			to validate the data as it is loaded and edited. This sort of direct validation is useful, 
+			but we also provide schema validation of data using a schema derived automatically from the 
+			metadata (via a stylesheet).
+		</para>
+		<para>
+			Assuming you have already <link linkend="install">downloaded and installed NOM</link>, you already have the 
+			<ulink url="http://www.ltg.ed.ac.uk/NITE/metadata/generate-schema.xsl">schema-generating 
+			stylesheet</ulink> (it's in the <filename class="directory">lib</filename> directory). Armed with this and a 
+			stylesheet processor (xalan is 
+			also in the NOM distribution), you can run this command on your metadata file:
+		</para>
+		<para>
+			<code>
+				java org.apache.xalan.xslt.Process -in <replaceable><![CDATA[<your-metadata>]]></replaceable> -xsl generate-schema.xsl 
+				           -out extension.xsd
+			</code>
+		</para>
+		<para>
+			If you have a schema validator (I use <ulink url="http://www.ltg.ed.ac.uk/~ht/xsv-status.html"><application>xsv</application></ulink>) 
+			you are now ready to validate some data files. Try putting these declarations: 
+		</para>
+		<programlisting>xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="extension.xsd"
+			</programlisting>
+		<para>
+			in the root element of your data file and then execute:
+		</para>
+		<programlisting>xsv <replaceable><![CDATA[<your-file>]]></replaceable></programlisting>
+		<para>
+			One of the major reasons behind this approach to schema validation is that we can validate data 
+			that is either a single file "as-serialized" by NITE, or files that have been transformed to replace 
+			their <sgmltag class="element">nite:child</sgmltag> elements with the pointed-to elements recursively, and also replacing pointers with 
+			their actual elements. This is useful for validating the types of elements that can be children of a 
+			specific element and pointed to by that element. In this way an entire corpus could be schema validated. 
+			You have <ulink url="http://www.ltg.ed.ac.uk/NITE/metadata/knit.xsl">a stylesheet that does this transformation</ulink>
+			 in the <filename class="directory">lib</filename> directory of your NOM distribution.
+		</para>
+		<para>
+			If this all seems rather involved, and your data already loads into the NOM, the program 
+			<ulink url="http://www.ltg.ed.ac.uk/NITE/metadata/PrepareSchemaValidation.java"><classname>PrepareSchemaValidation.java</classname></ulink>
+			 will make a new directory for you which is fully ready for schema validation.
+		</para>
+
+		<section id="metadata_use_validation_limits">
+			<title>Validation limitations</title>
+			<itemizedlist mark="bullet">
+				<listitem><para>all stream elements <emphasis>must</emphasis> be named <sgmltag class="element">nite:root</sgmltag>;</para></listitem>
+				<listitem><para>all ID, Start and End time attributes must use the NITE default names: 
+					<sgmltag class="attribute">nite:id</sgmltag>, <sgmltag class="attribute">nite:start</sgmltag> and 
+					<sgmltag class="attribute">nite:end</sgmltag>.</para></listitem>
+				<listitem><para>all children and pointers <emphasis>must</emphasis> use XLink / XPointer style links.</para></listitem>
+				<listitem><para>stream elements will be permitted to contain inadvisably mixed elements (so long as all those 
+					elements are valid and defined themselves)</para></listitem>
+			</itemizedlist>
+		</section>
+	</section>
+</appendix> 

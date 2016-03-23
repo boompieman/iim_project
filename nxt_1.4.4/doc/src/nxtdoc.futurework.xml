@@ -1,0 +1,87 @@
+<appendix id="futurework">
+    <title>Future Work</title>
+
+<remark> I'm putting ideas for future work that were on the webpages here, but we could delete some, and make some proper feature requests. We want to consider whether anything like this goes in the documentation.</remark>
+
+    <para> Any software can be improved.  In this section we describe the future work that we would like to see for NXT, 
+		dividing it according to priority.
+
+    </para>
+
+<!--**************************-->
+<section id="future_high">
+   <title>High Priority</title>
+    <para/>
+</section>
+
+<!--**************************-->
+<section id="future_medium">
+   <title>Medium Priority</title>
+    <para/>
+
+<section id="future_layering">
+   <title>Making the Layering Model More Flexible</title>
+
+    <para>The layering model imposed by NXT's metadata on a data graph
+    (see <xref linkend="layering"/>) sometimes gets in the way of what
+    users want to do.  It would be fairly simple to allow pointers to
+    draw targets from a disjunction of layers, or to allow individual
+    layers to be skipped (see <xref linkend="skiplayers"/>),
+    overcoming the main difficulties they have reported.
+    </para>
+
+</section>
+</section>
+
+
+<!--**************************-->
+<section id="future_low">
+   <title>Low Priority</title>
+    <para/>
+
+</section>
+<!--**************************-->
+<section id="future_exploratory">
+   <title>Exploratory Work</title>
+    <para/>
+
+<!-- ***** -->
+<section id="future_replace_layers">
+   <title>Replacing the Layering Model</title>
+
+    <para>The layering model imposed by NXT's metadata on a data graph
+    (see <xref linkend="layering"/>) is one simple way of avoiding cycles
+    in the parent-child relationships that users can easily
+    understand, but it is more stringent than the NITE Object Model
+    requires.  We might also consider removing the layering model
+    completely.  We would like to see experiments done with an
+    alternative metadata format, data storage, and loader that do not
+    use layers.  This would take careful design if we are to retain
+    the advantage of multi-file serialization.
+    </para>
+
+</section>
+<!-- ***** -->
+
+<section id="future_generic_display">
+  <title>Improvements to the Generic Display</title>
+
+<para>Although it will never be as useful as tailored tools,
+the Generic Display could easily be improved.
+The Javadoc comments at the beginning of the code for it give
+our ideas about that, and it would make a nice student project.
+</para>
+</section>
+<!-- ***** -->
+<section id="future_ngramcalc">
+  <title>Improvements to NGramCalc</title>
+
+<para>It would be useful if <function>NGramCalc</function> could allow order to be derived
+from end time rather than start time, or from a structural order rather
+than a temporal one.
+</para>
+</section>
+<!-- ***** -->
+</section>
+<!--**************************-->
+</appendix>

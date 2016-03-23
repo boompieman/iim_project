@@ -1,0 +1,672 @@
+<section id="guis">
+  <title>Graphical user interfaces</title>
+
+    <para>NXT gives three different levels of support for graphical user
+    interfaces. The first is a very basic data display that will always work
+    for data in the correct format. The second is a set of configurable end
+    user tools for common coding tasks that covers simple timestamped
+    labelling plus a range of discourse coding types. Finally, NXT contains a
+    number of libraries that can be used to build tailored end user interfaces
+    for a particular corpus.</para>
+<!-- ****************************************** -->
+    <section id="gui_preliminaries">
+      <title>Preliminaries</title>
+      <para/>
+<!-- ****** -->
+<section id="gui_invoke">
+      <title>Invoking the GUIs</title>
+ 
+<para>
+
+Most NXT corpora come with a script for invoking the GUIs that work
+with the data; look for a top level file with the extension <filename
+class="extension">.bat</filename> (for Windows), <filename
+class="extension">.sh</filename> (for Linux), or <filename
+class="extension">.command</filename> (for Mac OSX). Where these
+scripts fail to work, it is usually because you need to edit them
+because you have put the data in a different place than where the
+script author expected.
+
+These start-up scripts will give as options the standard search gui
+and generic display gui, plus any other interfaces that have been
+registered for the corpus by editing the callable-programs section of
+the metadata.  For corpora with many different annotations, the
+generic display as accessed in this way is unusable because by
+default, it tries to load and display everything - the command line
+call will give better control.
+
+</para>
+</section>
+<!-- ***** -->
+<section id="gui_time_highlights">
+      <title>Time Highlighting</title>
+      <para/><remark>Section incomplete</remark>
+</section>
+<!-- ***** -->
+<section id="gui_search_highlights">
+      <title>Search Highlighting</title>
+<para><remark> EXPLANATION OF SEARCH HIGHLIGHTING</remark></para>
+<para>
+In the search highlighting, if there isn't a direct representation of
+some element on the display, then there's nothing to highlight.  For
+instance, in many data sets timestamped orthographic transcription
+consists of <sgmltag class="element">w</sgmltag> and
+<sgmltag class="element">sil</sgmltag> elements but the <sgmltag class="element">sil</sgmltag> elements are not rendered in the display,
+so the query <code>($s sil):</code> won't cause any highlighting to occur.  This
+can be confusing but it is the correct behaviour. Good interface design
+will have a screen rendering for any elements of theoretical importance.
+
+</para>
+</section>
+<!-- ***** -->
+</section>
+<!-- ************************************* -->
+  <section id="gui_generic_tools">
+   <title>Generic tools that work on any data</title>
+
+      <para>
+      Any corpus in NXT format is immediately amenable to two
+different graphical interfaces that allow the corpus to be searched,
+even without writing tailored programs.  The first is a simple search
+GUI, and the second is a generic data display program that works in
+tandem with the search GUI to highlight search results.
+     </para>
+
+      &nxtsearchgui;      
+      &genericdisplay;
+
+
+    </section>
+<!-- ************************************** -->
+    <section id="gui_configurable_tools">
+      <title>Configurable end user coding tools</title>
+
+      <para>There are currently three built-in and configurable end user GUIs
+      for common interface requirements.</para>
+
+      
+     &signallabeller;
+     &decoder;
+     &dscoder;      
+     &nsdisplay;   
+     &dtvdisplay;   
+
+      <section id="gui_how_to_configure">
+        <title>How to configure the end user tools</title>
+
+        <para>There are two basic steps to configure one of these end-user tools for your corpus:
+        </para>
+<section id="gui_metadata_edit"><title>Edit the Metadata File</title>
+
+<para>Consider what you want to code and which tool you want to
+use. Edit the codings and layers in the metadata file for your new
+annotation, then add something like this to the <sgmltag class="element">callable-programs</sgmltag>
+section of your metadata file:
+
+<programlisting><![CDATA[
+<callable-program description="Named Entity Annotation" 
+  name="net.sourceforge.nite.tools.necoder.NECoder">
+    <required-argument name="corpus" type="corpus"/>
+    <required-argument name="observation" type="observation"/>
+    <required-argument name="config" default="myConfig.xml"/>
+    <required-argument name="corpus-settings" default="my-corpus-settings-id"/>
+    <required-argument name="gui-settings" default="my-gui-settings-id"/>
+</callable-program>
+]]></programlisting>
+
+This tells NXT to allow the use of the built-in Named Entity coder on
+this corpus. When you start up
+<classname>net.sourceforge.nite.nxt.GUI</classname> on this metadata, a new
+entry will appear called <sgmltag class="attvalue">Named Entity
+Annotation</sgmltag>. The <sgmltag class="element">required-argument</sgmltag>s require
+first that the <sgmltag class="attvalue">corpus</sgmltag> (metadata file name) is passed to the tool and
+than an observation is chosen by the user. The third <sgmltag class="element">required-argument</sgmltag>, 
+	<sgmltag class="attvalue">config</sgmltag> tells NXT where to find the
+configuration file for this tool, relative to the metadata, and the
+last two tell it which settings to use within that file (see next
+section).
+</para>
+</section>
+
+<section  id="gui_config_file_edit"><title>Edit or Create the Configuration File</title>
+
+<para>Configuration files can look complicated but the requirements to
+get started are really quite simple. One example configuration file is
+included in the NXT distribution as <filename>lib/nxtConfig.xml</filename>. It
+contains extensive comments about what the settings mean. Below is a
+full discussion of the elements and attributes of the configuration
+files, but to continue with the above example, here is a configuration
+file (according to the above metadata fragment, it should be called
+<filename>myConfig.xml</filename> and located in the same directory as the
+metadata). This configures the named entity coder:
+
+<programlisting><![CDATA[
+<NXTConfig>
+  <DACoderConfig>
+    <!-- Corpus settings for the ICSI corpus -->
+    <corpussettings
+        id                      = "my-corpus-settings-id"
+        segmentationelementname = "segment"
+        transcriptionlayername  = "words-layer"
+        transcriptiondelegateclassname = "MyTranscriptionToTextDelegate"
+        neelementname           = "named-entity"
+        neattributename         = "type"
+        annotatorspecificcodings= "nees"
+    />    
+
+    <guisettings
+        id                      = "my-gui-settings-id"
+        gloss                   = "My Corpus settings"
+        applicationtitle        = "My Corpus Tool"
+    />
+
+  </DACoderConfig>
+</NXTConfig>
+]]></programlisting>
+
+Note the <sgmltag class="element">corpussettings</sgmltag> element with the <sgmltag class="attribute">ID</sgmltag>
+<sgmltag class="attvalue">my-corpus-settings-id</sgmltag> as referred to in the metadata
+file, and similarly a <sgmltag class="element">guisettings</sgmltag> element named
+<sgmltag class="attvalue">my-gui-settings-id</sgmltag>. In this way, a configuration file can
+contain any number of different configurations for different corpora
+as well as different tools, though it's normally clearer to have at
+least one config file per corpus.</para>
+
+<variablelist>
+   <title>Some Important Settings</title>
+<varlistentry>
+   <term><sgmltag class="attribute">neelementname</sgmltag></term>
+   <listitem><para>
+the name of the element, which must be present in the metadata file,
+that will be created by the named entity tool
+   </para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><sgmltag class="attribute">neattributename</sgmltag></term>
+   <listitem><para>
+if this is present, we are using an enumerated attribute directly on
+the <sgmltag class="attribute">neelementname</sgmltag> rather than a pointer into a type
+hierarchy. The attribute must be present in the metadata file and must
+be enumerated. To use a pointer into a type hierarchy you should
+specify at least the <sgmltag class="attribute">neontology</sgmltag>, <sgmltag class="attribute">neroot</sgmltag>, 
+	   <sgmltag class="attribute">nenameattribute</sgmltag>
+and <sgmltag class="attribute">netyperole</sgmltag> instead of this single attribute. Note:
+this feature is only available in NXT versions after March 2006.
+   </para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term><sgmltag class="attribute">segmentationelementname</sgmltag></term>
+   <listitem><para>
+the element used to split the transcription into 'lines'. It is
+normally assumed this is an agent-coding and if so, the agent
+associated with each speaker is placed in front of each line.
+   </para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term><sgmltag class="attribute">transcriptionlayername</sgmltag></term>
+   <listitem><para>
+the layer that contains the transcription to be printed. How it
+actually appears can be specified using
+<sgmltag class="attribute">transcriptiondelegateclassname</sgmltag>.
+   </para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term><sgmltag class="attribute">transcriptiondelegateclassname</sgmltag></term>
+   <listitem><para>
+if this is absent, any element in the <sgmltag class="attribute">transcriptionlayername</sgmltag> with text
+content will be displayed as transcription. If it is present, each
+element is passed to the delegate class in order to display the
+transcription. Any such delegate class has to implement the Java
+interface <classname>TranscriptionToTextDelegate</classname> which contains the
+single method <function>getTextForTranscriptionElement(NOMElement nme)</function>.
+   </para></listitem>
+</varlistentry>
+</variablelist>
+</section>
+
+<section id="gui_config_file_detail">
+<title>Config File Detail</title>
+<para>This section is a detailed look at the settings in the NXT
+configuration files. Note: some of these settings can only be used in
+NXT builds after 1.3.5 (9/5/06). The details may not be entirely
+static.</para>
+
+<para>
+At the top level, in the <sgmltag class="element">NXTConfig</sgmltag> element, there are
+currently two possible subelements: <sgmltag class="element">DACoderConfig</sgmltag> and
+<sgmltag class="element">CSLConfig</sgmltag>. The first is for configuring discourse coder
+tools (dialogue act coder; named entity coder etc). The second is
+for configuring the <xref linkend="signallabeller"/> tool
+</para>
+<para>
+Both <sgmltag class="element">CSLConfig</sgmltag> and <sgmltag class="element">DACoderConfig</sgmltag> can contain
+any number of <sgmltag class="element">corpussettings</sgmltag> and <sgmltag class="element">guisettings</sgmltag>
+elements, each of which has an <sgmltag class="attribute">id</sgmltag> attribute to uniquely identify it:
+often these <sgmltag class="attribute">ID</sgmltag>s will be used in the <sgmltag class="element">CallableTools</sgmltag> section
+of an NXT metadata file. <sgmltag class="element">guisettings</sgmltag> are preferences that
+affect the overall look of the interface and
+<sgmltag class="element">corpussettings</sgmltag> tell NXT about the elements to be
+displayed and annotated. The detail of what goes where is described in
+each subsection below.
+</para>
+
+   <section id="gui_dacoderconfig">
+      <title>DACoderConfig</title>
+
+<variablelist>
+   <title><sgmltag class="element">guisettings</sgmltag> attributes</title>
+<varlistentry>
+   <term><sgmltag class="attribute">id</sgmltag></term>
+   <listitem><para>Unique identifier
+   </para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><sgmltag class="attribute">gloss</sgmltag></term>
+   <listitem><para>Example element containing short explanation of all possible settings
+   </para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><sgmltag class="attribute">showapwindow</sgmltag></term>
+   <listitem><para>If true, the <guilabel>Adjacency Pair</guilabel> (or <guilabel>relation</guilabel>) window is shown in 
+	   the discourse entity coder. Defaults to <sgmltag class="attvalue">true</sgmltag>.
+   </para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><sgmltag class="attribute">showlogwindow</sgmltag></term>
+   <listitem><para>If <sgmltag class="attvalue">true</sgmltag>, the log feedback window is shown. 
+	   Defaults to <sgmltag class="attvalue">true</sgmltag>.
+   </para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><sgmltag class="attribute">applicationtitle</sgmltag></term>
+   <listitem><para>The title that you want to see in the main frame
+   </para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><sgmltag class="attribute">wordlevelselectiontype</sgmltag></term>
+   <listitem><para>This determines what units are selectable on the
+speech transcriptions (assuming
+<sgmltag class="attribute">transcriptselection</sgmltag> is not <sgmltag class="attvalue">false</sgmltag>). The are
+currently five valid strings - anything else will result in the
+default behaviour: <sgmltag class="attvalue">in_segment_phrase</sgmltag>. The values
+and their meanings are: <sgmltag class="attvalue">one_word</sgmltag>: only single
+words can be selected at a time; <sgmltag class="attvalue">one_segment</sgmltag>:
+only single segments can be selected;
+<sgmltag class="attvalue">multiple_segments</sgmltag>: multiple complete sements can
+be selected; <sgmltag class="attvalue">in_segment_phrase</sgmltag>: contiguous words
+that lie within a single segment can be selected;
+<sgmltag class="attvalue">cross_segment_phrase</sgmltag>: contiguous words across
+segments can be selected (note that the selection can in fact be
+discontiguous if <sgmltag class="attribute">multiagentselection</sgmltag> is not
+true).</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><sgmltag class="attribute">transcriptselection</sgmltag></term>
+   <listitem><para>This determines whether you can select speech
+    transcription elements. If this is <sgmltag class="attvalue">false</sgmltag> no speechtext selection will take
+    place, regardless of settings such as <sgmltag class="attribute">allowMultiAgentSelect</sgmltag>
+    or <sgmltag class="attribute">wordlevelSelectionType</sgmltag>. Defaults to <sgmltag class="attvalue">true</sgmltag>.
+   </para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><sgmltag class="attribute">annotationselection</sgmltag></term>
+   <listitem><para>This determines whether you can select annotation
+    elements. If this is <sgmltag class="attvalue">false</sgmltag> no annotation selection will take
+    place, regardless of other settings. Defaults to <sgmltag class="attvalue">true</sgmltag>.
+    </para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><sgmltag class="attribute">multiagentselection</sgmltag></term>
+   <listitem><para>This determines whether you can select data from more than one agent.
+If this is <sgmltag class="attvalue">true</sgmltag> such selection can take place. Defaults to <sgmltag class="attvalue">false</sgmltag>.
+    </para></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+   <title><sgmltag class="element">corpussettings</sgmltag> attributes</title>
+
+<varlistentry><term><sgmltag class="attribute">id</sgmltag></term> <listitem><para> Unique
+identifier</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">gloss</sgmltag></term> <listitem><para> Example element
+containing short explanation of all possible
+settings</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">segmentationelementname</sgmltag></term> <listitem><para>
+Element name of the segmentation elements that pre-segments the
+transcription layer. Used for the initial display of the
+text.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">segmenttextattribute</sgmltag></term> <listitem><para> Name
+of the attribute on the segment element to use as the header of each
+transcription line. Use a delegate (below) for more complex
+derivation. If neither delegate nor attribute is set, the agent is
+used as the line header (if agent is
+specified).</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">segmenttextdelegateclassname</sgmltag></term>
+<listitem><para> full class name of a <classname>TranscriptionToTextDelegate</classname> that
+derives the text of the segment header from each segment element. Note
+this is not the transcription derivation, just the derivation of the
+header for each line of transcription. If neither this delegate nor
+<sgmltag class="attribute">segmenttextattribute</sgmltag> is set, the agent is used as the
+line header (if agent is specified).</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">transcriptionlayername</sgmltag></term> <listitem><para>
+<replaceable>LAYER name</replaceable> of the transcription layer</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">transcriptionattribute</sgmltag></term> <listitem><para>
+Name of the attribute in which text of transcription is stored. Leave
+out if text not stored in attribute.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">transcriptiondelegateclassname</sgmltag></term>
+<listitem><para> full class name of <classname>TranscriptionToTextDelegate</classname>. Leave
+out is no delegate is
+used. <classname>net.sourceforge.nite.gui.util.AMITranscriptionToTextDelegate</classname>
+is an example delegate class that works for the AMI corpus. For a new
+corpus you may have to write your own, but it is a simple
+process.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">daelementname</sgmltag></term> <listitem><para> element name
+of dialogue act instances</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">daontology</sgmltag></term> <listitem><para> ontology name
+of dialogue acts</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">daroot</sgmltag></term> <listitem><para> nite-id of dialogue
+act root</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">datyperole</sgmltag></term> <listitem><para> role name of
+the pointer from a dialogue act to its
+type</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">daattributename</sgmltag></term> <listitem><para> The
+enumerated attribute on the DA element used as its 'type'. If this
+attribute is set, the <sgmltag class="attribute">daontology</sgmltag>, <sgmltag class="attribute">daroot</sgmltag> and
+<sgmltag class="attribute">datyperole</sgmltag> attributes are
+ignored.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">dagloss</sgmltag></term> <listitem><para> the name of the
+attribute of the dialog act types that contains some extra description
+of the meaning of this type</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">apelementname</sgmltag></term> <listitem><para> element name
+of adjacency pair instances</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">apgloss</sgmltag></term> <listitem><para> the name of the
+attribute of the relation types that contains some extra description
+of the meaning of this type</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">apontology</sgmltag></term> <listitem><para> ontology name
+of adjacency pairs</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">aproot</sgmltag></term> <listitem><para> nite-id of
+adjacency pair root</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">defaultaptype</sgmltag></term> <listitem><para> nite-id of
+default adjacency pair type</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">aptyperole</sgmltag></term> <listitem><para> role name of
+the pointer from a AP to its type</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">apsourcerole</sgmltag></term> <listitem><para> role name of
+the pointer from a AP to its source</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">aptargetrole</sgmltag></term> <listitem><para> role name of
+the pointer from a AP to its target</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">neelementname</sgmltag></term> <listitem><para> element name
+of named entity instances</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">neattributename</sgmltag></term> <listitem><para> The
+enumerated attribute on the NE element used as its 'type'. If this
+attribute is set, the <sgmltag class="attribute">neontology</sgmltag>, <sgmltag class="attribute">neroot</sgmltag> and
+<sgmltag class="attribute">netyperole</sgmltag> attributes are
+ignored.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">neontology</sgmltag></term> <listitem><para> ontology name
+of named entities</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">neroot</sgmltag></term> <listitem><para> nite-id of named
+entities root</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">neontologyexpanded</sgmltag></term> <listitem><para> set to
+<sgmltag class="attvalue">false</sgmltag> if you want the ontology to remain in un-expanded
+form on startup. The default is to expand the
+tree.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">nenameattribute</sgmltag></term> <listitem>
+<para> attribute name of the attribute that contains the name of the named entity</para></listitem></varlistentry>
+	
+<varlistentry><term><sgmltag class="attribute">netyperole</sgmltag></term> <listitem><para> role name of the pointer from a 
+named entity to its type</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">nenesting</sgmltag></term> <listitem><para> 
+Set to <sgmltag class="attvalue">true</sgmltag> to allow named entities to nest
+inside each other. Defaults to <sgmltag class="attvalue">false</sgmltag>.
+</para></listitem></varlistentry>
+
+<varlistentry><term>nemultipointers</term> <listitem><para> if this is
+<emphasis>true</emphasis> each span of words can be associated with
+multiple values in the ontology. Note that this only makes sense when
+the <sgmltag class="attribute">neattributename</sgmltag> is not set - this setting is ignored
+if <sgmltag class="attribute">neattributename</sgmltag> is set. It also requires that the
+<sgmltag class="attribute">nenesting</sgmltag> attribute is <emphasis>true</emphasis>.
+</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">abbrevattribute</sgmltag></term> <listitem><para> name of
+the attribute which contains an abbreviated code for the named entity
+for in-text display</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">nelinkelementname</sgmltag></term> <listitem><para> The
+element linking NEs together. Used by
+<classname>NELinker</classname>.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">nelinkattribute</sgmltag></term> <listitem><para> The
+enumerated attribute on the NE link element used as its 'type'. If
+this attribute is set, the <sgmltag class="attribute">nelinkontology</sgmltag>,
+<sgmltag class="attribute">nelinkroot</sgmltag> and <sgmltag class="attribute">nelinkrole</sgmltag> attributes are
+ignored, and the <sgmltag class="attribute">nelinktypedefault</sgmltag> if present is the
+default string value of the type. Used by
+<classname>NELinker</classname>.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">nelinkontology</sgmltag></term> <listitem><para> The type
+ontology pointed to by the NE link element. Used by
+<classname>NELinker</classname>.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">nelinkroot</sgmltag></term> <listitem><para> The root of the
+type ontology pointed into by the NE link element. Used by
+<classname>NELinker</classname>.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">nelinktyperole</sgmltag></term> <listitem><para> The role
+used to point into the type ontology by the NE link element. Used by
+<classname>NELinker</classname>.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">nelinktypedefault</sgmltag></term> <listitem><para> The
+default type value for NE link elements. Used by
+<classname>NELinker</classname>.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">nelinksourcerole</sgmltag></term> <listitem><para> The role
+of the pointer from the link element to the first (or source) NE
+element. Used by <classname>NELinker</classname>.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">nelinktargetrole</sgmltag></term> <listitem><para> The role
+of the pointer from the link element to the second (or target) NE
+element. Used by <classname>NELinker</classname>.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">annotatorspecificcodings</sgmltag></term> <listitem><para>
+the semi-colon-separated list of codings that are annotator specific,
+i.e. for which each individual annotator will get his or her own
+datafiles. Usually these are the codings for all layers that will be
+annotated in the <classname>DACoder</classname>; see AMI example. This setting only has
+effect when the tool is started for a named annotator or
+annotators.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">nsannotatorlayer</sgmltag></term> <listitem><para>Only used
+by <classname>NonSpanningComparisonDisplay</classname> this specifies the layer
+containing elements to compare. This is the top layer passed to the
+multi-annotator corpus load.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">nscommonlayer</sgmltag></term> <listitem><para>Only used by
+<classname>NonSpanningComparisonDisplay</classname> this is the layer that is
+common between all annotators - it will normally be the same layer as 
+<sgmltag class="element">transcriptionlayername</sgmltag>. </para></listitem></varlistentry>
+
+</variablelist>
+
+<para>In the above settings, <sgmltag class="attribute">da</sgmltag> and <sgmltag class="attribute">ap</sgmltag>
+prefixes are used in the attribute names here (standing for 'dialogue
+act' and 'adjacency pair'), these can refer to any kind of discourse
+elements and relations between them you wish to annotate.</para>
+
+   </section>
+
+   <section id="gui_cslcoderconfig">
+      <title>CSLCoderConfig</title>
+
+<variablelist>
+   <title><sgmltag class="element">guisettings</sgmltag> attributes</title>
+<varlistentry><term><sgmltag class="attribute">id</sgmltag></term> <listitem><para> Unique identifier</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">gloss</sgmltag></term> <listitem><para> Example CSL settings, 
+	giving an explanation for every entry.</para></listitem></varlistentry>
+<varlistentry><term><sgmltag class="attribute">autokeystrokes</sgmltag></term> <listitem><para> Optional (default <sgmltag class="attvalue">false</sgmltag>): 
+	if <sgmltag class="attvalue">true</sgmltag>, keystrokes will be made automatically if no keystroke is defined 
+	in the corpus data or if the defined keystroke is already in use.</para></listitem></varlistentry>
+<varlistentry><term><sgmltag class="attribute">showkeystrokes</sgmltag></term> <listitem><para> Optional (default <sgmltag class="attvalue">off</sgmltag>): 
+	set to <sgmltag class="attvalue">off</sgmltag> (keystroke won't be shown in the GUI), 
+	<sgmltag class="attvalue">tooltip</sgmltag> (keystroke will be shown in the tooltip of a control) 
+	or <sgmltag class="attvalue">label</sgmltag> (keystroke will be shown in the label of a control).</para></listitem></varlistentry>
+<varlistentry><term><sgmltag class="attribute">continuous</sgmltag></term> <listitem><para> Optional (default <sgmltag class="attvalue">true</sgmltag>): 
+	if <sgmltag class="attvalue">true</sgmltag>, the CSL tool will ensure that annotations remain continuous (prevent gaps in the time line)</para></listitem></varlistentry>
+<varlistentry><term><sgmltag class="attribute">syncrate</sgmltag></term> <listitem><para> Optional (default <sgmltag class="attvalue">200</sgmltag>): 
+	the number of milliseconds between time change events from the NXT clock</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">timedisplay</sgmltag></term> <listitem><para> Optional (default <sgmltag class="attvalue">seconds</sgmltag>): 
+	the type of display of coding times in the annotation window: if <sgmltag class="attvalue">minutes</sgmltag> then the format is like 
+	that of the clock h:mm:ss.ms</para></listitem></varlistentry>
+</variablelist>
+
+<variablelist>
+   <title><sgmltag class="element">corpussettings</sgmltag> attributes</title>
+<varlistentry><term><sgmltag class="attribute">id</sgmltag></term> <listitem><para> Unique identifier</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">gloss</sgmltag></term> <listitem><para> Example CSL settings for Dagmar demo corpus</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">annotatorspecificcodings</sgmltag></term> <listitem><para>pose</para></listitem></varlistentry>
+</variablelist>
+
+<para>For the <xref linkend="signallabeller"/> we expect the
+<sgmltag class="element">corpussettings</sgmltag> element to contain a number of
+<sgmltag class="element">layerinfo</sgmltag> elements, each of which can contain these
+attributes. Each layer named within the current
+<sgmltag class="element">corpussettings</sgmltag> element can be coded using the same tool:
+users choose what they're annotating using a menu.</para>
+
+<variablelist>
+   <title><sgmltag class="element">corpussettings / layerinfo</sgmltag> attributes</title>
+<varlistentry><term><sgmltag class="attribute">id</sgmltag></term> <listitem><para> Unique identifier</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">gloss</sgmltag></term> <listitem><para> Textual description of this layer</para></listitem></varlistentry>
+<varlistentry><term><sgmltag class="attribute">codename</sgmltag></term> <listitem><para> Name of the elements that are annotated in the given layer</para></listitem></varlistentry>
+	
+<varlistentry><term><sgmltag class="attribute">layername</sgmltag></term> <listitem><para> The name of the layer that you want 
+to code in the video labeler</para></listitem></varlistentry>
+	
+
+<varlistentry><term><sgmltag class="attribute">layerclass</sgmltag></term> <listitem><para> 
+	Delegate <classname>AnnotationLayer</classname> class. Defaults to 
+	<classname>net.sourceforge.nite.tools.videolabeler.LabelAnnotationLayer</classname></para></listitem></varlistentry>
+		
+<varlistentry><term><sgmltag class="attribute">controlpanelclass</sgmltag></term> <listitem><para> Delegate 
+	<classname>TargetControlPanel</classname> class. Defaults to 
+	<classname>net.sourceforge.nite.tools.videolabeler.LabelTargetControlPanel</classname></para></listitem></varlistentry>
+		
+<varlistentry><term><sgmltag class="attribute">enumeratedattribute</sgmltag></term> <listitem><para> Either this or <sgmltag class="attribute">pointerrole</sgmltag> 
+	are required for <sgmltag class="element">LabelAnnotationLayer</sgmltag>: name of the attribute that should be set - 
+	attribute must exist on the <sgmltag class="element">codename</sgmltag> element and must be enumerated - 
+	currently no flexibility is offered in the keyboard shortcuts - 
+	they always start at "1" and increase alphanumerically.</para></listitem></varlistentry>
+		
+<varlistentry><term><sgmltag class="attribute">pointerrole</sgmltag></term> <listitem><para> Either this or 
+	<sgmltag class="attribute">enumeratedattribute</sgmltag> are required for <sgmltag class="element">LabelAnnotationLayer</sgmltag>:
+	 role of the pointer that points to the object set or ontology that contains the labels.</para></listitem></varlistentry>
+		
+<varlistentry><term><sgmltag class="attribute">labelattribute</sgmltag></term> <listitem><para> Required for 
+	<sgmltag class="element">LabelAnnotationLayer</sgmltag>: name of the attribute of an object set or ontology 
+	element that contains the label name.</para></listitem></varlistentry>
+		
+<varlistentry><term><sgmltag class="attribute">evaluationattribute</sgmltag></term> <listitem><para> Required 
+	for <sgmltag class="element">FeeltraceAnnotationLayer</sgmltag>: name of the double value attribute that contains 
+	the evaluation of an emotion.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">activationattribute</sgmltag></term> <listitem><para> Required for 
+	<sgmltag class="element">FeeltraceAnnotationLayer</sgmltag>: name of the double value attribute that contains 
+	the activation of an emotion.</para></listitem></varlistentry>
+		
+<varlistentry><term><sgmltag class="attribute">showlabels</sgmltag></term> <listitem><para> Optional (default true) for <sgmltag class="element">FeeltraceTargetControlPanel</sgmltag>:
+	 if <sgmltag class="attvalue">true</sgmltag>, labels for some predefined emotions will be shown in the Feeltrace circle.</para></listitem></varlistentry>
+
+<varlistentry><term><sgmltag class="attribute">clickannotation</sgmltag></term> <listitem><para> Optional (default <sgmltag class="attvalue">false</sgmltag>) 
+	for <sgmltag class="element">FeeltraceTargetControlPanel</sgmltag>: if <sgmltag class="attvalue">true</sgmltag>, 
+	the user can click to start and end annotating; if <sgmltag class="attvalue">false</sgmltag>, the user should keep 
+	the mouse button pressed while annotating.</para></listitem></varlistentry>
+</variablelist>
+
+   </section>
+
+</section>
+
+      </section>
+    </section>
+
+    <section id="gui_libraries">
+      <title>Libraries to support GUI authoring</title>
+
+      <para>Please refer to the NXT <emphasis>Javadoc</emphasis> and
+      the example programs in the <filename class="directory">samples</filename> directory. </para>
+
+      <section id="gui_nxt_search_as_component">
+        <title>The NXT Search GUI as a component for other
+        tools</title> <para>It's often useful for applications to be
+        able to pop up a search window and react to search results as
+        they are selected by the user. Using any in-memory corpus that
+        implements the <classname>SearchableCorpus</classname> interface (for
+        example <classname>NOMWriteCorpus</classname>), you can very simply
+        achieve this. If <replaceable>nom</replaceable> is a valid
+        <classname>SearchableCorpus</classname> we could use:
+
+          <programlisting>
+net.sourceforge.nite.search.GUI searchGui = new GUI(<replaceable>nom</replaceable>);
+searchGui.registerResultHandler(<replaceable>handler</replaceable>);
+...
+searchGui.popupSearchWindow();
+          </programlisting>
+
+        In this extract, the first line initializes the search GUI by
+        passing it a <classname>SearchableCorpus</classname>. The second line
+        tells the GUI to inform <replaceable>handler</replaceable> when
+        search results are selected. <replaceable>handler</replaceable>
+        must implement the <classname>QueryResultHandler</classname> interface.
+        This simple interface is already implemented by some of NXT's
+        own GUI components like <classname>NTextArea</classname>, but this
+        mechanism allows you complete freedom to do what you want with
+        search results. There is no obligation to register a result
+        handler at all, but it may result in a less useful interface.
+        </para>
+
+        <para>
+        The third line of the listing actually causes the search
+        window to appear and will normally be the result of a user
+        action like selecting the <guimenuitem>Search</guimenuitem> menu
+        item or something similar.
+        </para>
+
+      </section>
+    </section>
+  </section>
+  

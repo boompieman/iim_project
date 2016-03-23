@@ -1,0 +1,705 @@
+<section id="commandlinetools">
+    <title id="commandline.title">Command line tools for data analysis</title>
+
+    <para>This section describes the various command line utilities that
+are useful for searching a corpus using NXT's query language.
+Command line examples below are given in the syntax for <code>bash</code>.
+It is possible to run NXT command line utilities from the DOS command
+line without installing anything further on Windows, but many users
+will find it easier to install <application>cygwin</application>, 
+which comes with a bash that runs under Windows.  The command
+line tools can be found in the XXXX directory of the NXT source,
+and are useful code examples.</para>
+
+<!-- ***************************** -->
+<section id="commandline_preliminaries"><title>Preliminaries</title>
+
+<para>Before using any of the utilities, you need to set your
+classpath and perhaps consider a few things about your local environment.
+</para>
+
+<!-- ***** -->
+<section id="commandline_classpath"><title> Setting the classpath </title>
+
+<para>
+The command line
+utilities require the classpath environment variable to be set up
+so that the shell can find the software.  Assuming $NXT is set to the
+top level directory in which the software is installed,
+this can be done as follows (remove the newlines):
+
+<programlisting>
+if [ $OSTYPE = 'cygwin' ]; the
+n	export CLASSPATH=".;$NXT/lib;$NXT/lib/nxt.jar;$NXT/lib/jdom.jar;
+           $NXT/lib/xalan.jar;$NXT/lib/xercesImpl.jar;$NXT/lib/xml-apis.jar;
+           $NXT/lib/jmanual.jar;$NXT/lib/jh.jar;$NXT/lib/helpset.jar;
+           $NXT/lib/poi.jar"
+else
+	export CLASSPATH=".:$NXT/lib:$NXT/lib/nxt.jar:$NXT/lib/jdom.jar:
+           $NXT/lib/xalan.jar:$NXT/lib/xercesImpl.jar:$NXT/lib/xml-apis.jar:
+           $NXT/lib/jmanual.jar:$NXT/lib/jh.jar:$NXT/lib/helpset.jar:
+           $NXT/lib/poi.jar"
+fi
+</programlisting>
+</para>
+
+<!-- TEMP Pare down the classpath to eliminate anything unnecessary. -->
+
+<para>This is not the full classpath that is needed for running NXT GUIs, but contains all of the methods used by the command line tools.
+</para>
+
+<para>
+It is possible instead to specify the classpath on each individual call
+to java using the -cp argument.
+</para>
+
+</section>
+<!-- ***** -->
+
+<section id="commandline_shell"><title>Shell interactions</title>
+<para>
+You'll need to be careful to use single quotes at shell level and
+double quotes within queries - although we've found one
+shell environment that requires the quotes the other way around.
+Getting the quoting to work correctly in a shell script is difficult
+even for long-time Unix users.  There is an example shell script
+that shows complex use of quoting in the sample directory of the
+NXT distribution called "quoting-example.sh".
+<!-- TEMP Put query-loop.sh in sample/quoting-example.sh and make
+sure it says it works for Cygwin. -->
+</para>
+
+<para>
+Don't forget that you can use redirection to divert warning and log
+messages:
+
+<programlisting>
+java CountQueryResults -corpus swbd-metadata.xml -query '($n nt):' 2> logfile
+</programlisting>
+
+Diverting to /dev/null gets rid of them without the need to save to a file.
+</para>
+
+
+</section>
+<!-- ***** -->
+<section id="commandline_memory"><title>Memory usage</title>
+
+<para>
+
+It is possible
+to increase the amount of memory available to java for processing, and
+depending on the machine set up, this may speed things up.  This can be done
+by using flags to java, e.g.
+<programlisting>
+java -Xincgc -Xms127m -Xmx512m -Xfuture CountQueryResults ...
+</programlisting>
+
+but also as an edit to the java calls in any of the existing scripts.
+This is what they mean:
+
+<variablelist>
+   <title>Java Arguments Controlling Memory Use</title>
+<varlistentry>
+   <term><literal>-Xincgc</literal></term>
+   <listitem><para>use incremental garbage collection to get back unused memory</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><literal>-Xms</literal><replaceable>size</replaceable></term>
+   <listitem><para>initial memory heap size</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><literal>-Xmx</literal><replaceable>size</replaceable></term>
+   <listitem><para>maximum memory heap size</para></listitem>
+</varlistentry>
+</variablelist>
+
+The best choice of values will depend on your local environment.
+
+</para>
+</section>
+<!-- ***** -->
+
+</section>
+<!-- ************************************* -->
+<section id="commandline_common_args"><title>Common Arguments</title>
+
+<para>Where possible, the command line tools use the same argument
+structure.  The common arguments are as follows.
+</para>
+
+<variablelist>
+   <title>Common Arguments for Command Line Tools</title>
+<varlistentry>
+   <term><literal>-corpus</literal> <replaceable>corpus</replaceable></term>
+   <listitem><para>the path and filename specifying the location of the metadata file</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><literal>-observation</literal> <replaceable>obs</replaceable></term>
+   <listitem><para>the name of an observation.  If this argument is not given, then the tools process all of the observations in the corpus</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><literal>-query</literal> <replaceable>query</replaceable></term>
+   <listitem><para>a query expressed in NXT's query language</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><literal>-allatonce</literal></term>
+   <listitem><para>an instruction to load all of the observations for a corpus at the same time. This can require a great deal of memory and slow down processing, but is necessary if queries draw context from outside single observations.</para></listitem>
+</varlistentry>
+</variablelist>
+</section>
+<!--  *********************************** -->
+<section id="commandline_savequery"><title>SaveQueryResults</title>
+
+<cmdsynopsis>
+  <command>java SaveQueryResults</command>
+  <arg choice="req">-c <replaceable>corpus</replaceable></arg>
+  <arg choice="req">-q <replaceable>query</replaceable></arg>
+  <group>
+    <arg>-o <replaceable>observation</replaceable></arg>
+    <arg>-allatonce</arg>
+  </group>
+  <arg>-f <replaceable>outputfilename</replaceable></arg>
+  <arg>-d <replaceable>directoryname</replaceable></arg>
+</cmdsynopsis>
+
+<para>
+<classname>SaveQueryResults</classname> saves the results of a query as
+an XML document whose structure corresponds to the one displayed in the search GUI and described in <link linkend="queryresults" endterm="queryresults.title"/>.
+Saved query results can be knit with the corpus to useful
+effect (see <xref linkend="knit"/>) as well as subjected to external
+XML-based processing.
+</para>
+
+
+<para>
+If no output filename is indicated, the output goes to System.out.  (Note
+that this isn't very sensible to do unless running <option>-allatonce</option>,
+because the output will just concatenate separate XML documents.)  In this case, everything else that could potentially be on System.out is
+redirected to <filename>System.err</filename>.
+</para>
+
+<para>
+If <replaceable>outputfilename</replaceable> is given, output is
+stored in the directory <replaceable>directoryname</replaceable>.  If
+running <option>-allatonce</option> or if an <replaceable>observation</replaceable> is specified, the output ends
+up in the file <replaceable>outputfilename</replaceable>. Otherwise, it is stored is a set of files found by prefixing
+<replaceable>outputfilename</replaceable> by the name of the
+observation and a full stop (<literal>.</literal>).
+</para>
+
+<caution>
+<para>Under cygwin, <literal>-d</literal> takes 
+Windows-style directory naming; e.g., 
+<code>-d "C:"</code> not <code>-d "/cygdrive/c"</code>.  Using the latter will create the unexpected locatio
+n<code>C:/cygdrive/c</code>. 
+</para>
+</caution>
+
+<para>
+ In distributions before 05 May 2004 (1.2.6 or earlier), the default
+ was -allatonce, and the flag -independent was used to indicate that
+ one observation should be processed at a time.
+</para>
+
+</section>
+<!-- **************************** -->
+<section id="commandline_countquery"><title>CountQueryResults</title>
+
+<cmdsynopsis>
+  <command>java CountQueryResults</command>
+  <arg choice="req">-c <replaceable>corpus</replaceable></arg>
+  <arg choice="req">-q <replaceable>query</replaceable></arg>
+  <group>
+    <arg>-o <replaceable>observation</replaceable></arg>
+    <arg>-allatonce</arg>
+  </group>
+</cmdsynopsis>
+
+<para>
+CountQueryResults counts query results
+for an entire corpus, showing the number of matches but not
+the result tree.  In the case of complex
+queries, the counts reflect the number of top level matches (i.e.,
+matches to the first query that survive the filtering performed
+by the subsequent queries - matches to a subquery drop out
+if there are no matches for the next query).  Combine
+CountQueryResults with command line
+scripting, for instance, to fill in possible attribute values from a
+nenumerated list.  
+</para>
+
+<para>
+When running <literal>-allatonce</literal> or on a named <replaceable>
+observation</replaceable>, the result is a bare count; otherwise,
+it is a table containing one line per observation,
+with observation name, whitespace, and then the count.
+</para>
+
+<para>
+In versions before NXT-1.2.6, CountQueryResults runs -allatonce and
+a separate utility, CountOneByOne, handles the independent case.
+</para>
+
+</section>
+<!-- ****************************** -->
+<section id="commandline_matchincontext"><title>MatchInContext</title>
+
+<cmdsynopsis>
+  <command>java MatchInContext</command>
+  <arg choice="req">-c <replaceable>corpus</replaceable></arg>
+  <arg choice="req">-q <replaceable>query</replaceable></arg>
+  <group>
+    <arg>-o <replaceable>observation</replaceable></arg>
+    <arg>-allatonce</arg>
+  </group>
+  <arg>-context <replaceable>contextquery</replaceable></arg>
+  <arg>-textatt <replaceable>textattribute</replaceable></arg>
+</cmdsynopsis>
+
+<para>
+MatchInContext evaluates a query and prints any orthography
+corresponding to matches of the first variable in it, sending the
+results to standard output.  It was developed for a set of users
+familiar with tgrep.  <replaceable>contextquery</replaceable> is a
+noptional additional query expressing surrounding context to be show
+nfor matches.  If it is present, for each main query match, the context
+query will be evaluated, with the additional proviso that the match
+for the first variable of the main query must dominate (be an ancestor
+of) the match for the first variable of the context query.  If any
+such match for the context query is found, then the orthography of the
+for the first variable of the first match found 
+will be shown, and the orthography
+relating to the main query will be given completely in upper case.
+Where the context query results in more than one match, a comment
+is printed to this effect.
+The context query must not share variable names with the main query.
+</para>
+
+<para>
+By default, the utility looks for orthography in the textual content
+of a node. If <replaceable>textattribute</replaceable> is given, the
+nit uses the value of this attribute for the matched node instead.
+This is useful for corpora where orthography is stored in attributes
+and for getting other kinds of information, such as part-of-speech
+tags.
+</para>
+
+<para>Since not all nodes contain orthography, MatchInContext ca
+nproduce matches with no text or with context but no main text.  There
+is no clean way of knowing where to insert line breaks, speaker
+attributions, etc. in a general utility such as this one; for better
+displays write a tailored tool. 
+</para> 
+
+<para>
+In versions before NXT-1.2.6, MatchInContext means -allatonce and
+a separate utility, MatchInContextOneByOne, handles the independent case.
+
+</para>
+</section>
+<!-- ************************************** -->
+<section id="commandline_ngramcalc"><title> NGramCalc:  Calculating N-Gram Sequences </title>
+<cmdsynopsis>
+  <command>java NGramCalc</command>
+  <arg choice="req">-c <replaceable>corpus</replaceable></arg>
+  <arg>-q <replaceable>query</replaceable></arg>
+  <arg>-o <replaceable>observation</replaceable></arg>
+  <arg choice="req">-tag <replaceable>tagname</replaceable></arg>
+  <arg>-att <replaceable>attname</replaceable></arg>
+  <arg>-role <replaceable>rolename</replaceable></arg>
+  <arg>-n <replaceable>n</replaceable></arg>
+</cmdsynopsis>
+
+<!-- ***** -->
+<section id="commandline_ngram_back"><title>Background</title>
+<para>
+An n-gram is a sequence of n states in a row drawn from an enumerated
+list of types.  For instance, consider Parker's floor state model
+(Journal of Personality and Social Psychology 1988).  It marks spoke
+nturns in a group discussion according to their participation i
+npairwise conversations. The floor states are newfloor (first to
+establish a new pairwise conversation), floor (in a pairwise
+conversation), broken (breaks a pairwise conversation), regai
+n(re-establishes a pairwise conversation after a broken), and nonfloor
+(not in a pairwise conversation). The possible tri-grams of floor
+states are newfloor/floor/broken, newfloor/floor/floor, regain/broken/
+nonfloor, and so on.  We usually think of n-grams as including all
+ways of choosing a sequence of n types, but in some models, not all of
+them are possible; for instance, in Parker's model, the bi-gram
+newfloor/newfloor can't happen. N-grams are frequently used i
+nengineering-oriented disciplines as background information for
+statistical modelling, but they are sometimes used in linguistics and
+psychology as well.  Computationalists can easily calculate n-grams
+by extracting data from NXT into the format for another tool, but
+sometimes this is inconvenient or the user who requires the n-grams
+may not have the correct skills to do it.
+</para>
+</section>
+<!-- ***** -->
+<section id="commandline_ngram_operation"><title>Operation</title>
+<para>
+NGramCalc calculates n-grams from NXT format data and prints 
+on standard output a table reflecting the frequencies 
+of the resulting n-grams for the given <replaceable>n</replaceable>.
+The default value for <replaceable>n</replaceable> is 1 (i.e., raw
+frequencies).  NGramCalc uses as the set of possible states
+the possible values of <replaceable>attribute</replaceable> for
+the node type <replaceable>tag</replaceable>; the attribute must
+be declared in the corpus metadata as enumerated.  
+NGramCalc then determines a sequence of nodes about which to report
+by finding matches to the first variable of the given 
+<replaceable>query</replaceable> and placing them in order of start
+time.   If <replaceable>role</replaceable> is given, it then substitutes
+for these nodes the nodes found by tracing the first pointer found
+that goes from the sequenced nodes with the given role.  (This is useful
+if the data has been annotated using values stored in an external
+ontology or corpus resource.)  At this point, the sequence is 
+assumed to contain nodes that contain the named attribute, and the
+value of this attribute is used as the node's state.
+</para>
+
+<para>
+<replaceable>Tag</replaceable> is required, but
+<replaceable>query</replaceable> is itself optional; by default, it is
+the query matching all nodes of the type named i
+n<replaceable>tag</replaceable>.  Generally, the query's first variable
+will be of the node type specified in <replaceable>tag</replaceable>,
+and canonically, the query will simply filter out some nodes from the
+sequence.  However, as long as a state can be calculated for each
+node in the sequence using the attribute specified, the utility will work.
+There is no <literal>-allatonce</literal> option; if no 
+<replaceable>observation</replaceable> 
+is specified, only one set of numbers is reported but the utility
+loads only one observation at a time when calculating them.
+</para>
+
+</section>
+<!-- ***** -->
+<section id="commandline_ngram_examples"><title>Examples</title>
+
+<para>
+<programlisting>
+java NGramCalc -c METADATA -t turn -a fs -n 3 
+</programlisting>
+
+will calculate trigrams of fs attributes of turns and output a 
+tab-delimited table like
+
+<programlisting>
+500	newfloor	floor	broke
+n0	newfloor	newfloor	newfloor
+</programlisting>
+</para>
+
+<para>
+Suppose that the way that the data is set up includes an additional
+attribute value that we wish to skip over when calculating the tri-grams,
+called "continued".
+
+<programlisting>
+java NGramCalc -c METADATA -t turn -a fs -n 3 -q '($t turn):($t@fs != "continued")'
+</programlisting>
+
+will do this. Entries for "continued" will still occur in the output
+table because it is a declared value, but will have zero in the
+entries. 
+</para>
+<para>
+<programlisting>
+java NGramCalc -c METADATA -t gesture-type -a name -n 3 -q '($g gest):'
+     -r gest-target
+</programlisting>
+
+will produce trigrams where the states are found by tracing the
+gest-target role from gest elements, which finds gesture-type
+elements (canonically, part of some corpus resource), and further
+looking at the values of their name attributes.  Note that in this
+case, the tag type given in <literal>-t</literal> is what results from
+tracing the role from the query results, not the type returned in the
+query.
+</para>
+</section>
+<!-- ***** -->
+</section>
+<!-- ******************************************* -->
+<section id="functionquery" xreflabel="FunctionQuery">
+   <title> FunctionQuery: Time ordered, tab-delimited output, with
+aggregate functions </title>
+
+<cmdsynopsis>
+  <command>java FunctionQuery</command>
+  <arg choice="req">-c <replaceable>corpus</replaceable></arg>
+  <arg choice="req">-q <replaceable>query</replaceable></arg>
+  <arg>-o <replaceable>observation</replaceable></arg>
+  <arg  choice="req" rep="repeat">-att <replaceable>attribute_or_aggregate</replaceable></arg>
+</cmdsynopsis>
+
+<para>FunctionQuery is a utility for outputting tab-delimited data. It
+takes all elements resulting from the result of a query, as long as
+they are timed, and put them in order of start time. Then it outputs
+one line per element containing the values of the named attributes or
+aggregates with a tab character between each one.
+</para>
+<para>
+The value of <literal>-atts</literal> must be a space-separated list
+of attribute and aggregate specifiers. If an 
+attribute or aggregate does not exist for some 
+matched elements, a blank tab-stop will be output for the corresponding
+field.
+
+</para>
+<!-- ***** -->
+<section id="commandline_function_atts"><title>Attribute Specifiers</title>
+<para>
+Attribute values can be specified using the form
+<replaceable>var</replaceable>@<replaceable>attributename</replaceable>
+(e.g., <literal>$v@label</literal>, where label is the name of the
+attribute).  If the variable specifier (e.g.,
+<literal>$v</literal>) is omitted, the
+attribute belonging to the first variable in the query (the "primary
+variable") is returned.  If the attribute specifier 
+(e.g.. <literal>label</literal>) is omitted, the
+ntextual content for the node will be shown.  Nodes may have either
+direct textual content or children; in the case of children, the textual 
+content shown will be the concatenated textual content of its
+descendants separated by spaces.  For backwards compability with a
+norder utility called SortedOutput, instead of specifying it in the
+list of attributes, <literal>-text</literal> can be used to place this
+textual content in the last field, although this is not recommended.
+</para>
+</section>
+<!-- ***** -->
+<section id="commandline_function_aggs"><title>Aggregate Specifiers</title>
+
+<para>
+Aggregate functions are identified by a leading '<code>@</code>' character.
+The first argument to an aggregate function is always a query
+to be evaluated in the context of the current result using the variable
+bindings from the main query.  For instance, if <code>$m</code> has bee
+nbound in the main query to nodes of type <literal>move</literal>, 
+the context query <code>($w w):($m ^ $w)</code>
+will find all <literal>w</literal> nodes descended from the move
+corresponding to the current return value, and the context query
+<code>($g gest):($m # $g)</code>, all <literal>gest</literal> nodes
+that temporally overlap with it. The list of returned results for
+the context query are then used in the aggregation.
+</para>
+
+<para>
+For the following functions, optional arguments are denoted by an equals
+sign followed by
+the default value of that argument. 
+There are currently four aggregate functions included in FunctionQuery.
+
+<variablelist>
+   <title>Aggregate Functions</title>
+<varlistentry>
+   <term><literal>@count(</literal><replaceable>conquery</replaceable><literal>)</literal></term>
+   <listitem><para>returns the number of results from evaluating <replaceable>conquery</replaceable></para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term><literal>@sum(</literal><replaceable>conquery</replaceable><literal>,</literal> <replaceable>attr</replaceable><literal>)</literal></term>
+   <listitem><para>returns the sum of the values of
+      <replaceable>attr</replaceable> for all results of
+      <replaceable>conquery</replaceable>. <replaceable>attr</replaceable>
+      should be numerical attribute.  
+   </para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term>  <literal>@extract(</literal><replaceable>conquery</replaceable><literal>,</literal> <replaceable>attr</replaceable><literal>,</literal> <replaceable>n</replaceable>=0<literal>,</literal> <replaceable>last</replaceable>=n+1<literal>)</literal></term>
+   <listitem><para>  
+  returns the <replaceable>attr</replaceable> attribute of the
+  <replaceable>n</replaceable>th result of
+  <replaceable>conquery</replaceable> evaluated in the context of
+  query. If <replaceable>n</replaceable> is less than 0, extract
+  returns the <replaceable>attr</replaceable> attribute of the
+  <replaceable>n</replaceable>th last result. If
+  <replaceable>last</replaceable> is provided, the
+  <replaceable>attr</replaceable> value of all results whose index is
+  at least <replaceable>n</replaceable> and less tha
+n  <replaceable>last</replaceable> is returned.  If
+  <replaceable>last</replaceable> is less than 0, it will count back
+  from the final result. If <replaceable>last</replaceable> equals
+  zero, all items between <replaceable>n</replaceable> and the end of
+  the result list will be returned.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+    <term><literal>@overlapduration(</literal><replaceable>conquery</replaceable><literal>)</literal></term>
+   <listitem><para>returns the length of time that the results of
+
+   <replaceable>conquery</replaceable> overlap with the results of the
+   main query. For some <replaceable>conquery</replaceable> results,
+   this number may exceed the duration of the main query result. For
+   example, the duration of speech for all participants over a period
+   of time may exceed the duration of the time segment if there are
+   multiple simultaneous speakers. This can be avoided, for example,
+   by using <replaceable>conquery</replaceable> to restrict matches to a
+   specific agent.
+   </para></listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+</section>
+<!-- ***** -->
+<section id="commandline_function_example"><title>Example</title>
+
+<para>
+<programlisting>
+java FunctionQuery -c <replaceable>corpus</replaceable> -o <replaceable>observation</replaceable> -q '($m move)' 
+	 -atts type nite:start nite:end '@count(($w w):$w#$m)' '$m'
+</programlisting>
+
+will output a sorted list of moves for the observation consisting of
+type attribute, start and end times, the count of w (words) that
+overlap each move, and any text included in the move, or any
+children.
+</para>
+
+</section>
+<!-- ***** -->
+</section>
+
+<!-- ************************************* -->
+<section id="commandline_indexing"><title>Indexing</title>
+
+<cmdsynopsis>
+  <command>java Index</command>
+  <arg choice="req">-c <replaceable>corpus</replaceable></arg>
+  <arg choice="req">-q <replaceable>query</replaceable></arg>
+  <arg>-o <replaceable>observation</replaceable></arg>
+  <arg>-t <replaceable>tag</replaceable></arg>
+  <arg  choice="req" rep="repeat">-r <replaceable>role</replaceable></arg>
+</cmdsynopsis>
+
+<para>
+Index modifies a corpus by adding new nodes that index
+the results of a query so that they can be found quickly.
+If <replaceable>observation</replaceable> is omitted,
+all observations named in the metadata file are indexed in turn.
+One new node is created for each query match.  The new
+nodes have type <replaceable>tag</replaceable>,
+which defaults to "markable". 
+If -r is omitted, the new node is made a parent of the match for
+the first unquantified variable of the query.  If -r is included, 
+then the new node will instead use the role names to point
+to the nodes in the n-tuple returned at the top level of the
+query, using the role names in the order given and the 
+variables in the order used in the query until one of the two
+lists is exhausted.
+Index does not remove existing tags of the given type before operatio
+nso that an index can be built up gradually using several different
+queries.
+</para>
+
+<para>
+Note that 
+the same node can be indexed more than once, if the query
+returns n-tuples that involve the same node.  
+The tool does nothing to check whether this is the case
+even when creating indices that are parents of existing
+nodes, which can lead to invalid data if you are not
+careful.  Using roles, however, is always safe, as is
+using parents when the top level of the given query matches only
+one unquantified variable.
+</para>
+ 
+<para>
+Note that if you want one pointer for every named variable in a simple query, 
+or you want
+tree-structured indices corresponding to the results for complex queries,
+you can use SaveQueryResults and load the results as a coding.  For
+cases where you could use either, the main difference is that SaveQueryResults
+doesn't give control over the tag name and roles.
+</para>
+<!-- ***** -->
+<section id="commandline_indexing_metadata"><title>Metadata requirements</title>
+<para>
+The tool assumes that a suitable declaration for the new tag have already bee
+nadded into the metadata file.  It is usual to put it in a new coding,
+and it would be a bad idea to put in a layer that anything points to,
+since no work is done to attach the indices to prospective parents or 
+anything else besides what they index.
+If the indexing adds parents, then the type of the coding file
+(interaction or agent) must match the type of the coding file 
+that contains the matches to the first variable.  
+If an observation name is passed, it creates a index only for the one
+observation; if none is, it indexes each observation in the metadata
+file by loading one at a time (that is, there is no equivalent to
+<literal>-allatonce</literal> operation).
+</para>
+
+<para>
+The canonical metadata form for an index file, assuming roles are used, is
+an interaction coding declared as follows:
+
+<programlisting>
+&lt;coding-file name="<replaceable>foo</replaceable>">
+  &lt;featural-layer name="<replaceable>baz</replaceable>">
+      &lt;code name="<replaceable>tag</replaceable>">
+         &lt;pointer number="1" role="<replaceable>role1</replaceable>" target="<replaceable>LAYER_CONTAINING_MATCHES</replaceable>"/>
+          ...
+      &lt;/code>
+  &lt;/featural-layer>
+&lt;/coding-file>
+</programlisting>
+
+The name of the coding file determines the filenames where
+the indices get stored.  The name of the featural-layer is unimportant
+but must be unique.  The tags for the indices must not already be used
+in some other part of the corpus, including other indices.
+<!-- ***** -->
+</para>
+<!-- TEMP Make sure AddMarkables isn't in the release -->
+
+
+</section>
+<!-- ***** -->
+<section id="commandline_indexing_example"><title>Example of Indexing</title>
+
+<!-- TEMP Replace with a simpler example. -->
+
+<para>
+To add indices that point to active sentences in the Switchboard data, add the
+following <sgmltag>coding-file</sgmltag> tag to the metadata as an interaction-coding
+(i.e., as a sister to the other coding file declarations).
+
+<programlisting><![CDATA[
+<coding-file name="sentences">
+    <featural-layer name="sentence-layer">
+        <code name="sentenceindex">
+            <pointer number="1" role="at"/>
+        </code>
+    </featural-layer>
+</coding-file>
+]]></programlisting>
+
+This specifies that the indices for sw2005 (for example) should
+go in sw2005.sentences.xml.  Then, for example,
+
+<programlisting>
+java Index -c swbd-metadata.xml -t active -q '($sent nt):($sent@cat=="S")'
+</programlisting>
+
+After indexing, 
+
+<programlisting>
+($n nt)($i sentenceindex):($i >"at" $n)
+</programlisting>
+
+gets the sentences.
+</para>
+
+</section>
+<!-- ***** -->
+</section>
+</section>
+
+
+
+

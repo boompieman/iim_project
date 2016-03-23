@@ -1,0 +1,12 @@
+<section id="analysis"><title>Analysis</title>
+
+<para>The fundamental tool for analysis in NXT is the NXT Query
+Language used through the command line tools. Query development can
+very usefully be done using the GUI tools, but corpus-wide analysis
+will normally require command line tools. Some helper tools exist for
+special cases like the study of reliability.</para>
+
+  &commandlinetools;
+  &projection;
+  &reliability;  
+</section>

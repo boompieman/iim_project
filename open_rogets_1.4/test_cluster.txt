@@ -1,0 +1,167 @@
+*** select ***
+select - a, 12, intermediate similarity
+select - she, 0, low similarity
+select - has, 12, intermediate similarity
+select - produced, 10, intermediate similarity
+select - a, 12, intermediate similarity
+select - I, 10, intermediate similarity
+select - think, 6, low similarity
+select - it's, 0, low similarity
+select - already, 2, low similarity
+select - on, 8, low similarity
+select - actually, 2, low similarity
+
+*** a ***
+a - select, 12, intermediate similarity
+a - she, 16, high similarity
+a - has, 16, high similarity
+a - produced, 16, high similarity
+a - a, 16, high similarity
+a - I, 16, high similarity
+a - think, 16, high similarity
+a - it's, 16, high similarity
+a - already, 14, intermediate similarity
+a - on, 16, high similarity
+a - actually, 12, intermediate similarity
+
+*** she ***
+she - select, 0, low similarity
+she - a, 16, high similarity
+she - has, 6, low similarity
+she - produced, 4, low similarity
+she - a, 16, high similarity
+she - I, 6, low similarity
+she - think, 4, low similarity
+she - it's, 0, low similarity
+she - already, 0, low similarity
+she - on, 14, intermediate similarity
+she - actually, 0, low similarity
+
+*** has ***
+has - select, 12, intermediate similarity
+has - a, 16, high similarity
+has - she, 6, low similarity
+has - produced, 14, intermediate similarity
+has - a, 16, high similarity
+has - I, 16, high similarity
+has - think, 14, intermediate similarity
+has - it's, 10, intermediate similarity
+has - already, 10, intermediate similarity
+has - on, 16, high similarity
+has - actually, 10, intermediate similarity
+
+*** produced ***
+produced - select, 10, intermediate similarity
+produced - a, 16, high similarity
+produced - she, 4, low similarity
+produced - has, 14, intermediate similarity
+produced - a, 16, high similarity
+produced - I, 10, intermediate similarity
+produced - think, 12, intermediate similarity
+produced - it's, 4, low similarity
+produced - already, 2, low similarity
+produced - on, 14, intermediate similarity
+produced - actually, 6, low similarity
+
+*** a ***
+a - select, 12, intermediate similarity
+a - a, 16, high similarity
+a - she, 16, high similarity
+a - has, 16, high similarity
+a - produced, 16, high similarity
+a - I, 16, high similarity
+a - think, 16, high similarity
+a - it's, 16, high similarity
+a - already, 14, intermediate similarity
+a - on, 16, high similarity
+a - actually, 12, intermediate similarity
+
+*** I ***
+I - select, 10, intermediate similarity
+I - a, 16, high similarity
+I - she, 6, low similarity
+I - has, 16, high similarity
+I - produced, 10, intermediate similarity
+I - a, 16, high similarity
+I - think, 14, intermediate similarity
+I - it's, 6, low similarity
+I - already, 2, low similarity
+I - on, 16, high similarity
+I - actually, 6, low similarity
+
+*** think ***
+think - select, 6, low similarity
+think - a, 16, high similarity
+think - she, 4, low similarity
+think - has, 14, intermediate similarity
+think - produced, 12, intermediate similarity
+think - a, 16, high similarity
+think - I, 14, intermediate similarity
+think - it's, 2, low similarity
+think - already, 6, low similarity
+think - on, 14, intermediate similarity
+think - actually, 6, low similarity
+
+*** it's ***
+it's - select, 0, low similarity
+it's - a, 16, high similarity
+it's - she, 0, low similarity
+it's - has, 10, intermediate similarity
+it's - produced, 4, low similarity
+it's - a, 16, high similarity
+it's - I, 6, low similarity
+it's - think, 2, low similarity
+it's - already, 0, low similarity
+it's - on, 16, high similarity
+it's - actually, 0, low similarity
+
+*** already ***
+already - select, 2, low similarity
+already - a, 14, intermediate similarity
+already - she, 0, low similarity
+already - has, 10, intermediate similarity
+already - produced, 2, low similarity
+already - a, 14, intermediate similarity
+already - I, 2, low similarity
+already - think, 6, low similarity
+already - it's, 0, low similarity
+already - on, 14, intermediate similarity
+already - actually, 2, low similarity
+
+*** on ***
+on - select, 8, low similarity
+on - a, 16, high similarity
+on - she, 14, intermediate similarity
+on - has, 16, high similarity
+on - produced, 14, intermediate similarity
+on - a, 16, high similarity
+on - I, 16, high similarity
+on - think, 14, intermediate similarity
+on - it's, 16, high similarity
+on - already, 14, intermediate similarity
+on - actually, 10, intermediate similarity
+
+*** actually ***
+actually - select, 2, low similarity
+actually - a, 12, intermediate similarity
+actually - she, 0, low similarity
+actually - has, 10, intermediate similarity
+actually - produced, 6, low similarity
+actually - a, 12, intermediate similarity
+actually - I, 6, low similarity
+actually - think, 6, low similarity
+actually - it's, 0, low similarity
+actually - already, 2, low similarity
+actually - on, 10, intermediate similarity
+
+Possible Roget's Thesaurus clusters:
+------------------------------------
+The 10 largest clusters:
+------------------------
+Words and phrases not in clusters:
+----------------------------------
+[select, a, she, has, produced, a, I, think, it's, already, on, actually]
+
+Words and phrases not in Roget's Thesaurus (6/18): 
+--------------------------------------------------
+[SPK02, Uh_huh, powerpoint, Uh, , ]

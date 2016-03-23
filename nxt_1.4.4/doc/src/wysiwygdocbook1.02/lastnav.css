@@ -1,0 +1,68 @@
+/*
+ * navigate.css
+ *
+ * Add navigation to NXT documentation
+ * JK 5/6/9
+ */
+
+@import "driver.css";
+
+article {
+ padding: 10px;
+ margin-left: 180px;
+ font-family: Tahoma, sans-serif;
+ font-size: 12px;
+ border:1px dotted #555;
+}
+
+navigation {
+ float: left;
+ width: 150px;
+ background: #ddd;
+ padding: 10px;
+ border: 1px solid #000;
+ font-family: Ariel, sans-serif;
+ font-size: 12px;
+ font-variant: small-caps;
+}
+
+navigation_section[current~="yes"] {
+ background: #ddd;
+ color: #772;
+}
+
+navigation_section[current~="yes"]:hover {
+ background: #ddd;
+ color: #772;
+}
+
+navigation_section:after {
+  content: "\
+";
+}
+
+navigation_section:before {
+  content: " > ";
+}
+
+navigation_section {
+ text-align: right;
+ background: #ddd;
+ margin-top: 20px;
+ color: black;
+ display: "(" attr(id) ")"
+}
+
+navigation_section:hover {
+ text-align: right;
+ color: #772;
+ display: list-item
+ content: "(" attr(id) ")"
+}
+
+/*
+navigation_section + navigation_section:before {
+  content: ",\A0";
+}
+*/
+

@@ -1,0 +1,24 @@
+<section id="nsdisplay">
+        <title>The non-spanning comparison display</title>
+          
+        <para>This is the first in a series of tools to display
+        multiple versions of a particular type of annotation. The
+        <emphasis>non-spanning comparison display</emphasis> can show
+        two different annotators' data over the same base-level
+        transcription. We use <emphasis>annotator</emphasis> loosely
+        to mean any human or machine process that results in an
+        annotation. This is a display only, not an annotation
+        tool. Display details are controlled using a configuration
+        file much like the other end user GUIs, though there are two
+        extra settings required (see below)<remark>Where?</remark>. The display shows the two
+        annotators' names, with the first underlined and the second
+        italicised, in a small <guilabel>Annotator Legend</guilabel>
+        window. Every annotation by the first annotator is underlined
+        and every annotation by the second is italizized so that the
+        two can be distinguished. The types of annotations will be
+        distinguished in the same way as for the discourse entity
+        coder.</para>
+
+        <para>Java class: <classname>net.sourceforge.nite.tools.comparison.nonspanning.NonSpanningComparisonDisplay</classname></para>
+
+</section>

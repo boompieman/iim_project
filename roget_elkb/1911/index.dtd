@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT index (entry+)>
+
+<!ELEMENT entry (word, location+)>
+
+<!ELEMENT location (#PCDATA)>
+
+<!ATTLIST location altRef CDATA #IMPLIED>
+<!ATTLIST location para CDATA #REQUIRED>
+
+<!ELEMENT word (#PCDATA)>

@@ -1,0 +1,250 @@
+<section id="rewrite">
+<title>Automatic Query Rewriting</title>
+
+<para>This section describes how and why you should use query
+ rewriting in NXT. Familiarity with the query language is assumed.</para>
+
+<section>
+<title>Background</title>
+
+<para>The query rewriting approach is based in the realization that
+queries can be very much faster to execute when they comprise a chain
+of simple queries rather than a single query containing all conditions
+together. Query rewriting automates the process of finding a fast and
+result-equivalent complex query for any given input, and rewriting the
+results so users need not be aware of its operation.</para>
+</section>
+
+<section>
+<title>Using Query Rewriting</title>
+
+<para>Query rewriting is currently switched off by default. It can be
+switched on using a Java Property called
+<emphasis>NXT_QUERY_REWRITE</emphasis> like this:
+<programlisting>
+java -DNXT_QUERY_REWRITE=true ...   
+</programlisting>
+
+An environment variable with the same name can also be used if
+preferred, but the Java property will override the environment
+variable. For terminal-message details of what query rewriting does
+use '-DNXT_DEBUG=4'.
+</para>
+</section>
+
+<section>
+<title>Example Query with Timing Results</title>
+
+<para>This example query is designed to be run on the <ulink
+url="http://corpus.amiproject.org/">AMI Meeting Corpus</ulink> which
+can be freely downloaded in NXT format. The query finds all words
+following '<emphasis>the</emphasis>' within dialogue acts of type
+<emphasis>inf</emphasis> (these are <emphasis>Inform</emphasis>
+dialogue acts). The basic query which we will call
+<emphasis>Q1</emphasis> looks like this:
+
+<programlisting><![CDATA[
+($w1 w)($w2 w)($d dact)($dt da-type):$dt@name="inf" && $d>$dt && 
+   $w1<>$w2 && text($w1)="the" && $d^$w1 && $d^$w2
+]]></programlisting>
+</para>
+
+<para>
+In the AMI corpus, dialogue acts represented by elements, named
+<emphasis>dact</emphasis> point into a type hierarchy containing
+elements named <emphasis>da-type</emphasis>. Their type values are
+stored in the <emphasis>name</emphasis> attribute. So the first two
+conditions give all dialogue acts of type
+<emphasis>inf</emphasis>. The final two conditions state that the same
+dialogue act is the parent of both words in question, and the central
+two conditions state that w1 precedes w2 and that w1 has textual
+content 'the'.
+</para>
+
+<section>
+<title>Manual Rewrite</title>
+
+<para>A possible manual rewrite of this query for maximum efficiency,
+<emphasis>Q2</emphasis>, would most likely be:
+<programlisting><![CDATA[
+($dt da-type):$dt@name="inf"::($d dact): $d>$dt::
+   ($w1 w):text($w1)="the" && $d^$w1::($w2 w): $w1<>$w2 && $d^$w2
+]]></programlisting>
+</para>
+
+<para>The aim of this manual rewrite is to put the terms with the
+smallest result sets early in the complex query so the combinations of
+elements actually tested can be restricted as much as possible. The
+smallest set of elements is the type hierarchy elements
+<emphasis>da-type</emphasis>, and with the condition we restrict the
+first part of the complex query to a single element. Since dialogue
+act elements <emphasis>dact</emphasis> are less numerous in the corpus
+than words, this is placed next, with the single condition that it
+points to the already restricted type element. Note that it's possible
+that after the condition is applied, it may in fact be slightly more
+efficient to place the '$w1' query first with the condition on its
+textual content, but that will likely be unknown to the query
+writer. The two words are then placed with $w1 before $w2 because of
+the extra condition on $w1 about its textual content.
+</para>
+</section>
+
+<section>
+<title>Automatic Rewrite</title>
+
+<para>The automatic rewrite of this query from version 1.0 of the
+query rewriter, Q3, is:
+
+<programlisting><![CDATA[
+($dt da-type):$dt@name="inf"::($w1 w): text($w1)="the"::
+   ($d dact): $d>$dt && $d^$w1::($w2 w): $w1<>$w2 && $d^$w2
+]]></programlisting>
+</para>
+
+<para>This is similar to the manual rewrite except that the $w1 and $d
+terms are swapped. See below for an explanation of why this happens.
+</para>
+</section>
+
+<section>
+<title>Results</title>
+
+<para>These results are in seconds and calculated using the
+<emphasis>sys</emphasis> result from the Unix command
+<emphasis>time</emphasis>. Note that elapsed time for execution is much
+greater. The command used is:
+<programlisting>
+time java -DNXT_DEBUG=0 CountQueryResults -c /AMI-metadata.xml -q ...
+</programlisting>
+
+where the appropriate query goes after '-q'. For the query rewriting
+version the call is exactly the same except '-DNXT_QUERY_REWRITE=true'
+is added. As an aside, note that CountQueryResults is not a useful
+program for complex queries: for both Q2 and Q3 the result is always 1
+or 0. However it's only being used here as a benchmarking tool.
+</para>
+
+<table frame="all">
+ <tgroup cols="3" colsep="1" rowsep="1">
+  <title>Results for query rewriting</title>
+   <thead>
+   <row>
+    <entry> </entry>
+    <entry>Rewriting Off</entry>
+    <entry>Rewriting On</entry>
+   </row>
+   </thead>
+   <tbody>
+   <row>
+    <entry>Q1 (original query)</entry>
+    <entry>88.342 (0.572)</entry>
+    <entry>4.312 (0.208)</entry>
+   </row>
+   <row>
+    <entry>Q2 (manual rewrite)</entry>
+    <entry>7.3 (0.1)</entry>
+    <entry>3.7 (0.152)</entry>
+   </row>
+   <row>
+    <entry>Q3 (auto rewrite)</entry>
+    <entry>3.828 (0.128)</entry>
+    <entry>3.756 (0.116)</entry>
+   </row>
+   </tbody>
+ </tgroup>
+</table>
+
+<para>The numbers in the table show the results from running the query
+on the entire AMI corpus first, then in parantheses, the number for
+running on a single observation (always IS1008a). The AMI corpus
+contains 138 meetings of varying length between 30-70 minutes. </para>
+
+<para>It may look slightly odd to run in query rewriting mode when the
+query is already complex and rewritten. But this illustrates that
+query rewriting works on complex queries, and that sometimes our
+heuristics can work well even on rewritten queries. The query rewriter
+in fact forces the manually rewritten query Q2 into the same form as
+for Q1.</para>
+
+</section>
+
+</section>
+
+<section>
+<title>Algorithm details</title>
+<para>With query rewriting switched on, the original query is parsed
+into a tree structure exactly as it would be with rewriting off. It is at
+this post-parse but pre-evaluation stage the rewriting algorithm happens.</para>
+
+<para>First, conditions are broken into terms that can form a
+conjuntion (i.e. they can be 'anded' together). Disjunctions are not
+broken into their component parts, so heavily disjunctive queries may
+not be effectively rewritten.</para>
+
+<para>All variables are given an a-priori preferred order by their
+quantity in the corpus. In fact this normally means their quantity in
+the currently loaded observation but if the whole corpus has been
+requested at once, those quantities will be counted. Note that while
+this ordering will cause data to be loaded by lazy loading, it is
+always data that needs to be loaded for query evaluation in any
+case.</para>
+
+<para>Now four different classes of variable are identified. The class
+of variable determines where in the query the variable and its
+conditions can appear, and if there are multiple variables within a
+single class, where possible they will appear in the order calculated
+above.</para>
+
+<para>Quantified variables are gathered first. These will be forced to
+the end of a rewritten query. Lone variables are next: these appear
+exclusively in unary conditions (conditions involving only that
+variable) so can only increase the match size so these are placed at
+the end of the rewritten query. Thirdly, variables involved in
+one-variable conditions are identified. These are placed early in the
+rewritten query as we use the heuristic that the conditions will tend
+to restrict the type. You can see how this rule affects the example
+query: $w1 appears before $d because it has a one-variable condition
+on it, even though there will be more words than dialogue acts in the
+corpus. The fourth and final class of variables is just the
+remainder. The placement of these variables and their associated
+conditions is now described.</para>
+
+<para>The remaining variables are processed in preferred order,
+ placing them with conditions involving only themselves and other
+ already-placed variables if possible; combining two declarations if
+ necessary. If possible, exactly one condition is placed with
+ each. Remaining conditions are placed as soon as they are valid
+ (i.e. all variables are declared).</para>
+
+</section>
+
+<section>
+<title>Known Issues</title>
+<section>
+<title>Quantified Variables</title>
+<para>Quantified variables are always forced to the end of a rewritten
+query as otherwise the meaning of a query may be altered. However,
+this means that it can be the case that a query with no quantifiers
+can be faster to execute than the same query with quantifiers
+present. Better ways of dealing with quantified variables should be
+investigated.</para>
+</section>
+
+<section>
+<title>Disjunctive Queries</title>
+<para>???.</para>
+</section>
+
+<section>
+<title>Result Rewriting</title>
+
+<para>Once the rewritten query is run through the search engine, the
+results need to be rewritten into the tree format expected by the
+person who wrote the original query. It is possible that this process
+could be made more efficient.</para>
+
+</section>
+
+</section>
+
+</section>

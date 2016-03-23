@@ -1,0 +1,104 @@
+<section id="playmedia" xreflabel="How to Play Media in NXT">
+    <title>How to Play Media signals in NXT</title>
+
+
+<para> 
+NXT plays media using <ulink
+url="http://java.sun.com/products/java-media/jmf/"><package>JMF</package>
+(the Java Media Framework)</ulink>.  <package>JMF</package>'s support
+for media formats is limited and it depends on the platform you are
+using. A list of <package>JMF</package> supported formats is at <ulink
+url="http://java.sun.com/products/java-media/jmf/2.1.1/formats.html">
+http://java.sun.com/products/java-media/jmf/2.1.1/formats.html</ulink>.
+This list is for <package>JMF 2.1.1</package>, which NXT currently
+ships with.
+</para>
+
+<para>
+There are several ways of improving the coverage of
+<package>JMF</package> on your platform:
+
+<itemizedlist mark="bullet">
+<listitem><para>
+Performance packs from <orgname>Sun</orgname> - these improve codec coverage for Windows and Linux, and are available from the 
+<ulink url="http://java.sun.com/products/java-media/jmf/2.1.1/download.html"><package>JMF</package> download page</ulink>.
+In particular, note that MPEG format isn't supported in the cross-platform version of <package>JMF</package>, but it is in the performance packs.
+</para></listitem>
+<listitem><para>
+<package>Fobs4JMF</package> for Windows / Linux / MacOSX is a very useful package providing Java wrappers for the 
+<ulink url="http://ffmpeg.sourceforge.net/index.php">ffmpeg libraries</ulink> 
+(C libraries used by many media players which have a <ulink url="http://ffmpeg.sourceforge.net/ffmpeg-doc.html#SEC16">
+wide coverage of codecs and formats</ulink>). <ulink url="http://sourceforge.net/projects/fobs/">Download</ulink>; 
+<ulink url="http://fobs.sourceforge.net/features.html">information</ulink>. 
+Make sure you follow the full <ulink url="http://fobs.sourceforge.net/documentation.html">installation instructions</ulink>
+ which involve updating the JMFRegistry and amending your <envar>LD_LIBRARY_PATH</envar>. 
+</para></listitem>
+<listitem><para>
+MP3 - There's an MP3 plugin available for all platforms from <orgname>Sun</orgname>.
+</para></listitem>
+</itemizedlist>
+</para>
+<note>
+<para>direct playback from DVDs or CDs is not supported by <package>JMF</package>.</para>
+</note>
+
+<para>
+NXT comes with a cross-platform distribution of <package>JMF</package>
+in the <filename class="directory">lib</filename> directory, and the
+<filename class="extension">.bat/.sh</filename> scripts that launch
+the GUI samples have this copy of <package>JMF</package> on the
+classpath. On a Windows machine, it is better to install
+<package>JMF</package> centrally on the machine and change the
+<filename class="extension">.bat</filename> script to refer to this
+installation.  This will often get rid of error messages and
+exceptions (although they don't always affect performance), and allows
+<package>JMF</package> to find more codecs.
+</para>
+
+<para>
+It is a good idea to produce a sample signal and test it in NXT (and
+any other tools you intend to use) before starting recording proper,
+since changing the format of a signal can be confusing and
+time-consuming. There are two tests that are useful.  The first is
+whether you can view the signal at all under any application on your
+machine, and the second is whether you can view the signal from
+NXT. The simplest way of testing the latter is to name the signal as
+required for one of the sample data sets in the NXT download and try
+the <interface>generic display</interface> or some other tool that
+uses the signal.  For video, if the former works and not the latter,
+then you may have the video codec you need, but NXT can't find it - it
+may be possible to fix the problem by adding the video codec to the
+JMF Registry. If neither works, the first thing to look at is whether
+or not you have the video codec you need installed on your
+machine. Another common problem is that the video is actually OK, but
+the header written by the video processing tool (if you performed a
+conversion) isn't what <package>JMF</package> expects.  This suggests
+trying to convert in a different way, although some brave souls have
+been known to modify the header in a text editor.
+</para>
+
+<subsection id="macmedia" xreflabel="Media on the Mac">
+    <title>Media on the Mac</title>
+<para>
+NXT ships with some startup scripts for the Mac platform (these are
+the .command files) that attempt to use <ulink
+url="http://fmj-sf.net/"><package>FMJ</package></ulink> to pass
+control of media playing from JMF to the native codecs used by the
+<package>Quicktime</package> player. 
+</para>
+
+<para>
+If the FMJ approach fails, you should still be able to play media on
+your Mac but you'll need to edit your startup script. Take an existing
+command file as a template and change the classpath. It should contain
+<directory>lib/JMF/lib</directory> (so jmf.properties is picked up);
+<file>lib/JMF/lib/jmf.jar</file> and
+<file>lib/fmj/lib/jffmpeg-1.1.0.jar</file>, but none of the other FMJ
+files. This approach uses JFFMPEG more directly and works on some Mac
+platforms where the default FMJ approach fails. It may become the
+default position for NXT in future.
+</para>
+</subsection>
+</section> 
+
+

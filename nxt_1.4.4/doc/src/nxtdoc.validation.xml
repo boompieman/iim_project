@@ -1,0 +1,226 @@
+<section id="validation">
+  <title id="validation.title">Data validation</title>
+
+<para>In any framework, it is a good idea to test data sets to ensure
+that they are valid against the constraints of that framework's data
+representation.  NXT's metadata file format and use of stand-off
+annotation to split a data set into a large number of files makes this
+somewhat trickier than for other XML data.  For this reason, NXT comes
+with a method for validating data sets against their metadata files.
+NXT validation tests not just the validity of individual XML files
+from a data set, but also the validity of links between files.
+We explain how to validate NXT-format data and then describe
+a utility that helps with the process. In addition to the
+"off-line" validation described in the section, the methods for
+loading and editing data in the NITE Object Model perform some
+validation as they go along; see <xref linkend="NOM-impl" endterm="nom-impl.title"/>.
+</para>
+
+<!-- ********************************************* -->
+<section id="validation_limitations">
+  <title>Limitations in the validation process</title>
+
+<para>NXT's off-line validation relies on schema validation using
+a schema that unduly restricts the data format; the metadata format
+allows a number of options to be configured about the representation
+for a particular corpus, but the validation can only handle the default
+values.  At present, the undue restrictions are as follows:
+
+<itemizedlist>
+<listitem><para>
+All stream elements (XML file document roots) 
+must be named <sgmltag class="element">nite:root</sgmltag>.
+</para></listitem>
+<listitem><para>
+All ID, Start and End time attributes must use the NITE default names: 
+<sgmltag class="element">nite:id</sgmltag>, <sgmltag class="element">nite:start</sgmltag> and <sgmltag class="element">nite:end</sgmltag>.
+</para></listitem>
+<listitem><para>
+All children and pointers must use XLink / XPointer style links, and ranges cannot be used. 
+These are both handled automatically when <function>PrepareSchemaValidation</function> is used.
+</para></listitem>
+<listitem><para>
+Annotations referring to elements of the same type from different
+resources cannot be validated without extra effort. This kind of
+annotation can be used for alignment of reference to automatic
+transcription etc.
+</para></listitem>
+</itemizedlist>
+
+</para>
+<para>
+In addition, even though the metadata file specifies which elements
+can occur at the first level under the stream element by constraining
+the tags that can occur in the file's top layer, the validation process
+currently fails to check this information, and will allow any elements
+at this level as long as those elements are valid and allowed somewhere
+in the data file.
+</para>
+
+<remark> - this reads information into JK's original - is the validation failure that any tag from the entire corpus 
+	can occur at the top level of any file? </remark>
+
+<remark> - the schema for the metadata file is quite out-of-date.  Can we fix? </remark>
+
+
+<para>If your data does not use XLink /XPointer style links but it
+will load into NXT already, you can use NXT itself to change the link 
+style.  The program 
+<filename>PrepareSchemaValidation.java</filename> will load the corpus and save
+it in the correct link style, as well as carrying out a few more
+of the required validation steps. It is in the <filename class="directory">samples</filename> directory
+of the NXT distribution.
+</para>
+
+<remark> is PrepareSchemaValidation staying in samples? I think we should junk it completely and explain 
+	this one step here, and create a new schema  validation utility that copies from  the xalan sample Validate to create  
+	something that actually validates the data, without these restrictions and without the data having to load.</remark>
+
+</section>
+<!--  ******************************************** -->
+<section id="validation_preliminaries">
+  <title>Preliminaries - setting up for schema validation</title>
+
+<para>Before you begin, you need to be set up to perform
+schema validation using one of the many different methods 
+available.
+</para>
+
+<!-- ***** -->
+<section id="validation_xalan">
+  <title>Using Xalan</title>
+
+<para>Schema validation comes as a command line utility from <application>Apache</application> in
+the samples for <application>Xalan</application>.  Although NXT redistributes <application>Xalan</application>, the
+redistribution does not include the samples, which are in
+<filename class="libraryfile">xalansamples.jar</filename>.
+</para>
+
+<para>
+
+To run schema validation, make sure <filename class="libraryfile">xalansamples.jar</filename> and
+<filename class="libraryfile">xalan.jar</filename> are both on your classpath, and run
+
+<programlisting>java Validate <replaceable>metadata-file</replaceable></programlisting>
+
+This works for either schema or DTD validation.
+</para>
+</section>
+
+<!-- ***** -->
+<section id="validation_xsv">
+   <title>Using XSV</title>
+ <para><application>XSV</application> from <ulink url="http://www.ltg.ed.ac.uk/~ht/xsv-status.html"/> is
+another common choice of validator.  To run it, use
+
+<programlisting>
+xsv <replaceable>filename</replaceable> <replaceable>schema</replaceable>
+</programlisting>
+
+ </para>
+<para>Alternatively, you can add the following attributes
+to the root element of the file you wish to validate
+
+<programlisting>
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="<replaceable>schema</replaceable>"
+</programlisting>
+
+to name the schema in the document itself.
+ </para>
+
+<remark> TEMP why is the instruction for xsv to add what is effectively the doctype as attributes to the root element - 
+	shouldn't this be by doctype instead? </remark>
+
+</section>
+<!-- ***** -->
+</section>
+<!-- ******************************************* -->
+<section id="validation_process">
+   <title>The validation process</title>
+     <para>There are a number of steps in validating an NXT corpus.
+     </para>
+
+<!-- ***** -->
+<section id="validation_metadata">
+   <title>Validating the metadata file</title>
+
+   <para>
+      To validate the metadata file, run it through any ordinary
+      XML validation process, such as the schema validation 
+      described in 
+<remark>FIX THIS LINK!</remark>
+<!-- TEMP <xref linkend="schemavalidation"/>.<remark>where does this link go?</remark> --> 
+      You can choose whether to validate the metadata file against
+      a DTD or a schema, whichever you find more convenient.  The
+      correct DTD and schema can be found in the NXT distribution
+      in <filename>lib/dtd/meta-standoff.dtd</filename> and <filename>lib/schema/meta-standoff.xsd</filename>,
+      respectively.
+   </para>
+
+   <remark> the schema for metadata validation isn't in the NXT distribution that I can see - it's only available from the website as 
+	   http://www.ltg.ed.ac.uk/NITE/metadata/schema.zip.  That's not the right strategy. </remark>
+
+   <remark>  What DOCTYPE should a metadata file have?  We provide a catalog - do we want people using it?  </remark>
+    
+
+ <remark>  TEMP we should remove the simple/stand-off corpus distinction, and only have stand-off, changing the documentation and the NXT source. </remark>
+</section>
+<!-- ***** -->
+<section id="validation_schema">
+   <title>Generating a schema from an NXT metadata file</title>
+
+<para>The stylesheet for generating a schema from an NXT metadata file
+is in the NXT distribution in the <filename class="directory">lib</filename> directory.  It
+is called <filename>generate-schema.xsl</filename>.
+</para>
+
+<para>You can use any stylesheet processor you wish to generate the
+schema.  Since xalan is redistributed with NXT, assuming you have
+set <literal>$NXT</literal> to be the root directory of your NXT distribution,
+one possible call is </para>
+
+
+<programlisting>
+java -cp "$NXT/lib/xalan.jar" org.apache.xalan.xslt.Process -in <replaceable>metadata</replaceable>
+     -xsl generate-schema.xsl -out extension.xsd
+</programlisting>
+
+<para>This creates a schema file called <filename>extension.xsd</filename> that
+relies on two static schema files that are in the <filename class="directory">lib</filename>
+directory of the NXT distribution: <filename>typelib.xsd</filename> and 
+<filename>xlink.xsd</filename>.  Put these three files in the same directory.
+</para>
+
+</section>
+<!-- ***** -->
+<section id="validation_individual_xml">
+   <title>Validating the individual XML files in the corpus</title>
+ 
+    <para>The next step is to validate each of the individual XML
+files in the corpus.
+    </para>
+</section>
+<!-- ***** -->
+<section id="validation_out_of_file">
+   <title>Validating the out-of-file links</title>
+
+<para>
+To validate an NXT corpus you must check not just the individual 
+XML data files,
+but also the child and pointer relationships represented by out-of-file links. 
+We do this by transforming each XML data file
+so that instead of containing an XML element that
+represents a link to an out-of-file child or pointer target, the file
+contains the target element itself, and validating the resulting
+files.  The schema you have generated is set up so that it can validate
+either the actual XML files in the corpus or the files that result from
+this transformation. The stylesheet <filename>knit.xsl</filename> from the <filename class="directory">lib</filename> directory of the NXT distribution does the correct transformation; for
+more information about knitting, see <xref linkend="knit" endterm="knit.title"/>.
+</para>
+
+</section>
+<!-- ***** -->
+</section>
+<!-- ******************************************** -->
+</section>

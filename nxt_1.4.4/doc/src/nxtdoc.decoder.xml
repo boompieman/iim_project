@@ -1,0 +1,19 @@
+<section id="decoder">
+        <title>The discourse entity coder</title>
+
+        <para>The second end user GUI is for coding discourse entities above
+        an existing text or speech transcription. Coding is performed by
+        sweeping out the words in the entity and then mousing on the correct
+        entity type from a static display of the named entity type ontology,
+        or choosing it by keyboard shortcut. It can be used for any coding
+        that requires the user to categorize contiguous stretches of text (or
+        of speech by one person) using labels chosen from a tree-shaped
+        ontology. In addition, it allows the user to indicate directional
+        relationships between two coded entities, with the relationship
+        categorized from a set of labels. The most common uses for this style
+        of interface are in marking up named entities and coreferential
+        relationships.</para>
+
+        <para>Java class: <classname>net.sourceforge.nite.tools.necoder.NECoder</classname></para>
+
+      </section>

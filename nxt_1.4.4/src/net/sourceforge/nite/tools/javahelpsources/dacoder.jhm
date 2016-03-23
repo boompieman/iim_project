@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+
+	<mapID target="img.top" url="shared/images/help_topic.gif" />
+	<mapID target="img.chapter" url="shared/images/super_co.gif" />
+	<mapID target="img.topic" url="shared/images/icon_legend.gif" />
+	<mapID target="img.openchapter" url="shared/images/hierarchy_co.gif" />
+
+	<mapID target="top"      url="dacoder/html/Overview.html" />
+	
+	<mapID target="guide.top" url="dacoder/html/guide-top.html" />
+	<mapID target="guide.startapp" url="dacoder/html/guide-startapp.html" />
+	<mapID target="guide.start" url="dacoder/html/guide-start.html" />
+	<mapID target="guide.da" url="dacoder/html/guide-da.html" />
+	<mapID target="guide.ap" url="dacoder/html/guide-ap.html" />
+	<mapID target="guide.save" url="dacoder/html/guide-save.html" />
+	<mapID target="guide.print" url="dacoder/html/guide-print.html" />
+	<mapID target="reference.top" url="dacoder/html/ref-top.html" />
+	<mapID target="reference.windows.top" url="dacoder/html/ref-win-top.html" />
+	<mapID target="reference.windows.main" url="dacoder/html/ref-main.html" />
+	<mapID target="reference.windows.transcription" url="dacoder/html/ref-transcription.html" />
+	<mapID target="reference.windows.media" url="shared/html/ref-media.html" />
+	<mapID target="reference.windows.daeditor" url="dacoder/html/ref-daeditor.html" />
+	<mapID target="reference.windows.apeditor" url="dacoder/html/ref-apeditor.html" />
+	<mapID target="reference.windows.aparea" url="dacoder/html/ref-aparea.html" />
+	<mapID target="reference.windows.status" url="dacoder/html/ref-status.html" />
+	<mapID target="reference.shortcuts" url="dacoder/html/ref-shortcuts.html" />
+
+    <!-- shared material -->
+	<mapID target="contact"  url="shared/html/Contact.html" />
+	<mapID target="acknowledgements"  url="shared/html/Acknowledgements.html" />
+
+	<mapID target="customization"  url="shared/html/Customization.html" />
+
+</map>

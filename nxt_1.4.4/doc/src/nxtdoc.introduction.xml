@@ -1,0 +1,80 @@
+<section id="intro">
+    <title>A Basic Introduction to the <package>NITE XML Toolkit</package></title>
+
+    <para>There are many tools around for annotating language corpora, but
+    they tend to be good for one specific thing and they all use different
+    underlying data formats. This makes it hard to mark up data for a range of
+    annotations - disfluency and dialogue acts and named entities and syntax,
+    say - and then get at the annotations as one coherent, searchable
+    database. It also makes it hard to represent the true structure of the
+    complete set of annotations. These problems are particularly pressing for
+    multimodal research because fewer people have thought about how to combine
+    video annotations for things like gesture with linguistic annotation, but
+    they also apply to audio-only corpora and even textual markup. The
+    open-source <package>NITE XML Toolkit</package> is designed to overcome these
+    problems.</para>
+
+    <para>At the heart of <package>NITE</package> there is a data model that expresses how all of
+    the annotations for a corpus relate to each other. <package>NXT</package> does not impose any
+    particular linguistic theory and any particular markup structure. Instead,
+    users define their annotations in a "metadata" file that expresses their
+    contents and how they relate to each other in terms of the graph structure
+    for the corpus annotations overall. The relationships that can be defined
+    in the data model draw annotations together into a set of intersecting
+    trees, but also allow arbitrary links between annotations over the top of
+    this structure, giving a representation that is highly expressive, easier
+    to process than arbitrary graphs, and structured in a way that helps data
+    users. <package>NXT</package>'s other core component is a query language designed
+    specifically for working with data conforming to this data model.
+    Together, the data model and query language allow annotations to be
+    treated as one coherent set containing both structural and timing
+    information.</para>
+
+    <para>Using the data model and query language, NXT provides:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>a data storage format for data that conforms to the data
+        model</para>
+      </listitem>
+
+      <listitem>
+        <para>routines for validating data stored in the format against the
+        data model</para>
+      </listitem>
+
+      <listitem>
+        <para>library support for loading data stored in the format; working
+        with it and modifying it; and saving any changes</para>
+      </listitem>
+
+      <listitem>
+        <para>a query language implementation</para>
+      </listitem>
+
+      <listitem>
+        <para>libraries that make it easier to write GUIs for working with the
+        data by providing data display components that, for instance,
+        synchronize against signals as they play and highlight query
+        results</para>
+      </listitem>
+
+      <listitem>
+        <para>annotation tools for some common tasks including video
+        annotation and various kinds of markup over text or transcription
+        (dialogue acts, named entities, coreference, and other things that
+        require the same basic interfaces)</para>
+      </listitem>
+
+      <listitem>
+        <para>command line tools for data analysis that, for instance, count
+        matches to a specific query</para>
+      </listitem>
+
+      <listitem>
+        <para>command line tools for extracting various kinds of trees and
+        tab-delimited tables from the data for further processing or more
+        detailed analysis</para>
+      </listitem>
+    </itemizedlist>
+  </section>

@@ -1,0 +1,741 @@
+
+
+SPK00
+
+Yeah yeah this is a great facial expression. It's rubber it's no 
+
+SPK00
+
+Real yeah okay 
+
+SPK07
+
+yeah you could be the first one to have a point. So I just like a you but 
+
+SPK00
+
+with that am I starting now and yeah 
+
+SPK07
+
+oh sorry okay alright welcome back from a to the second meeting. And I hope you had a productive last there is and I'll be taking minutes on this one and being hooked up to the powerpoint for this meeting isn't very necessary for myself because it'll be more about what you guys are bringing to the meeting today. Um so the first presentation will be looking at is poppies presentation. And so sorry. So take it away poppy. 
+
+SPK00
+
+Okay do anything. It's it's plugged in 
+
+SPK01
+
+So 
+
+SPK00
+
+okay sorry about this the 
+
+SPK01
+
+problem. Okay no right 
+
+SPK07
+
+right yeah okay I'll take this time just to apologise yeah receive my emails later on "'cause" I was too busy carried away doing my thing which is obviously not a very good part of the teamwork really that there we go sure it's so I was looking at how we gonna go about the working design and what we actually need to do or what the remote control needs to do and it needs the allow a person to have a portable does that device. So they can control the television from wherever they are they don't need to actually manually touch the televisions that so it gives them much more flexibility and eleven fifty where they want to be from on the functional side of things. We found out that while from a previous meeting we decided that the certain points they'll make a product unique one is the visibility in the dark which was Genevieve side it. So we need to think about how we could bring this in technically we could use illuminated buttons which we're all familiar with when we using a mobile phone or something for the familiar also medically lights up at the first touch or we could use fluorescent materials which would just take in the light during the day and then as soon as they go off they would glow in the dark also we could use and alarm. So if we lost the remote control perhaps that could be a button on the television set itself it you could press and the alarm from the handset would sound where it was hopefully in the room maybe behind the cushion of that would work but go back there another thing I think we would we missed out on on the last meeting was the fact that we should consider the environmental impact of about design. Um from previous researches have carried out another project. Um was lance about smart materials where specific alloys of metals have a shape memory so they could be heated and and cooled and they change the shape of the metal so for example a screw that's holding something together could expand and it would force all the components apart. So the benefits of this a product to be that when it came to the end of its product life. If it was heated. Um everything would spring apart. So all the individual components could be easily separated and then some could be reused some could be recycled and I think that be very important for products now especially "'cause" is there much of responsibility for all the companies are coming up with like new designs "'cause" all we all know that our results as a being limited and have to be very environmentally conscious 
+
+SPK01
+
+one question yeah this self destruct people 
+
+SPK07
+
+metal it allows for recycling materials I know that someone could have this product for as long as they felt that they wanted it and then when they contribute it then that company can break yeah apart the parts better 
+
+SPK00
+
+yeah they would you would make the the product as you normally would apart from the the bits that hold altogether would be made out of this shape memory alloy. And that's the parts that it's woods. Um allow all the other parts to be separated at the end I mean the user would pretend the product to the company "'cause" it's product's responsibility to get rid of what they've made. Um and then the company could then just use make use of this shape memory alloys to space that the component yeah then either reuse some bits and other bits which obviously gonna wear out with time or not usable they might be like to be able to point to scrap metal something like the case if it's scratched or something you would want to reuse it big might be able to melt it down but he's it again somewhere else would we be the company that would 
+
+SPK01
+
+break down these so metals or what we we could probably be too there 
+
+SPK00
+
+I'm actually aside company or something to do that for us but it would be our responsibility to get that done and to dispose of the products that we it for certain percentage at least not every not hundred percent and we we do yeah 
+
+SPK01
+
+this sounds like a really great idea one thing we have to consider is our one hundred percent turnover goal that we have yeah financial sector. Um so we'll have to investigate how much that will cost us cost the company "'cause" it sounds very labour intensive you would have to hire a number of people and it might be more expensive 
+
+SPK00
+
+look at the fact of the shape memory alloys is that they they don't need to be manually the the constructed like you don't have to individually and screw all the screws because of this that properties are smart material will need is just the heat so they self destruct themselves 
+
+SPK01
+
+alright. So that so that's okay but I I I literally 
+
+SPK00
+
+times that you know high quality machinery in very specific machinery but 
+
+SPK01
+
+right I like the environmental approach and I have to see if that can meet our financial goals as well 
+
+SPK00
+
+also there was some components this'll be how it will actually work but haven't put this plan together yet I'm sorry could you they recycle this it would actually show the circuit diagram although I haven't come up with the final circuit yet okay so I just got would pull those components in 
+
+SPK01
+
+so those are what work construct the remote on the yeah 
+
+SPK00
+
+just shows what sort of energy source it could be a battery like rechargeable probably and yeah well how the infrared will actually be sent three chip to be received by the chip on top 
+
+SPK01
+
+is that alright great okay the 
+
+SPK07
+
+as F eight again to skate O 
+
+SPK01
+
+oh okay alright thank you very much. And and 
+
+SPK07
+
+the next presenter will be Tara 
+
+SPK00
+
+yeah we 
+
+SPK07
+
+yeah 
+
+SPK00
+
+it's a function eight yeah yeah functional function F eight sorry oh okay that's right yeah 
+
+SPK07
+
+Okay I'm they used to 
+
+SPK06
+
+user interface designer at the tape 
+
+SPK07
+
+functions design if the apparatus as the effect the apparatus should have in this case it's the function of the remote control which is to send messages to the channel 
+
+SPK06
+
+television by taking inspiration 
+
+SPK07
+
+from other similar design we'll try and come up with an original trendy remote control which is available international their functional design option a multifunctional remote control which can be used for several entertainment devices. And a single function remote control you specifically for the channel 
+
+SPK06
+
+service last multifunctional and right 
+
+SPK07
+
+I think oh function just tell there 
+
+SPK06
+
+oh I see yeah 
+
+SPK07
+
+multifunctional controls can be difficult to use as a lot so 
+
+SPK06
+
+of buttons can be confusing angle 
+
+SPK07
+
+function remote control is simpler to use but it means you have to have all the remote controls for also 
+
+SPK06
+
+entertainment devices I think 
+
+SPK07
+
+that a single function remote control would be preferable 
+
+SPK06
+
+because it's easier to use it 
+
+SPK07
+
+or compatible with the range of television sets making it more internationally saleable it will make an original design more obtainable as we have less functional necessities to include in the design. And I would be more profitable as it would be more simplistic. And less functions would have to be included would be cheaper to make I'm probably more saleable just because 
+
+SPK06
+
+it's more compatible with a a wider angel 
+
+SPK07
+
+devices does anyone have any questions 
+
+SPK06
+
+yeah so as far as we know a single function television remote control is uses usable internationally well it's is 
+
+SPK07
+
+that we we're creating that we we have to make yeah 
+
+SPK06
+
+compatible with different 
+
+SPK07
+
+Brandon devices right. And it would be easier to make it compatible with just different brands of television devices rather than 
+
+SPK06
+
+only recently yeah right does everyone agree with this does anyone 
+
+SPK07
+
+object and then find the multifunctional might be a better 
+
+SPK00
+
+to go. Um I was just 
+
+SPK07
+
+the what what Genevieve said before about having like some hidden controls like having the outer casing that would probably I or what you said before about it being my more profitable simplistic design as is having that would complicate it a lot more yeah yeah and limited designing you'll be yeah 
+
+SPK01
+
+I think I agree with the single design things now because we're trying to do so much that if we try to make a unique user friendly that'd on it's also you want of also multifunctional we're gonna go over budget for one thing yeah yeah yeah 
+
+SPK07
+
+and with this will have more room in the budget probably to make more original design 
+
+SPK06
+
+we'll have more money D yeah and design side okay alright sounds great okay alright well 
+
+SPK07
+
+are you ready for your present Janet yes I 
+
+SPK00
+
+am fabulous except you know that that one I sleep 
+
+SPK07
+
+great 
+
+SPK00
+
+okay okay oh I just lost my microphone no it does problem we can okay so I'll be discussing the functional requirements of this remote control. Um I'll give y'all a briefing on what that means exactly if you remember from the email we got before very first kickoff meeting with the coffee machine the functional requirements of that was to produce hot coffee quickly so what are we talking about now is equivalent for remote control. Um so basically what needs and desires are to be fulfilled. Um I've done some marketing research a lot of interviews with remote control users and some internet research not show you my findings oh and first I want to remind you about our company motto on purpose so we believe in providing international market with fashionable products hence our motto we put the fashion in electronics. So I think that should be a priority here. Um and we should also be looking to trends in clothing and interior design not just an electronic fashion so that it's something that fits in the household I'm sorry what was that last thing you just said we should be looking towards trends in both clothing and interior design any trends that are going on in in the public even media you know who's famous what TV shows are being watched to influence our remote control okay so the findings seventy five percent of users of remote controls find them ugly which is a quite a significant number the other twenty five percent didn't specify if they love them or found them you know neutral eighty percent of users would spend more money when a remote control would look fancy current remote controls do not match well the operating behaviour of the user I'm sorry that eighty percent of users 
+
+SPK07
+
+spend more money when a remote control would look fancy mean that they would spend more money on a fancy looking. yeah 
+
+SPK00
+
+there will control the willing to spend money on a remote control personality as opposed your basic you know oval black yeah all same size but in remote control so it is something that people care about it's not it's it's not ignored in the household. Um seventy five percent of remote control users said they zap a lot zapping meaning they go through channels a lot there you know thumb masters. Um and fifty percent of users say they only use ten percent of the buttons that a very small amounts that that was interesting 
+
+SPK07
+
+So might be very appealing if we have very concise buttons and another thing with lots of surfing probably have to work on something that could be a lot more durable because I find with channel changers that a lot of the numbers get rubbed down if they're printed on the button 
+
+SPK00
+
+yeah and actually go with that I'm gonna give you some statistics on the relevancy of each of the buttons how much they're used and how important the users find them. So the power button obviously in an hour's only used once hopefully this is not turning on and off the TV but the relevance of that button is nine out of ten so people wanna be a to turn on the TV with the remote control. Um as opposed standing up and training on television set channel selection is used a hundred and sixty eight times on average per hour that's a huge amount this is the most important button. Um obviously when commercials come on the changing it so as you said we want a durable button that's not gonna run down relevance of that button our users found was ten ten of ten ditto for volume selection to ten out of ten and it's used on average four times an hour not as much as channel selection but still significant audio settings is used on average zero point eight times an hour relevance as to screen settings which means brightness colour et cetera zero point five times an hour and relevance of one point five forgetting to specific statistics here teletext no I'm not too clear what that is and if you can help me flipping pages it is that I mean it has and TV has like information has information on holidays the use yeah steaming. So little running banner no it's a button that you press and then you you 
+
+SPK07
+
+like a menu pops up I haven't used it before the 
+
+SPK00
+
+we have page numbers like for the men 
+
+SPK06
+
+you press the page numbers with your remote tuned okay retirement basically that very basic and internet yeah okay like tells you the weather and 
+
+SPK07
+
+have no interaction back with it you know no like that. 
+
+SPK06
+
+I can think email yeah right you know it is nation 
+
+SPK07
+
+that like television timetables what's on what's on now what's on that on that yeah 
+
+SPK01
+
+right well I guess I'm not with that because I wasn't but it's it's being used fourteen times an hour and as about high relevance of six point five so looks like something that we're gonna wanna do some research on a yeah on our remote control channel settings zero point zero one times an hour relevance of three channel settings a probably just change the channel. But very sorry changing channels 
+
+SPK07
+
+a man at the very start you know if you get a new TV set each oh okay yeah 
+
+SPK06
+
+yeah yeah okay so it's not used very often but people still find a relevant okay biggest frustrations of the people that we interviewed remote controls are often lost somewhere so those are discussed by poppy how we can have a an alarm system. So that people can find it takes too much time to learn how to use a new remote control. So it should be very user friendly you know people know what to do very quickly remote controls are bad for RSI and with a stranger a is that those people there for is that is that 
+
+SPK07
+
+maybe 
+
+SPK00
+
+are getting not yeah yeah designers can look into that buttons that don't require you know very firm pushing if they respond. But we'll have to also avoid you know buttons responding to the slightest touch as well that's a problem yeah okay you guys that get that one down yeah okay here's some ideas for you a large percentage of the public would pay for voice recognition on the remote controls. So I'll show you some numbers here so the youngest age group fifteen to twenty five ninety one point two percent so that they would pay extra might have voice rec voice recognition include on the remote control you could see that number decreases a bits with all this interestingly enough twenty five to thirty five is the lowest amount that would are willing to pay extra. So I guess we're have to figure out what age group are we're targeting in it and have voice recognition is something you wanna look into and if we have the budget for it. Um if we are targeting young adults it looks like something that would pay off thing is ninety percent overnight percent pay for it no I agree with 
+
+SPK07
+
+if we're targeting young adults then it would be something we should look into known financially and and functionally and especially if we are trying to be trendy go with fashions things like that ages like from thirty five to sixty five show lower numbers probably won't be as concerned 
+
+SPK00
+
+that that's a whole other field of research I dunno it be if you'd still have a remote if you're talking to your television and saying change channel intimate family members you haven't household so in it may be too complicated for us but some yeah keep in mind anyway and something that 
+
+SPK07
+
+for the company is that the TV makes noise itself right what are and would have 
+
+SPK00
+
+and if this conversation in the mean at the same time yeah although. They tend to be when you want to come 
+
+SPK01
+
+yeah yeah very difficult to 
+
+SPK00
+
+get the specific 
+
+SPK01
+
+yeah if we're looking for simplistic design if we need to decide if that is our intention is is a simplistic design. Um because if if it is then I think voice voice activated it looks like yeah and that would sort of negate the whole remote control thing because if people can activate the television with their voice and the like the on the remote will be talking is remote sure 
+
+SPK00
+
+okay and the last thing here was a an LCD screen so I mean voice recognition might be a little too extreme for us not practical an LCD screen there might be something that's you know you can shift to pages kind of of the way this powerpoint is working. So they don't have so many but it's to deal with I'm I don't know 
+
+SPK07
+
+than LCD screens 
+
+SPK00
+
+oh sorry just just the screen like a computer screen. So or like mobile phone yeah like an alarm clock you'd have an LCD versus just a 
+
+SPK07
+
+well was do on the screen I have no idea 
+
+SPK01
+
+still sorry I'll just like electronic screen as opposed to just buttons would be like a little oh like oh yeah okay like on the top of the cellphone the the law yeah screen notes that I don't know what exactly we put on there I guess the channel that you're on the way volume setting could it it would be 
+
+SPK07
+
+but if it had the actual program that was on them up with 
+
+SPK06
+
+but that would probably be like killing the yeah that I can do yeah 
+
+SPK07
+
+teletext actual oh yeah the access that three 
+
+SPK01
+
+might be quite expensive to do that 
+
+SPK06
+
+oh yeah alright. I guess that's something we can all take back to our respective research. Um and finally whoops my personal preferences and thoughts I think a party really should be unique design we want some the people want their home every remote control looks the same so in my opinion it should be user friendly and unique. So the other stuff might be a little too ill to gadget E for some people. Um I I myself voice recognition kind of scares me off. So if we're if we're aiming to make this an international university universally accepted product and for all the other thing is age market I mean if we want to concentrate on fifteen to twenty five olds we could go with the fancy stuff. But if we wanna make fifty million and and have everyone want this remote control we should maybe stick to the basics we should keep it mind 
+
+SPK07
+
+that fifteen to twenty five year olds might not have 
+
+SPK06
+
+right five euros to spend a remote control like 
+
+SPK07
+
+their priorities might not be a fancy remote control when 
+
+SPK06
+
+they're just start night right I mean I to mind the the reliability of our research I mean you know sixteen oh boy would say you had voice recognition. They realise that's months allowance yeah and so I think I think the older generations we should be catering to a bit more early twenties yeah okay and for that the 
+
+SPK07
+
+largest or most complained about thing is that it takes so long to get to know how to use remote control I'm sure that something like an LCD screen or remote control would be this furthering that problem 
+
+SPK00
+
+yeah complicated yeah yeah okay alright okay 
+
+SPK01
+
+that's it for the market research okay before we 
+
+SPK07
+
+go into more discussion on we want. This designed to look like I've received some information from the management that will affect some of our decisions for one thing because having controls with DVDVCR that sort of thing would really complicate the design of the remote control we've decided not to include them and make it a specific just a specific television function which is good as as we sort of decided that we would like to go with that anyway for many reasons so we have that decision sort of made for is another thing that might affect other decisions is that the management feels that teletext is outdated because more people using the internet now. And so we won't concern ourselves with navigating the teletext option 
+
+SPK00
+
+just injured yep with like the like in yeah maybe we can the okay sure out of power point on yeah 
+
+SPK07
+
+I do I'm looking at the at of right now 
+
+SPK00
+
+there you go think oh come back screen yeah well the 
+
+SPK07
+
+daily let's management suggesting use of the internet rather than teletext or just avoiding both altogether 
+
+SPK01
+
+well I mean we don't have 
+
+SPK07
+
+the releases or or possibility of using the internet with the remote control but they were just pretty much saying that a the teletext what I'm used right and another thing this is for the design the design of the product is that we wanna create more sense that people know that this is from our company. So all of the remote controls must have our well incorporate our logo and colour in in some way yeah so perhaps our logo on the bottom or whatever you feel like you with good it doesn't have to be the colour of our our company but another thing is that we need to we probably would have to have that colour and and logo decided upon. Um I'm assuming that we already have one but for the purposes of this meeting I I wasn't offered a I think a type of logo a colour so okay that could be someone the design so we can be recognised 
+
+SPK00
+
+inspire are are in yellow yeah yeah 
+
+SPK07
+
+the little RR yellow thing okay real reaction okay I guess those of the changes so now we need to discuss. Um and come to a decision on a remote control functions of of how this is going to be I'm just gonna look at my notes for a second. Um we have to decide on a target group and the functions of the remote control so we are you know that it'll just be for the television it'll it won't have teletext. But you know we could discuss those other options that you brought up Genevieve 
+
+SPK00
+
+since medication okay so I are we going to write off the LCD option is that oh 
+
+SPK07
+
+most people feel about that yeah okay 
+
+SPK00
+
+so no LCD no teletext and no voice recognition I think of you I know if I don't you 
+
+SPK07
+
+teletext that much but if it was on your TV 
+
+SPK06
+
+you want to be able to use if yeah but another thing is that if we're reaching 
+
+SPK07
+
+international crowd I know for one that in north America there is no such thing as teletext sewing really superfluous you know I don't know but other countries besides the UK do you know if anywhere else 
+
+SPK00
+
+see I didn't know has it more research 
+
+SPK07
+
+I think alright if I was in a management decision that the 
+
+SPK01
+
+management. So it's it's pretty much out of our hands at this point okay okay okay so I guess we're looking at something rather simple 
+
+SPK00
+
+I guess just for my findings a looks like wanna minimise buttons 
+
+SPK07
+
+okay yeah 
+
+SPK01
+
+oh and the what was the word they use but find ability is important 
+
+SPK07
+
+yeah yeah I think we should definitely go ahead with the alarms still 
+
+SPK00
+
+I know that you had not sure that could be 
+
+SPK07
+
+is inexpensive because we could use the same kind of infrared 
+
+SPK00
+
+yeah same signalling the same signal 
+
+SPK01
+
+you then you could just like make a little beeping noise it's not that expensive to do 
+
+SPK00
+
+just the same as the mobile phone making just a 
+
+SPK01
+
+yeah doesn't yeah okay I like that idea 
+
+SPK00
+
+would should be able to the little device and it 
+
+SPK06
+
+"'cause" I as in our remote control for all T V.s so if 
+
+SPK07
+
+you mean the the link between the yeah yeah 
+
+SPK01
+
+oh I know the oh 
+
+SPK07
+
+gee one TV set who would need to be something maybe 
+
+SPK06
+
+yeah yeah maybe a hundred receives that you could like stick onto the back of yeah that that would be yeah not very obtrusive obviously something small that yeah yeah that's good 
+
+SPK01
+
+yeah that it wouldn't it probably wouldn't be able to use would be able to use the same reception on the remote control I guess but the actual device would have to have its own yeah infrared yeah okay okay 
+
+SPK00
+
+would think about battery maybe 
+
+SPK07
+
+probably probably I mean unless it that's really 
+
+SPK01
+
+Hartman show yeah sort that out 
+
+SPK00
+
+okay unless some way I could have some universal connection to like the socket the same socket that the T V.s supplied from I mean the power for the TS 
+
+SPK01
+
+yeah yeah yeah yeah holidays chance to do research on then right great alright and I'm sure that the glow in the dark fluorescent whatever system it's a go ahead is everyone Tristan and 
+
+SPK00
+
+I I like the light up suggestion I think that yeah better "'cause" we've fluorescent lights bees there right 
+
+SPK07
+
+yeah yeah sorry yeah yeah 
+
+SPK01
+
+it doesn't it could it could be attacked L thing is well right if we for minimising buttons we might go to make them actually larger and there's something on it you know like a raise up arrow down arrow for for volume and I dunno what we could do for for channels this was just the numbers could be embossed okay like greased the numbers themselves exactly like on one of the down button for the channel channel changing just little yeah I just thought that it be might be sucking more battery power if there if it is a light up I'm not sure yeah yeah 
+
+SPK07
+
+so I have a you mentioned before like how it should be accessible to everybody yeah and the like big. Um buttons name for people are visually impaired glow in the dark or light up point make any difference anyway so I guess that act I think that is a be more available to yeah everybody 
+
+SPK01
+
+could we somehow we could make it possible we 
+
+SPK07
+
+sorry incorporate them both so that yeah yeah the buttons could maybe be in the shape of the numbers themselves and be made out of some sort of glow in the dark material that I don't think that little dark material. Um like the actual soft plastic. Um cost that much more another 
+
+SPK00
+
+colour so these days I mean quite yeah 
+
+SPK01
+
+I guess the other option referring to the battery thing is you know how cellphones will light up for fifteen seconds yeah whatever's yeah yeah goes. So yeah if you like changing the volume jig movie and I'm thinking of yeah watching maybe turn all the lights off rate yeah you don't turn on the lights up to turn it down because it's something explosion and regular baby yeah so if you touch the button it kind of reactivated alike yeah 
+
+SPK07
+
+yeah good idea on self timer. So self timed lighting. We have five 
+
+SPK01
+
+minutes left. Um for the meeting but I think we should discuss the slight sub just a little bit more before we close what was I missed the last moment Reading that what we're talking about with the lighting up oh 
+
+SPK00
+
+just if it was in the same way that a cell in a cellphone will light up for about ten fifteen seconds any touch a button after yeah not touch therefore well yeah if instead of a constant light up on the on the remote control if it lights up for ten seconds when it's touched again 
+
+SPK07
+
+mm so it could be any button that would be pressed yeah 
+
+SPK00
+
+yeah you just that and it just kind of lights up a banana gives the thing out less of you have all the lights off in your living room yeah you'll you'll temporarily see it because you not feeling around with it for more than what ten seconds yeah okay 
+
+SPK07
+
+okay so yeah that's probably feasible so you think we should do the lighting up thing and the glow in the dark thing and the shape of the numbers and to kind of decide what we're gonna do with this 
+
+SPK00
+
+I think the shape the numbers is really good idea yeah I as as unique as well yeah have you seen that and as you saying like numbers can wear off if they're just 
+
+SPK01
+
+yeah mean. Maybe it us if it's that softer rubber material be better for people with or else know what's it called RSI what was it oh yeah 
+
+SPK00
+
+yeah yeah yeah yeah I guess 
+
+SPK07
+
+is like hard buttons okay to be want to 
+
+SPK00
+
+go for the glow in the dark look what we 
+
+SPK07
+
+want to go for the lighting up instantly like to do both or we can have one or the other because it might for for design purposes I mean the lighting up thing might be better because glow in the dark material has a funny kind of colour and it might not go with different like face plates so we make come up 
+
+SPK00
+
+exactly the they might be perceived as tacky glow in the dark it's yeah eighties neon style yeah where we could be trendy fashionable yeah they're 
+
+SPK07
+
+not like late over huge range of different colours they could light definite well which good again can with the company colours blue green or yellow right like really just limited to with the just 
+
+SPK01
+
+oh alright so we've decide on lighting up 
+
+SPK00
+
+I was thinking of was called the dark the 
+
+SPK07
+
+real reaction symbol at school in the dark and then it would be constantly appetite 
+
+SPK06
+
+yeah every time the the list that bigot that could light up so 
+
+SPK01
+
+I was like oh oh what to do with the same. 
+
+SPK07
+
+thing I mean if you touch the buyout and then again we okay it could be lit up as well is are you okay with that okay cool. Um alright so I think that is that completes most of our are more practical decisions and now it's up to designing. And making sure this can be feasible 
+
+SPK00
+
+Um and do any of these or do anything say yeah well throw their the thought about personalising the remote control it you "'cause" you mentioned face plates. So I I don't know if there's something that diff you know like five different face plates and of this to start making more complicated but it could increase the popularity of the of the remote okay 
+
+SPK07
+
+like I have changeable. Um yeah I know about like you know it's not just like yeah 
+
+SPK01
+
+okay exactly like my cellphone yeah 
+
+SPK00
+
+I don't know if we wanna go with you know TV show themes or something like a Bart Simpson faceplate yeah and then that would be more profitable like the sideline different no 
+
+SPK07
+
+yeah that's exactly the start out with 
+
+SPK01
+
+and if we if we had a big then we can add a yeah yeah I think that we should occur the 
+
+SPK07
+
+interchangeable. And so 
+
+SPK01
+
+be very expensive at all you just get one mould yeah those plastic again and you know and also possible. I mean 
+
+SPK00
+
+if we could gain else so that by advertising certain TV show 
+
+SPK01
+
+It's oh that might be cutting problematic with copyright 
+
+SPK00
+
+yeah so if we would it takes are final 
+
+SPK01
+
+yeah well we could try that out 
+
+SPK00
+
+the environmental factor we didn't bring that up again 
+
+SPK01
+
+right we'll have to do more research like as of yet that has nothing to do with the way to look yeah doesn't need to be reached a do we need to reach a decision on the right now I need to investigate the financial implications okay okay that is it does it need to be a decided on our or 
+
+SPK00
+
+so I think we can probably leave that to later on 
+
+SPK01
+
+okay good alright then anyone else have anything more to say before we close yeah alright well let's have lunch and we'll discuss this later okay all righty 

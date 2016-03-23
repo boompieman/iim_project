@@ -1,0 +1,379 @@
+<?xml version='1.0'?>
+
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+
+<group prefer="public" xml:base="/group/ltg/projects/lcontrib/share/lib/xml/docbook-xml-4.4/">
+
+<public publicId="-//OASIS//DTD DocBook XML V4.4//EN"
+        uri="docbookx.dtd"/>
+
+<system systemId="http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+	uri="docbookx.dtd"/>
+
+<system systemId="http://docbook.org/xml/4.4/docbookx.dtd"
+	uri="docbookx.dtd"/>
+
+<!-- ...................................................................... -->
+<!-- DocBook modules ...................................................... -->
+
+<public publicId="-//OASIS//DTD DocBook CALS Table Model V4.4//EN"
+        uri="calstblx.dtd"/>
+
+<system systemId="http://docbook.org/xml/4.4/calstblx.dtd"
+	uri="calstblx.dtd"/>
+
+<public publicId="-//OASIS//ELEMENTS DocBook XML HTML Tables V4.4//EN"
+	uri="htmltblx.mod"/>
+
+<system systemId="http://docbook.org/xml/4.4/htmltblx.mod"
+	uri="htmltblx.mod"/>
+
+<public publicId="-//OASIS//DTD XML Exchange Table Model 19990315//EN"
+        uri="soextblx.dtd"/>
+
+<system systemId="http://docbook.org/xml/4.4/soextblx.dtd"
+	uri="soextblx.dtd"/>
+
+<public publicId="-//OASIS//ELEMENTS DocBook Information Pool V4.4//EN"
+        uri="dbpoolx.mod"/>
+
+<system systemId="http://docbook.org/xml/4.4/dbpoolx.mod"
+	uri="dbpoolx.mod"/>
+
+<public publicId="-//OASIS//ELEMENTS DocBook Document Hierarchy V4.4//EN"
+        uri="dbhierx.mod"/>
+
+<system systemId="http://docbook.org/xml/4.4/dbhierx.mod"
+	uri="dbhierx.mod"/>
+
+<public publicId="-//OASIS//ENTITIES DocBook Additional General Entities V4.4//EN"
+        uri="dbgenent.mod"/>
+
+<system systemId="http://docbook.org/xml/4.4/dbgenent.mod"
+	uri="dbgenent.mod"/>
+
+<public publicId="-//OASIS//ENTITIES DocBook Notations V4.4//EN"
+        uri="dbnotnx.mod"/>
+
+<system systemId="http://docbook.org/xml/4.4/dbnotnx.mod"
+	uri="dbnotnx.mod"/>
+
+<public publicId="-//OASIS//ENTITIES DocBook Character Entities V4.4//EN"
+        uri="dbcentx.mod"/>
+
+<system systemId="http://docbook.org/xml/4.4/dbcentx.mod"
+	uri="dbcentx.mod"/>
+
+<!-- ...................................................................... -->
+<!-- ISO entity sets ...................................................... -->
+
+<public publicId="ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML"
+        uri="ent/isodia.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isodia.ent"
+	uri="ent/isodia.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
+        uri="ent/isonum.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isonum.ent"
+	uri="ent/isonum.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Publishing//EN//XML"
+        uri="ent/isopub.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isopub.ent"
+	uri="ent/isopub.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES General Technical//EN//XML"
+        uri="ent/isotech.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isotech.ent"
+	uri="ent/isotech.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Added Latin 1//EN//XML"
+        uri="ent/isolat1.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isolat1.ent"
+	uri="ent/isolat1.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Added Latin 2//EN//XML"
+        uri="ent/isolat2.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isolat2.ent"
+	uri="ent/isolat2.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
+        uri="ent/isogrk1.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isogrk1.ent"
+	uri="ent/isogrk1.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML"
+        uri="ent/isogrk2.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isogrk2.ent"
+	uri="ent/isogrk2.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Greek Symbols//EN//XML"
+        uri="ent/isogrk3.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isogrk3.ent"
+	uri="ent/isogrk3.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML"
+        uri="ent/isogrk4.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isogrk4.ent"
+	uri="ent/isogrk4.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML"
+        uri="ent/isoamsa.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isoamsa.ent"
+	uri="ent/isoamsa.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML"
+        uri="ent/isoamsb.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isoamsb.ent"
+	uri="ent/isoamsb.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"
+        uri="ent/isoamsc.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isoamsc.ent"
+	uri="ent/isoamsc.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML"
+        uri="ent/isoamsn.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isoamsn.ent"
+	uri="ent/isoamsn.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
+        uri="ent/isoamso.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isoamso.ent"
+	uri="ent/isoamso.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML"
+        uri="ent/isoamsr.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isoamsr.ent"
+	uri="ent/isoamsr.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML"
+        uri="ent/isobox.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isobox.ent"
+	uri="ent/isobox.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML"
+        uri="ent/isocyr1.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isocyr1.ent"
+	uri="ent/isocyr1.ent"/>
+
+<public publicId="ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML"
+        uri="ent/isocyr2.ent"/>
+
+<system systemId="http://docbook.org/xml/4.4/ent/isocyr2.ent"
+	uri="ent/isocyr2.ent"/>  
+
+</group>
+
+<!-- Paths for XSL stylesheets
+"uri" gives the actual path for "name"-->
+<group xml:base="/group/ltg/projects/lcontrib/share/lib/xml/docbook-xsl-1.71.0/">
+
+<uri
+    name="docbook.xsl"
+    uri="html/docbook.xsl"/>
+
+<uri
+    name="chunk.xsl"
+    uri="html/chunk.xsl"/>
+
+<uri
+    name="onechunk.xsl"
+    uri="html/onechunk.xsl"/>
+
+<uri
+    name="fo/docbook.xsl"
+    uri="fo/docbook.xsl"/>
+
+<uri
+    name="javahelp.xsl"
+    uri="javahelp/javahelp.xsl"/>
+
+<uri
+    name="website.xsl"
+    uri="website/website.xsl"/>
+
+<uri
+    name="tabular.xsl"
+    uri="website/tabular.xsl"/>
+
+<uri
+    name="xhtml/docbook.xsl"
+    uri="xhtml/docbook.xsl"/>
+
+<uri
+    name="xhtml/chunk.xsl"
+    uri="xhtml/chunk.xsl"/>
+
+<uri
+    name="xhtml/onechunk.xsl"
+    uri="xhtml/onechunk.xsl"/>
+</group>
+
+<!-- Paths for external files (ENTITIES)
+"uri" value needs to change to whatever the path to the given entity is-->
+<group prefer="public" xml:base="/home/vkaraisk/Projects/docbook_stuff/docbook_files/">
+
+<public publicId="nxtdoc.introduction"
+        uri="nxtdoc.introduction.xml"/>
+
+<system systemId="nxtdoc.introduction.xml"
+	uri="nxtdoc.introduction.xml"/> 
+
+<public publicId="nxtdoc.install"
+        uri="nxtdoc.install.xml"/>
+
+<system systemId="nxtdoc.install.xml"
+	uri="nxtdoc.install.xml"/> 
+
+<public publicId="nxtdoc.funding"
+        uri="nxtdoc.funding.xml"/>
+
+<system systemId="nxtdoc.funding.xml"
+	uri="nxtdoc.funding.xml"/> 
+
+<public publicId="nxtdoc.datamodel"
+        uri="nxtdoc.datamodel.xml"/>
+
+<system systemId="nxtdoc.datamodel.xml"
+	uri="nxtdoc.datamodel.xml"/> 
+
+<public publicId="nxtdoc.datasetdesign"
+        uri="nxtdoc.datasetdesign.xml"/>
+
+<system systemId="nxtdoc.datadesign.xml"
+	uri="nxtdoc.datadesign.xml"/> 
+
+<public publicId="nxtdoc.queryref"
+        uri="nxtdoc.queryref.xml"/>
+
+<system systemId="nxtdoc.queryref.xml"
+	uri="nxtdoc.queryref.xml"/> 
+
+<public publicId="nxtdoc.metadata"
+        uri="nxtdoc.metadata.xml"/>
+
+<system systemId="nxtdoc.metadata.xml"
+	uri="nxtdoc.metadata.xml"/>
+
+<public publicId="nxtdoc.resourcefile"
+        uri="nxtdoc.resourcefile.xml"/>
+
+<system systemId="nxtdoc.resourcefile.xml"
+	uri="nxtdoc.resourcefile.xml"/>
+
+<public publicId="nxtdoc.validation"
+        uri="nxtdoc.validation.xml"/>
+
+<system systemId="nxtdoc.validation.xml"
+	uri="nxtdoc.validation.xml"/>
+
+<public publicId="nxtdoc.databuilds"
+        uri="nxtdoc.databuilds.xml"/>
+
+<system systemId="nxtdoc.databuilds.xml"
+	uri="nxtdoc.databuilds.xml"/>
+
+<public publicId="nxtdoc.commandlinetools"
+        uri="nxtdoc.commandlinetools.xml"/>
+
+<system systemId="nxtdoc.commandlinetools.xml"
+	uri="nxtdoc.commandlinetools.xml"/>
+
+<public publicId="nxtdoc.guis"
+        uri="nxtdoc.guis.xml"/>
+
+<system systemId="nxtdoc.guis.xml"
+	uri="nxtdoc.guis.xml"/>
+
+<public publicId="nxtdoc.genericdisplay"
+        uri="nxtdoc.genericdisplay.xml"/>
+
+<system systemId="nxtdoc.genericdisplay.xml"
+	uri="nxtdoc.genericdisplay.xml"/>
+
+<public publicId="nxtdoc.nxtsearchgui"
+        uri="nxtdoc.nxtsearchgui.xml"/>
+
+<system systemId="nxtdoc.nxtsearchgui.xml"
+	uri="nxtdoc.nxtsearchgui.xml"/>
+
+<public publicId="nxtdoc.signallabeller"
+        uri="nxtdoc.signallabeller.xml"/>
+
+<system systemId="nxtdoc.signallabeller.xml"
+	uri="nxtdoc.signallabeller.xml"/>
+
+<public publicId="nxtdoc.decoder"
+        uri="nxtdoc.decoder.xml"/>
+
+<system systemId="nxtdoc.decoder.xml"
+	uri="nxtdoc.decoder.xml"/>
+
+<public publicId="nxtdoc.dscoder"
+        uri="nxtdoc.dscoder.xml"/>
+
+<system systemId="nxtdoc.dscoder.xml"
+	uri="nxtdoc.dscoder.xml"/>
+
+<public publicId="nxtdoc.nsdisplay"
+        uri="nxtdoc.nsdisplay.xml"/>
+
+<system systemId="nxtdoc.nsdisplay.xml"
+	uri="nxtdoc.nsdisplay.xml"/>
+
+<public publicId="nxtdoc.dtvdisplay"
+        uri="nxtdoc.dtvdisplay.xml"/>
+
+<system systemId="nxtdoc.dtvdisplay.xml"
+	uri="nxtdoc.dtvdisplay.xml"/>
+
+<public publicId="nxtdoc.othertools"
+        uri="nxtdoc.othertools.xml"/>
+
+<system systemId="nxtdoc.othertools.xml"
+	uri="nxtdoc.othertools.xml"/>
+
+<public publicId="nxtdoc.programmaticcontrols"
+        uri="nxtdoc.programmaticcontrols.xml"/>
+
+<system systemId="nxtdoc.programmaticcontrols.xml"
+	uri="nxtdoc.programmaticcontrols.xml"/>
+
+<public publicId="nxtdoc.metadataappendix"
+        uri="nxtdoc.metadata.appendix.xml"/>
+
+<system systemId="nxtdoc.metadataappendix.xml"
+	uri="nxtdoc.metadata.appendix.xml"/>
+
+<public publicId="nxtdoc.configappendix"
+        uri="nxtdoc.config.appendix.xml"/>
+
+<system systemId="nxtdoc.configappendix.xml"
+	uri="nxtdoc.config.appendix.xml"/>
+
+<public publicId="nxtdoc.knit"
+        uri="nxtdoc.knit.xml"/>
+
+<system systemId="nxtdoc.knit.xml"
+	uri="nxtdoc.knit.xml"/>
+</group>
+</catalog>

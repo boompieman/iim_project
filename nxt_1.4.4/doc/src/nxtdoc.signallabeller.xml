@@ -1,0 +1,26 @@
+<section id="signallabeller" xreflabel="Continuous Signal Labeller">
+        <title>The signal labeller</title>
+
+        <para>The signal labeller is for creating timestamped labels against
+        signal, with the labels chosen from an enumerated list. This can be
+        used for a very wide range of low-level annotations, such as gaze
+        direction, movement in the room, rough starts and ends of turns, and
+        areas to be included in or excluded from some other analysis. The tool
+        treats the labels as mutually exclusive and exhaustive states; as the
+        user plays the signal, whenever a new label is chosen (either with the
+        mouse or using keyboard shortcuts), that time is used both for the
+        beginning of the new label and the end of the old one. Although there
+        are several similar tools available, this tool will work on either
+        audio or video signals, including playing a set of synchronized
+        signals together, and works natively on NXT format data, which is of
+        benefit for user groups that intend to use NXT for further annotation.
+        It does not, however, currently include either the palette-based
+        displays popular from <application>Anvil</application> and <application>TASX</application>, and the signal control is meant
+        for the coarser style of real-time coding, not for the precision
+        timing that some projects require. It also does not contain waveform
+        display, and therefore is unsuitable for many kinds of speech
+        annotation. </para>
+
+    <para>Java class: <classname>net.sourceforge.nite.tools.videolabeler.ContinuousVideoLabeling</classname></para>
+
+      </section>

@@ -1,0 +1,36 @@
+<section id="funding">
+    <title>NXT's history and funding</title>
+
+    <para>The NITE XML Toolkit is software that arose out of a
+    European Commission-funded collaboration between the University of
+    Edinburgh's <ulink url="http://www.ltg.ed.ac.uk">The Language
+    Technology Group</ulink>, the University of Stuttgart's <ulink
+    url="http://www.ims.uni-stuttgart.de">Institut f&#x00f6;r Maschinelle
+    Sprachverarbeitung (IMS)</ulink>, and the <ulink
+    url="http://www.dfki.de">Deutsches Forschungszentrum f&#x00f6;r
+    K&#x00f6;nstliche Intelligenz (DFKI)</ulink>. Although the NITE project
+    itself finished in 2003, the software is now being maintained and
+    further developed via <ulink
+    url="http://sourceforge.net/projects/nite/">Sourceforge</ulink>;
+    the <ulink url="http://hmi.ewi.utwente.nl">University of Twente
+    </ulink>has been a particularly active contributor. NXT is in use
+    on a number of large distributed projects including <ulink
+    url="http://www.jast-net.gr/">JAST</ulink>and <ulink
+    url="http://www.talk-project.org/">TALK</ulink>. NXT is in use on
+    a wide range of corpora, representing everything from Biblical
+    text structure to the relationship between deictic expressions and
+    gestures in multimodal referring expressions. Its users range from
+    individual PhD students up to large multi-site projects, many of
+    whom contribute to development in some way. The <ulink
+    url="http://www.amiproject.org">AMI</ulink> consortium is its
+    biggest user and also the largest current contributor to its
+    development.  Other past and current funders
+    are <ulink url="http://www.epsrc.ac.uk/">The Engineering and
+    Physical Sciences Research Council (UK)</ulink> , <ulink
+    url="http://www.esrc.ac.uk">The Economic and Social Research
+    Council (UK)</ulink>, and<ulink
+    url="http://www.scottish-enterprise.com/"> Scottish
+    Enterprise</ulink>, via <ulink
+    url="http://www.edinburghstanfordlink.org/">The Edinburgh-Stanford
+    Link</ulink>.</para>
+  </section>

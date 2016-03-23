@@ -1,0 +1,19 @@
+<section id="dtvdisplay">
+        <title>The dual transcription comparison display</title>
+          
+        <para>This is the second in a series of tools to display
+        multiple versions of a particular type of annotation. The
+        <emphasis>dual transcription comparison display</emphasis> 
+	displays two transcriptions side-by-side using a
+	different configuration for each. For example, a manual
+	transcription on the left and an automatic transcription
+	on the right. This is a display only, not an annotation
+        tool. Display details are controlled using a configuration
+        file much like the other end user GUIs. Any annotations
+	on the transcriptions will be
+        displayed in the same way as for the non spanning
+	comparison display.</para>
+
+        <para>Java class: <classname>net.sourceforge.nite.tools.comparison.dualtranscription.DualTranscriptionComparisonDisplay</classname></para>
+
+</section>

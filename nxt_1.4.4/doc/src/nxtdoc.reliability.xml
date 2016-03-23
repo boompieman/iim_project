@@ -1,0 +1,349 @@
+<section id="reliability" xreflabel="Reliability testing">
+	<title>Reliability Testing</title>
+	
+	
+<para>
+	This section contains documentation of the facility for loading multiply-annotated data that forms the core of NXT's support for 
+	reliability tests, plus a worked example from the AMI project, kindly supplied by Vasilis Karaiskos. For more information, 
+	see the JavaDoc corresponding to the NOM loading routine for multiply-annotated data, for <classname>CountQueryMulti</classname>, and for 
+	<classname>MultiAnnotatorDisplay</classname>.
+</para>
+<para>
+The facilities described on this page are new for NXT v 1.3.3. 
+</para>
+	
+<section id="reliability_generic">
+	<title>Generic documentation</title>
+	
+<para>
+	Many projects wish to know how well multiple human annotators agree on how to apply their coding manuals, and so they have different 
+	human annotators read the same manual and code the same data. They then need to calculate some kind of measurement statistic for the 
+	resulting agreement. This measurement can depend on the structure of the annotation (agreement on straight categorization of existing 
+	segments being simpler to measure than annotations that require the human to segment the data as well) as well as what field they are in, 
+	since statistical development for this form of measurement is still in progress, and agreed practice varies from community to community.
+</para>
+<para>
+	NXT 1.3.3 and higher provides some help for this statistical measurement, in the form of a facility that can load the data from 
+	multiple annotators into the same NOM (NXT's object model, or internal data representation, which can be used as the basis for 
+	Java applications that traverse the NOM counting things or for query execution).
+</para>
+<para>
+	This facility works as follows. The metadata specifies a relative path from itself to directories at which all coding files 
+	containing data can be found. (The data can either be all together, in which case the path is usually given on the 
+	<sgmltag class="element"><![CDATA[<codings>]]></sgmltag> tag, 
+	or it can be in separate directories by type, in which case the path is specified on the individual 
+	<sgmltag class="element"><![CDATA[<coding-file>]]></sgmltag> tags.) NXT assumes that if there is annotation available from multiple 
+	annotators, it will be found not in the specified directory itself, but in subdirectories of the directory specified, 
+	where the subdirectories is called by the names (or some other unique designators) of the annotators. 
+	Annotation schemes often require more than one layer in the NOM representation. The loading routine takes as arguments the 
+	name of the highest layer containing multiple annotations; the name of a layer reached from that layer by child links 
+	that is common between the two annotators, or null if the annotation grounds out at signal instead; and a string to use 
+	as an attribute name in the NOM to designate the annotator for some data. Note that the use of a top layer and a 
+	common layer below it allows the program to know exactly where the multiply annotated data is - it is in the top layer plus 
+	all the layers between the two layers, but not in the common layer. (It is possible to arrange annotation schemes so 
+	that they do not fit this structure, in which case, NXT will not support reliability studies on them.) The routine 
+	loads all of the versions of these multiply-annotated layers into the NOM, differentiating them by using the subdirectory 
+	name as the value for the additional attribute representing the annotator.
+</para>
+<para>
+	NXT is agnostic as to which statistical measures are appropriate. It does not currently (June 05) implement any, but leaves 
+	users to write Java applications or sets of NXT queries that allow their chosen measures to be calculated. 
+	(Being an open source project, of course, anyone who writes such applications can add them to NXT for the benefit of others 
+	who make the same choices.) Version 1.3.3 provides two end user facilities that will be helpful for these studies, 
+	which are essentially multiple annotator versions of the <interfacename><classname>GenericDisplay</classname> GUI</interfacename>
+	 and of <classname>CountQueryResults</classname>.
+</para>
+</section>
+	
+<section id="reliability_multiann">
+	<title>MultiAnnotatorDisplay</title>
+	
+<para>
+	This is a version of the <classname>GenericDisplay</classname> that takes additional command line arguments as required by the loading 
+	routine for multiply-annotated data, and renders separate windows for each annotation for each annotator. 
+	The advantage of using the GUI is, as usual, for debugging queries, since queries can be executed, with the results 
+	highlighted on the data display.
+</para>
+<para>
+To call the GUI:
+</para>
+<para>
+<programlisting>
+java net.sourceforge.nite.gui.util.MultiAnnotatorDisplay -c <replaceable>METADATAFILE</replaceable> 
+	          -o <replaceable>OBSERVATION</replaceable> -tl <replaceable>TOPLAYER</replaceable> <optional>[-cl <replaceable>COMMONLAYER</replaceable>] [-a <replaceable>ANNOTATOR</replaceable>]</optional>	
+</programlisting>	
+<simplelist type="vert" role="indented">
+	<member><option>-c</option> <replaceable>METADATAFILENAME</replaceable> names a metadata file defining the corpus to be loaded.</member>
+	<member><option>-tl</option> <replaceable>TOPLAYER</replaceable> names the data layer at the top of the multiple annotations to be loaded.</member>
+	<member><option>-cl</option> <replaceable>COMMONLAYER</replaceable> is required only if the multiple annotations ground 
+		out in a common layer, and names the first data layer, reached by descending from the toplayer using child links, 
+		that is common between the multiple annotations.</member>
+	<member><option>-a</option> <replaceable>ANNOTATOR</replaceable> is the name of the attribute to add to the loaded data 
+		that contains the name of the subdirectory from which the annotations were obtained - that is, the unique designator 
+		for the annotation. Optional; defaults to <literal>coder</literal>.</member>
+</simplelist>
+	
+</para>
+</section>
+<section id="reliability_countquerymulti">
+	<title>CountQueryMulti</title>
+<para>
+	To call:
+</para>
+<para>
+<programlisting>
+java CountQueryMulti -corpus <replaceable>METADATAFILE</replaceable> -query <replaceable>QUERY</replaceable> 
+	   -toplayer <replaceable>TOPLAYER</replaceable> -commonlayer <replaceable>COMMONLAYER</replaceable> 
+	   <optional>[-attribute ANNOTATOR] [-observation OBSERVATION][-allatonce]</optional>
+</programlisting>
+</para>
+<para>
+where arguments are as for <classname>MultiAnnotatorDisplay</classname>, apart from the following (which are as for 
+	<classname>CountQueryResults</classname>):
+</para>
+<simplelist type="vert" role="indented">
+	<member><option>-observation</option> <replaceable>OBSERVATION</replaceable>: the observation whose annotations 
+		are to be loaded. Optional; if not given, all observations are processed one by one with counts given in a table.</member>
+	<member><option>-query</option> <replaceable>QUERY</replaceable>: the query to be executed.</member>
+	<member><option>-allatonce</option>: Optional; if used, then the entire corpus is loaded together, with output 
+		counting over the entire corpus. This option is very slow and memory-intensive, and assuming you are 
+		willing to total the results from the individual observations, is only necessary if queries 
+		draw context from outside single observations.</member>
+</simplelist>
+</section>
+		
+<section id="reliability_example">
+	<title>Example reliability study</title>
+
+<para>
+	The remainder of this web page demonstrates an annotation scheme reliability test in NITE. The example queries below 
+	come from the agreement test on the named entities annotation of the AMI corpus. Six recorded meetings were annotated 
+	by two coders, whose marking were consequently compared. The categories and attributes that come into play are the following:
+</para>
+<simplelist type="vert" role="indented">
+	<member><firstterm>named-entity</firstterm>: new named entities - the data for which we are doing the reliability test. 
+		These are parents of words in the transcript. They are in a layer called <sgmltag class="attvalue">ne-layer</sgmltag>.</member>
+	<member><firstterm>w</firstterm>: the words in the transcript. They are in a layer called <sgmltag class="attvalue">word-layer</sgmltag>.</member>
+	<member><firstterm>ne-type</firstterm>: the categories a named entity can be assigned to. They are in an ontology, with the named 
+		entities pointing to them, using the <sgmltag class="attribute">type</sgmltag> role.</member>
+	<member><firstterm>name</firstterm>: an attribute of a named entity type that gives the category for the named entity 
+		(e.g., <sgmltag class="attvalue">timex</sgmltag>, <sgmltag class="attvalue">enamex</sgmltag>).</member>
+	<member><firstterm>coder</firstterm>:an attribute of a named entity, signifying who marked the entity.</member>
+</simplelist>
+	
+<section id="reliability_loading">
+	<title>Loading the data into the GUI</title>
+	
+<para>
+	The tests are being carried out by loading the annotated data on the NXT display <classname>MultiAnnotatorDisplay</classname> 
+	(included in  <package>nxt_1.3.3</package> and above). The call can be incorporated in a shell script along with the appropriate 
+	classpaths. For example, the following is included in our <filename>multi.sh</filename> script run from the root of the NXT install 
+	(<code>% sh multi.sh</code>). All the <envar>CLASSPATH</envar>s should be in a single line in the actual script.
+</para>
+<para>
+<programlisting>
+#!/bin/bash
+# Note that a Java runtime should be on the path.
+# The current directory should be root of the nxt install.
+# unless you edit this variable to contain the path to your install
+# then you can run from anywhere. CLASSPATH statements need to be
+# in a single line
+NXT="."
+
+# Adjust classpath for running under cygwin.
+if [ $OSTYPE = 'cygwin' ]; then
+
+export CLASSPATH=".;$NXT;$NXT/lib;$NXT/lib/nxt.jar;$NXT/lib/jdom.jar;
+  $NXT/lib/JMF/lib/jmf.jar;$NXT/lib/pnuts.jar;$NXT/lib/resolver.jar; 
+  $NXT/lib/xalan.jar;$NXT/lib/xercesImpl.jar;$NXT/lib/xml-apis.jar; 
+  $NXT/lib/jmanual.jar;$NXT/lib/jh.jar;$NXT/lib/helpset.jar;$NXT/lib/poi.jar; 
+  $NXT/lib/eclipseicons.jar;$NXT/lib/icons.jar;$NXT/lib/forms-1.0.4.jar; 
+  $NXT/lib/looks-1.2.2.jar;$NXT/lib/necoderHelp.jar;$NXT/lib/videolabelerHelp.jar; 
+  $NXT/lib/dacoderHelp.jar;$NXT/lib/testcoderHelp.jar"
+
+else
+
+export CLASSPATH=".:$NXT:$NXT/lib:$NXT/lib/nxt.jar:$NXT/lib/jdom.jar: 
+  $NXT/lib/JMF/lib/jmf.jar:$NXT/lib/pnuts.jar:$NXT/lib/resolver.jar: 
+  $NXT/lib/xalan.jar:$NXT/lib/xercesImpl.jar:$NXT/lib/xml-apis.jar: 
+  $NXT/lib/jmanual.jar:$NXT/lib/jh.jar:$NXT/lib/helpset.jar:$NXT/lib/poi.jar: 
+  $NXT/lib/eclipseicons.jar:$NXT/lib/icons.jar:lib/forms-1.0.4.jar: 
+  $NXT/lib/looks-1.2.2.jar:$NXT/lib/necoderHelp.jar:$NXT/lib/videolabelerHelp.jar: 
+  $NXT/lib/dacoderHelp.jar:$NXT/lib/testcoderHelp.jar"
+
+# echo "CLASSPATH=.:$NXT:$NXT/lib:$NXT/lib/nxt.jar:$NXT/lib/jdom.jar: 
+    $NXT/lib/JMF/lib/jmf.jar:$NXT/lib/pnuts.jar:$NXT/lib/resolver.jar: 
+    $NXT/lib/xalan.jar:$NXT/lib/xercesImpl.jar:$NXT/lib/xml-apis.jar: 
+    $NXT/lib/jmanual.jar:$NXT/lib/jh.jar:$NXT/lib/helpset.jar:$NXT/lib/poi.jar: 
+    $NXT/lib/eclipseicons.jar:$NXT/lib/icons.jar:lib/forms-1.0.4.jar: 
+    $NXT/lib/looks-1.2.2.jar:$NXT/lib/necoderHelp.jar:$NXT/lib/videolabelerHelp.jar: 
+    $NXT/lib/dacoderHelp.jar:$NXT/lib/testcoderHelp.jar\n";
+fi
+
+java net.sourceforge.nite.gui.util.MultiAnnotatorDisplay -c Data/AMI/AMI-metadata.xml 
+       -tl ne-layer -cl words-layer
+</programlisting>
+</para>
+<para>
+	A GUI with a multitude of windows will load (each window contains the data of one of the various layers of data and annotations), 
+	thus allowing comparisons between the choices of these coders. In our examples below the annotators are named Coder1 and Coder2.
+</para>
+<para>
+	Selecting <guimenu>Search</guimenu> off the menu bar will bring up a small GUI where the queries such as the ones below can be written. 
+	Clicking on any of the query results, highlights the corresponding data in the rest of the windows 
+	(words, named entities, coders' markings etc.). Simultaneously, underneath the list of matches, the query GUI expands whichever 
+	<replaceable>n</replaceable>-tuple is selected. For a the low-down on the NITE query language (NiteQL), look at the  
+	<link linkend="nql">query language documentation</link> or the Help menu in the <interface>query GUI</interface>.
+</para>
+</section>
+	
+<section id="reliability_querying">
+	<title>Querying data related to a single annotator</title>
+	
+<para>
+<variablelist>
+	<varlistentry>
+		<term><code>($a named-entity) : $a@coder=="Coder1"</code></term>
+		<listitem><para>Give a list of all the named entities marked by <sgmltag class="attvalue">Coder1</sgmltag>.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($w w)(exists $a named-entity) : $a@coder="Coder1" && $a ^ $w]]></code></term>
+		<listitem><para>Give a list of all the words marked as named entities by <sgmltag class="attvalue">Coder1</sgmltag>.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code>($a named-entity): $a@coder=="Coder1" :: ($w w): $a ^ $w</code></term>
+		<listitem><para>Gives all the named entities marked by <sgmltag class="attvalue">Coder1</sgmltag> showing the words included in each entity.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($a named-entity)($t ne-type) : ($a >"type"^ $t) && ($t@name == "EntityType") && ($a@coder == "Coder1")]]></code></term>
+		<listitem><para>Gives the named entities of type <sgmltag class="attvalue">EntityType</sgmltag> annotated by 
+			<sgmltag class="attvalue">Coder1</sgmltag>. The entity types (and their names) to choose from can be seen in the 
+			respective window in the GUI (titled <guilabel>"Ontology: ne-types"</guilabel> in this case).</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($a named-entity)($t ne-type) : ($a >"type"^ $t) && ($t@name == "EntityType") && ($a@coder == "Coder1") :: 
+($w w): $a ^ $w]]></code></term>
+		<listitem><para>Like the previous query, only each match also includes the words forming the entity.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($t ne-type) :: ($a named-entity) : $a@coder=="Coder1" && $a >"type"^ $t]]></code></term>
+		<listitem><para>Gives a list of all the named entity types (including <sgmltag class="element">root</sgmltag>), and for each type, 
+			the entities of that type annotated by <sgmltag class="attvalue">Coder1</sgmltag>. By writing the last term of the query 
+			as <code>$a >"type" $t</code>, the query will match only the bottom level entity types (the ones used as actual tags), 
+			that is it will display <sgmltag class="attvalue">MEASURE</sgmltag> entities, but not <sgmltag class="attvalue">NUMEX</sgmltag>
+			 ones (assuming here that <sgmltag class="attvalue">MEASURE</sgmltag> is a sub-type of <sgmltag class="attvalue">NUMEX</sgmltag>).</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($a named-entity)($t ne-type) : $a@coder=="Coder1" && $a >"type"^ $t :: 
+($w w): $a ^ $w]]></code></term>
+		<listitem><para>Like the previous query, only each match (<replaceable>n</replaceable>-tuple) also includes the words forming the entity.</para></listitem>
+	</varlistentry>
+</variablelist>
+</para>
+</section>
+	
+<section id="reliability_querying_two">
+	<title>Querying data related to two annotators</title>
+	
+<section id="reliability_coextent">
+	<title>Checking for co-extensiveness</title>
+<para>
+	The following examples check for agreement between the two annotators as to whether some text should be marked as a named entity:
+</para>
+<para>
+<variablelist>
+	<varlistentry>
+		<term><code><![CDATA[($a named-entity)($b named-entity): $a@coder=="Coder1" && $b@coder=="Coder2" ::
+           ($w1 w) (forall $w w) : ($a ^ $w1) && ($b ^ $w1) &&(($a ^ $w) -> ($b ^ $w)) && (($b ^ $w) -> ($a ^ $w))]]></code> </term>
+	    <listitem><para>Gives a lost of all the co-extensive named entities between <sgmltag class="attvalue">Coder1</sgmltag> and 
+			<sgmltag class="attvalue">Coder2</sgmltag> along with the words forming the entities (the entities do not have to be of 
+			the same type, but they have to span exactly the same text).</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($a named-entity)($b named-entity): $a@coder=="Coder1" && $b@coder=="Coder2" ::
+             ($w1 w) (exists $w w) : ($a ^ $w1) && ($b ^ $w1) &&(($a ^ $w) -> ($b ^ $w)) && (($b ^ $w) -> ($a ^ $w))]]></code> </term>
+	    <listitem><para>Like the previous query, but includes named entities that are only partially co-extensive. The words showing in the 
+			query results are only the ones where the entities actually overlap.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($a named-entity)(forall $b named-entity)(forall $w w): $a@coder=="Coder1" && (($b@coder=="Coder2" && 
+			($a ^ $w))->!($b ^ $w))]]></code></term>
+	    <listitem><para>Gives the list of entities that only <sgmltag class="attvalue">Coder1</sgmltag> has marked, i.e. there is no 
+			corresponding entity in <sgmltag class="attvalue">Coder2</sgmltag>. Switching <sgmltag class="attvalue">Coder1</sgmltag>
+			 and <sgmltag class="attvalue">Coder2</sgmltag> in the query, gives the respective set of entities for 
+			<sgmltag class="attvalue">Coder2</sgmltag>.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($a named-entity)(forall $b named-entity)(forall $w w): $a@coder=="Coder2" && (($b@coder=="Coder1" 
+		&& ($a ^ $w))->!($b ^ $w)) || $a@coder=="Coder1" && (($b@coder=="Coder2" && ($a ^ $w))->!($b ^ $w))]]></code></term>
+	    <listitem><para>Like the previous query, only this time both sets of non-corresponding entities is given in one go.</para></listitem>
+	</varlistentry>
+</variablelist>
+</para>
+</section>
+<section id="reliability_categorisation">
+	<title>Checking for categorisation agreement</title>
+<para>
+	The following examples check how the two annotators agree on the categorisation of co-extensive entities:
+</para>
+<para>
+<variablelist>
+	<varlistentry>
+		<term><code><![CDATA[($a named-entity)($b named-entity) ($t ne-type): $a@coder=="Coder1" && $b@coder=="Coder2" 
+		&& ($a >"type" $t) && ($b >"type" $t) :: ($w1 w) (forall $w w) : ($a ^ $w1) && ($b ^ $w1) &&(($a ^ $w) -> 
+		($b ^ $w)) && (($b ^ $w) -> ($a ^ $w)) ]]></code></term>
+		<listitem><para>Gives all the common named entities between <sgmltag class="attvalue">Coder1</sgmltag> and 
+			<sgmltag class="attvalue">Coder2</sgmltag> along with the entity type and text; the entities have to be 
+			co-extensive (fully overlapping) and of the same type.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($a named-entity)($b named-entity) ($t ne-type): $a@coder=="Coder1" && $b@coder=="Coder2" 
+		&& ($a >"type" $t) && ($b >"type" $t) :: ($w1 w) (exists $w w) : ($a ^ $w1) && ($b ^ $w1) &&(($a ^ $w) -> 
+		($b ^ $w)) && (($b ^ $w) -> ($a ^ $w)) ]]></code></term>
+		<listitem><para>Like the previous query, but includes partially co-extensive entities. 
+			The words showing in the query results are only the ones that actually do overlap.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($a named-entity)($b named-entity) ($t ne-type): $a@coder=="Coder1" && $b@coder=="Coder2" 
+		&& ($a >"type" $t) && ($b >"type" $t) :: ($w2 w):($a ^ $w2) && ($b ^ $w2) :: ($w w):(($b ^ $w) && !($a ^ $w)) || 
+		(($a ^ $w) && !($b ^ $w))]]></code></term>
+		<listitem><para>Gives the list of entities which are the same type, but only partially co-extensive. 
+			The results include the entire set of words from both codings.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($a named-entity)($b named-entity) ($t ne-type)($t1 ne-type): $a@coder=="Annotator1" 
+		&& $b@coder=="Annotator2" && ($a >"type" $t) && ($b >"type" $t1) && ($t != $t1) :: 
+		($w1 w) (exists $w w) : ($a ^ $w1) && ($b ^ $w1) &&(($a ^ $w) -> ($b ^ $w)) && (($b ^ $w) -> ($a ^ $w)) :: 
+		($w2 w): ($b ^ $w2)]]></code></term>
+		<listitem><para>Gives the list of entities, which are partially or fully co-extensive, but for which the two 
+			coders disagree as to the type.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($a named-entity)($b named-entity)($c ne-type)($d ne-type):
+		$a@coder=="Coder1" && $b@coder=="Coder2" && $c@name="EntityType1" && $d@name="EntityType2"&& $a>"type"^ $c && $b>"type"^ $d :: 
+		($w2 w):($a ^ $w2) && ($b ^ $w2)]]></code></term>
+		<listitem><para>Gives the list of entities which are partially or fully co-extensive, and which <sgmltag class="attvalue">Coder1</sgmltag>
+			 has marked as <sgmltag class="attvalue">EntityType1</sgmltag> (or one of its sub-types) and 
+			<sgmltag class="attvalue">Coder2</sgmltag> has marked as <sgmltag class="attvalue">EntityType2</sgmltag> (or one of its sub-types). 
+			This checks for type-specific disagreements between the two coders.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($t ne-type): !($t@name="ne-root") :: ($a named-entity)($b named-entity): $a@coder=="Coder1" 
+		&& $b@coder=="Coder2" && (($a >"type"^ $t) && ($b >"type"^ $t)) :: 
+		($w1 w) (forall $w w) : ($a ^ $w1) && ($b ^ $w1) &&(($a ^ $w) -> ($b ^ $w)) && (($b ^ $w) -> ($a ^ $w))]]></code></term>
+		<listitem><para>The query creates a list of all the entity types, and slots in each entry all the (fully) co-extensive entities as 
+			marked by the two coders. The actual text forming each entity is also included in the results.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+		<term><code><![CDATA[($t1 ne-type): !($t1@name="ne-root") :: 
+		($a named-entity)($b named-entity): $a@coder=="Coder1" && $b@coder=="Coder2" && (($a >"type"^ $t1) && ($b >"type"^ $t1)) :: 
+		($w1 w) (exists $w w) : ($a ^ $w1) && ($b ^ $w1) &&(($a ^ $w) -> ($b ^ $w)) && (($b ^ $w) -> ($a ^ $w)) ]]></code></term>
+		<listitem><para>Like the previous query, but includes partially co-extensive entities. The words showing in the query results 
+			are only the ones that actually do overlap.</para></listitem>
+	</varlistentry>
+</variablelist>
+</para>
+</section>
+</section>
+</section>
+</section> 

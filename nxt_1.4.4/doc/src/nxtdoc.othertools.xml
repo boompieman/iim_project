@@ -1,0 +1,1099 @@
+<section id="othertools"><title>Using NXT in conjunction with other tools</title>
+
+<para>This section contains specific information for potential users
+who need NXT's features about how to record, transcribe, and otherwise
+mark up their data before up-translation to NXT. NXT's earliest users
+have mostly been from computational linguistics projects. This is
+partly because of where it comes from - it arose out of a
+collaboration among two computational linguistics groups and an
+interdisciplinary research centre - and partly because for most uses,
+its design assumes that the projects that use it will have access to a
+programmer to set up tailored tools for data coding and to get out
+some kinds of analysis, or at the very least someone on the project
+will be willing to look at XML. However, NXT is useful for linguistics
+and psychology projects based on corpus methods as well. This web page
+is primarily aimed at them, to tell them problems to look out for,
+help them assess what degree of technical help they will need in order
+to carry out the work successfully, and give a sense of what sorts of
+things are possible with the software.
+</para>
+
+<!-- done by MK -->
+<section id="othertools_recording"><title>Recording Signals</title>
+<section id="othertools_signal_formats"><title>Signal Formats</title>
+<para>
+For information on media formats and JMF, see <xref linkend="playmedia"/>.
+
+</para>
+
+<para>
+It is a good idea to produce a sample signal and test it in NXT (and
+any other tools you intend to use) before starting recording proper,
+since changing the format of a signal can be confusing and
+time-consuming. There are two tests that are useful. The first is
+whether you can view the signal at all under any application on your
+machine, and the second is whether you can view the signal from
+NXT. The simplest way of testing the latter is to name the signal as
+required for one of the sample data sets in the NXT download and try
+the generic display or some other tool that uses the signal. For
+video, if the former works and not the latter, then you may have the
+video codec you need, but NXT can't find it - it may be possible to
+fix the problem by adding the video codec to the JMF Registry. If
+neither works, the first thing to look at is whether or not you have
+the video codec you need installed on your machine. Another common
+problem is that the video is actually OK, but the header written by
+the video processing tool (if you performed a conversion) isn't what
+JMF expects. This suggests trying to convert in a different way,
+although some brave souls have been known to modify the header in a
+text editor.</para>
+
+<para>We have received a request to implement an alternative media
+player for NXT that uses <application>QT Java</application> (the QuickTime API for Java) rather
+than JMF. This would have advantages for Mac users and might help some
+PC users. We're currently considering whether we can support this
+request.</para></section>
+
+<section id="othertools_capturing_signals"><title>Capturing Multiple Signals</title>
+<para>Quite often data sets will have multiple signals capturing the
+same observation (videos capturing different angles, one audio signal
+per participant, and so on). NXT expresses the timing of an annotation
+by offsets from the beginning of the audio or video signal. This means
+that all signals should start at the same time. This is easiest to
+guarantee if they are automatically synchronized with each other,
+which is usually done by taking the timestamp from one piece of
+recording equipment and using it to overwrite the locally produced
+timestamps on all the others. (When we find time to ask someone who is
+technically competent exactly how this is done, we'll insert the
+information here.) A distant second best to automatic synchronization
+is to provide some audibly and visibly distinctive event (hitting a
+colourful children's xylophone, for instance) that can be used to
+manually edit the signals so that they all start at the same
+time.</para></section>
+
+<section id="othertools_using_signals"><title>Using Multiple Signals</title>
+<para>Most coding tools will allow only one signal to be played at a
+time. It's not clear that more than this is ever really required,
+because it's possible to render multiple signals onto one. For
+instance, individual audio signals can be mixed into one recording
+covering everyone in the room, for tools that require everyone to be
+heard on the interface. Soundless video or video with low quality
+audio can have higher quality audio spliced onto it. For the purposes
+of a particular interface, it should be possible to construct a single
+signal to suit, although these might be different views of the data
+for different interfaces (hence the requirement for synchronization -
+it is counter-productive to have different annotations on the same
+observation that use different time bases). The one sticking point is
+where combining multiple videos into one split-screen view results in
+an unacceptable loss of resolution, especially in data sets that do
+not have a "room view" video in addition to, say, individual videos of
+the participants. </para>
+
+<para>From NXT 1.3.0 it is possible to show more than one signal
+simultaneously by having the application put up more than one media
+player. If one signal is selected as the <guilabel>master</guilabel> by clicking the
+checkbox on the appropriate media player, that signal will control the
+time for all the signals: it will be polled for the current time that
+will be sent to the other signals (and anything else that monitors
+time). The number of signals that can successfully play in sync on NXT
+depends on the spec of your machine and the encoding of the
+signals. Where sync is seriously out, NXT will attempt to correct the
+drift by pausing all the signals and re-aligning. If this happens too
+often, it's a good sign your machine is struggling. If you intend to
+rely on synchronization of multiple signals, you should test your
+formats and signal configuration on your chosen platform
+carefully. </para>
+
+</section>
+</section>
+
+<section id="othertools_transcription"><title>Transcription</title>
+<para>One of the real benefits of using NXT is the fact that it puts together timing information and linguistic structure. 
+	This means that most projects transcribing data with an eye to using NXT want a transcription tool that allows timings 
+	to be recorded. For rough timings, a tool with a signal (audio or video) player will do, especially if it's possible to 
+	slow the signal down and go back and forth a bit to home in on the right location (although this greatly increases expense 
+	over the sort of "on-line" coding performed simply by hitting keys for the codes as the signal plays). For accurate timing 
+	of transcription elements - which is what most projects need - the tool must show the speech waveform and allow the start and 
+	end times of utterances (or even words) to be marked using it.
+</para><para>
+NXT does not provide any interface for transcription. It's possible to write an NXT-based transcription interface that takes 
+	times from the signal player, but no one has. Providing one that allows accurate timestamping is a major effort because 
+	NXT doesn't (yet?) contain a waveform generator. For this reason, you'll want to do transcription in some other tool and 
+	import the result into NXT. 
+</para>
+<section id="othertools_transcription_tools"><title>Using special-purpose transcription tools</title>
+<para>
+There are a number of special-purpose transcription tools available. For signals that effectively have one speaker at a time, 
+	most people seem to use <ulink url="http://www.etca.fr/CTA/gip/Projets/Transcriber/"><application>Transcriber</application></ulink> or 
+	perhaps <ulink url="http://www.transana.com/"><application>TransAna</application></ulink>. For group discussion, 
+	<ulink url="http://www.icsi.berkeley.edu/Speech/mr/channeltrans.html"><application>ChannelTrans</application></ulink> which is a 
+	multi-channel version of <application>Transcriber</application>, seems to be the current tool of choice.  
+	<ulink url="http://www.icsi.berkeley.edu/Speech/mr/tools/"><application>iTranscribe</application></ulink> is a ground-up rewrite 
+	of it that is currently in pre-release.
+</para>
+<para>
+Although we have used some of these tools, we've never evaluated them from the point of view of non-computational users 
+	(especially whether or not installation is difficult or whether in practice they've required programmatic modification), 
+	so we wouldn't want to endorse any particular one, and of course, there may well be others that work better for you. 
+</para>
+<para>
+<application>Transcriber</application>'s transcriptions are stored in an XML format that can be up-translated to NXT format 
+	fairly simply. <application>TransAna</application>'s are stored in an SQL database, so the up-translation is a 
+	little more complicated; we've never tried it but there are NXT users who have exported data from SQL-based products 
+	into whatever XML format they support and then converted that into NXT. 
+</para>
+</section>
+<section id="othertools_other_transcription"><title>Using programs not primarily intended for transcription</title>
+<para>
+Some linguistics and psychology-based projects use programs they already have on their computers (like <application>Microsoft Word</application>
+	 and <application>Excel</application>) for transcription, without any modification. This is because (a) they know they want 
+	to use spreadsheets for data analysis (or to prepare data for importation into <application>SPSS</application>) and they know how to 
+	get there from here, (b) because they can't afford software licenses but they know they've already paid for these ones; 
+	and (c) they aren't very confident about installing other software on their machines.
+</para><para>
+Using unmodified standard programs can be successful, but it takes very careful thought about the process, and we would caution 
+	potential users not to launch blindly into it. We would also argue that since there are now programs specifically for 
+	transcription that are free and work well on Windows machines, there is much less reason for doing this than there used to be. 
+	However, whatever you do for transcription, you want to avoid the following.
+</para>
+<para>
+<itemizedlist>
+<listitem><para>
+hand-typing times (for instance, from a display on the front of a VCR), because the typist <emphasis>will get them wrong</emphasis>
+</para></listitem>
+<listitem><para>
+hand-typing codes (for instance, <literal>{laugh}</literal>, because the typist <emphasis>will get them wrong</emphasis>
+</para></listitem>
+</itemizedlist>
+</para>
+<para>
+In short, avoid hand-typing <emphasis>anything</emphasis> but the orthography, and especially anything involving numbers or 
+	left and right bracketing. These are practices we still see regularly, mostly when people ask for advice about how to 
+	clean up the aftermath. Which is extremely boring to do, because it takes developing rules for each 
+	problem (<literal>{laughs}, {laugh, laugh), laugh, {laff}, {luagh}</literal>... including each possible way of crossing 
+	nested brackets accidentally), inspecting the set as you goes to see what the next rule should be. 
+	Few programmers will take on this sort of job voluntarily (or at least not twice), which can make it expensive. 
+	It is far better (...easier, less stressful, better for staff relations, less expensive...) to sort out your transcription 
+	practices to avoid these problems.
+</para>
+<para>
+More as a curiosity than anything else, we will mention that it is possible to tailor <application>Microsoft Word</application> and 
+	<application>Excel</application> to contain buttons on the toolbars for inserting codes, and to disable keys for curly brackets 
+	and so on, so that the typist can't easily get them wrong. We know of a support programmer who was using these techniques in 
+	the mid-90s to support corpus projects, and managed to train a few computationally-unskilled but brave individuals to 
+	create their own transcription and coding interfaces this way. If you really must use these programs, you really should 
+	consider these techniques. (Note to the more technical reader or anyone trying to find someone who knows how it works these days: 
+	the programs use Visual Basic and manipulate <application>Word</application> and <application>Excel</application> via their APIs; 
+	they can be created by writing the program in the VB editor or from the end user interface using the <guimenuitem>Record Macro</guimenuitem>
+	 function, or by some combination of the two.) In the 90's, the Microsoft platform changed every few years in ways 
+	that required the tools to be continually reimplemented. We don't know whether this has improved or not.
+</para>
+<para>
+Up-translating transcriptions prepared in these programs to NXT can be painful, depending upon exactly how the transcription 
+	was done. It's best if all of the transcription information is still available when you save as "text only". 
+	This means, for instance, avoiding the use of underlining and bold to mean things like overlap and emphasis. 
+	Otherwise, the easiest treatment is to save the document as HTML and then write scripts to convert that to NXT format, 
+	which is fiddly and can be unpalatable.
+</para>
+</section>
+
+<section id="othertools_word_timings"><title>Using Forced Alignment with Speech Recognizer Output to get Word Timings</title>
+
+<para>Timings at the level of the individual word can be useful for analysis, but they are extremely expensive and tedious 
+	to produce by hand, so most projects can only dream about them. It is actually becoming technically feasible to get 
+	usable timings automatically, using a speech recognizer. By "becoming", we mean that computational linguistics projects, 
+	who have access to speech specialists, know how to do it well enough that they think of it as taking a bit of effort but 
+	not requiring particular thought. This is a very quick explanation of how, partly in case you want to build this into your 
+	project and partly because we're considering whether we can facilitate this process for projects in general (for instance, by 
+	working closely with one project to do it for them and producing the tools and scripts that others would need to do forced 
+	alignment, as a side effect). Please note that the author is not a speech researcher or a linguist; she's just had lunch 
+	with a few, and not even done a proper literature review. That means that we don't guarantee everything in here is accurate, 
+	but that we are taking steps to understand this process and what we might be able to do about it. For better information, 
+	one possible source is Lei Chen, Yang Liu, Mary Harper, Eduardo Maia, 
+	and Susan McRoy, <ulink url="http://www.hlt.utdallas.edu/~yangl/LREC_2004.pdf">Evaluating Factors Impacting the Accuracy of Forced 
+	Alignments in a Multimodal Corpus</ulink>, LREC 2004, Lisbon Portugal.
+</para>
+<para>Commercial speech recognizers take an audio signal and give you their one best guess (or maybe n best guesses) of 
+	what the words are. Research speech recognizers can do this, but for each segment of speech, they can also provide 
+	a lattice of recognition hypotheses. A lattice is a special kind of graph where nodes are times and arcs 
+	(lines connecting two different times) are word hypotheses, meaning the word might have been said between the 
+	two times, with a given probability. The different complete things that might have been said can be found by tracing 
+	all the paths from the start time to the end time of the segment, putting the word hypotheses together. 
+	(The best hypothesis is then the one that has the highest overall probability, but that's not always the correct one.) 
+	If you have transcription for the speech that was produced by hand and can therefore be assumed to be correct, 
+	you can exploit the lattice to get word timings by finding the path through the lattice for which the words match 
+	what was transcribed by hand and transferring the start and end times for each word over to the transcribed data. 
+	This is what is meant by "forced alignment". <application>HTK</application>, one popular toolkit that researchers use to build 
+	their speech recognizers, 
+	comes with forced alignment as a standard feature, which means that if your recognizer uses it, you don't have to write a 
+	special purpose program to get the timings out of the lattice and onto your transcription. Of course, it's possible that 
+	other speech recognizers do this to and we just don't know about it.
+</para>
+<para>The timings that are derived from forced alignment are not as accurate as those that can be obtained by timestamping 
+	from a waveform representation, but they are much, much 
+	cheaper. <ulink url="http://www.hlt.utdallas.edu/~yangl/LREC_2004.pdf">Chen et al. 2004</ulink> has some formal results about accuracy. 
+	Speech recognizers model what is said by recognizing phonemes and putting them together into words, so the inaccuracy 
+	comes from the kinds of things that happen to articulation at word boundaries. This means that, to hazard a guess, 
+	the accuracy isn't good enough for phoneticians, but it is good enough for researchers who are just trying to find 
+	out the timing relationship between words and events in other modalities (posture shifts, gestures, gaze, and so on). 
+	The timings for the onset and end of a speech segment are likely to be more accurate than the word boundaries in between.
+</para>
+<para>The biggest problem in producing a forced alignment is obtaining a research speech recognizer that exposes the lattice of 
+	word hypotheses. The typical speech recognition researcher concentrates on accuracy in terms of word error rates 
+	(what percentage of words the system gets wrong in its best guess), since in the field as a whole, one can publish 
+	if and only if the word error rate is lower than in the last paper to be published. (This is why most people developing 
+	speech recognizers don't seem to have immediate answers to the question of how accurate the timings are.) Developing 
+	increasingly accurate recognizers takes effort, and once a group has put the effort in, they don't usually want to 
+	give their recognizer away. So if you want to used forced alignment, you have the following options:</para>
+<para>
+<itemizedlist>
+<listitem><para>
+Persuade a speech group to help you. Lending the speech recognizer for your purposes doesn't harm commercial prospects or 
+	their research prospects in any way, but they might never have thought about that. This does require contact with a group 
+	that is either charitable or knows the benefits of negotation. Since speech groups are always wanting more data and since 
+	hand-transcription is expensive, one reasonable deal is that if they provide you with the timings for your research, they 
+	can use your data to improve their recognizer. This only works if your recordings are of high enough quality for their 
+	purposes and speech groups may have specific technical constraints. For instance, speech recognizers work better on data 
+	that is recorded using the same kind of microphones as the data the recognizer was trained on. This means that the best 
+	time to broker a deal is before you start recording. The easiest arrangement is usually for them to bung your data through 
+	the recognizer at their site and pass you the results rather than for you to install the recognizer.
+</para></listitem>
+<listitem><para>
+Build your own recognizer. One of the interesting things about forced alignment is that you don't actually need a good recognizer - 
+	you just need one that can get the correct words somewhere in the lattice of word hypotheses. Knowing the correct words also 
+	makes it possible to make it much more likely that the correct hypothesis will be in the lattice somewhere, since you can 
+	make sure that none of the words are outside of the speech recognizer's vocabulary. A quick poll of speech researchers 
+	results in the estimate that constructing a speech recognizer that works OK but won't win any awards using 
+	<application>HTK</application> takes 1-3 person-months. More time lowers the word error rate but isn't likely 
+	to affect the timing accuracy. The researchers involved found it difficult to think about how bad the recognizer could 
+	be and still work for these purposes, so they weren't sure whether spending less time was a possibility. It does take 
+	someone with a computational background to build a recognizer, although they didn't feel it took any particular skill 
+	or speech background to build a bad one.
+</para></listitem>
+<listitem><para>
+Find a speech recognizer floating around somewhere that's free and will work. There must be a project student somewhere who 
+	has put together a recognizer using HTK that is good enough for these purposes.
+</para></listitem>
+</itemizedlist>
+</para>
+<para>
+Finally, here are the steps in producing a forced alignment:
+</para>
+<para>
+<itemizedlist>
+<listitem><para>
+Produce high quality speech recordings. You must have one microphone per participant, and they must be close-talking microphones 
+	(i.e., tabletop PZMs will not do - you need lapel or head-mounted microphones). If you are recording conversational 
+	speech (i.e., dialogue or small groups), it's essential that the signal on each participant's microphone be stronger 
+	when they're speaking than when other people are. Each participant must be recorded onto a separate channel.
+</para></listitem>
+<listitem><para>
+Optionally, find the areas of speech on each audio signal automatically. The energy on the signal will be higher when the person 
+	is speaking; you need to figure out some threshhold above which the person is speaking and write a script to mark those. 
+	This is often done in <application>MATLAB</application>.
+</para></listitem>
+<listitem><para>
+Hand-transcribe, either scanning each entire signal looking for speech or limiting yourself to the areas found to the 
+	automatic process. Turns (or utterances, depending on your terminology) don't have to be timestamped accurately, 
+	but can include extra silent space before or after them that will be corrected by the forced alignment. However, 
+	it's important that the padding not include cross-talk from another person that could confuse the recognizer.
+</para></listitem>
+<listitem><para>
+Optionally, add to the speech recognizer's dictionary all of the words in the hand-transcription that aren't in it 
+	already. (This is so that it can make a guess at what speech matches them even though it has never encountered the 
+	words before, rather than treating them as out-of-vocabulary, which means applying some kind of more general "garbage" model.)
+</para></listitem>
+<listitem><para>
+Run the speech recognizer in forced alignment mode and then a script to add the timings to the hand transcription.
+</para></listitem>
+</itemizedlist>
+</para>
+</section>
+
+<section id="othertools_time_stamped_annotation"><title>Time-stamped coding</title>
+<para>Although waveforms are necessary for timestamping speech events accurately, many other kinds of coding (gestures, posture, etc.) 
+	don't really require anything that isn't available in the current version of NXT, except possibly the ability to advance 
+	a video frame by frame. People are starting to use NXT to do this kind of coding, and we expect to release some sample 
+	tools of this style plus a configurable video labelling tool fairly soon. However, there are many other ways of getting 
+	time-stamped coding; some of the video tools we encounter most often 
+	are <ulink url="http://www.noldus.com"><application>The Observer</application></ulink>, 
+	<ulink url="http://www.fit.vutbr.cz/research/grants/m4/editor/index.htm.cs.iso-8859-2"><application>EventEditor</application></ulink>, 
+	<ulink url="http://www.dfki.de/nite/"><application>Anvil</application></ulink>, and 
+	<ulink url="http://tasxforce.lili.uni-bielefeld.de/"><application>TASX</application></ulink>. 
+	<ulink url="http://emu.sourceforge.net/"><application>EMU</application></ulink> is audio-only but contains extra 
+	features (such as format and pitch tracking) that are useful for speech research.
+</para>
+<para>Time-stamped codings are so simple in format (even if they allow hierarchical decomposition of codes in "layers") 
+	that it doesn't really matter how they are stored for our purposes - all of them are easy to up-translate into NXT. 
+	In our experience it takes a programmer .5-1 day to set up scripts for the translation, assuming she understands the input and output formats.
+</para>
+</section>
+</section>
+
+
+<section id="othertools_importing_data"><title>Importing Data into NXT</title>
+
+<para>NXT has been used with source data from many different
+tools. The import mechanisms used are becoming rather less ad-hoc, and
+this section has information about importing from some commonly-used
+tools. As transforms for particular formats are abstracted enough to
+be a useful starting point for general use, they will appear in this
+document, and also in the NXT distribution: see the
+<filename class="directory">transforms</filename> directory for details. 
+</para>
+
+<section id="othertools_transcriber"><title>Transcriber and Channeltrans</title>
+
+<para>
+<ulink url="http://trans.sourceforge.net/en/presentation.php"><application>Transcriber</application></ulink> and 
+<ulink url="http://www.icsi.berkeley.edu/Speech/mr/channeltrans.html"><application>Channeltrans</application></ulink> 
+
+have very similar file formats, <application>Channeltrans</application> being a multi-channel
+version of <application>Transcriber</application>. </para>
+
+<para>See the <filename class="directory">transforms/TRStoNXT</filename> directory for the tools
+and information you will need.  The basic transform is run by a perl
+script called <filename>trs2nxt</filename>. The perl script uses three
+stylesheets and an NXT program. Before running the transform, compile
+the <classname>AddObservation</classname> Java program using the standard NXT
+<varname>CLASSPATH</varname>. Full instructions are included, but the basic
+call to transform is:</para>
+
+<programlisting>
+trs2nxt  -c <replaceable>metadata_file</replaceable> -ob <replaceable>observationname</replaceable> -i <replaceable>in_dir</replaceable> -o <replaceable>out_dir</replaceable> -n <replaceable>nxt_dir</replaceable> 
+</programlisting>
+
+<para>where you need to point to your local NXT directory using
+<parameter class="option">-n</parameter>, and your local editable metadata copy using
+<parameter class="option">-c</parameter>. The Java part of the process is useful as it checks
+validity of the transform and saves the XML in a readable format.</para>
+
+<note><para>: there are many customizations you can
+make to this process using command line arguments, but if you have
+specific transcription conventions that you need to be converted to
+particular NXT elements or attributes, you will need to edit the
+script itself. The transcription conventions assumed are those in
+the AMI Transcription Guidelines.</para></note>
+
+</section>
+
+<section id="othertools_event_editor"><title>EventEditor</title>
+<para>
+<ulink
+url="http://www.fit.vutbr.cz/research/grants/m4/editor/index.htm.cs.iso-8859-2"><application>EventEditor</application></ulink>
+is a free Windows-only tool for direct time-stamping of events to signal.</para>
+
+<para>See the <filename class="directory">transforms/EventEditortoNXT</filename> directory for
+the tools and information you will need. The basic transform is a Java
+program which needs to be compiled using the standard NXT
+<varname>CLASSPATH</varname> (comprising at least <filename class="libraryfile">nxt.jar</filename> and
+<filename class="libraryfile">xalan.jar</filename>). To transform one file, use</para>
+
+<programlisting> 
+java EventEditorToNXT -i <replaceable>input_file</replaceable> -t <replaceable>tagname</replaceable> -a <replaceable>attname</replaceable> -s <replaceable>starttime</replaceable> 
+	-e <replaceable>endtime</replaceable> -c <replaceable>comment</replaceable> [ -l <replaceable>endtime</replaceable> ]
+</programlisting>
+<para>The arguments are the names of the elements and attributes to be
+output. Because <application>EventEditor</application> is event based, the last event does not
+have an end time. If you want an end time to appear in the NXT format,
+use the <parameter class="option">-l</parameter> argument.</para>
+
+<para><sgmltag class="attribute">ID</sgmltag>s are not added to elements, but you can use the provided
+<filename>add-ids.xsl</filename> stylesheet for that:</para>
+
+<programlisting> 
+java -classpath $<replaceable>NXTDIR</replaceable>/lib/xalan.jar org.apache.xalan.xslt.Process 
+	-in <replaceable>outputfromabove</replaceable> -out <replaceable>outfile</replaceable> 
+	-xsl add-ids.xsl -param session <replaceable>observationname</replaceable> 
+	-param participant <replaceable>agentname</replaceable>
+</programlisting>
+	
+<para>where <replaceable>NXTDIR</replaceable> is your local NXT install, or you can point to anywhere
+you happen to have installed <application>Xalan</application>. At least the session parameter,
+and really the participant one too, should be used as these help the
+<sgmltag class="attribute">ID</sgmltag>s to be unique.</para>
+</section>
+
+<section id="othertools_the_observer"><title>The Observer</title>
+
+<para><ulink url="http://www.noldus.com/site/doc200401012"><application>The
+Observer</application></ulink> is a commercial Windows-only tool for timestamping
+events against signal.</para>
+
+<para>Output from <application>The Observer</application> is the textual <filename class="extension">odf</filename>
+format and this is transformed to NXT format using the
+<filename>observer2nxt</filename> perl script in the
+<filename class="directory">transforms/ObserverToNXT</filename> directory. It will be necessary
+to specify your own transform between <application>Observer</application> and NXT codes by
+editing the lookup tables in the perl script.</para>
+
+</section>
+
+<section id="othertools_other_formats"><title>Other Formats</title> 
+
+<para>For data in different formats it's worth investigating how
+closely your transform might resemble one of those above: often it's a
+fairly simple case of tailoring an existing transform to your
+circumstances. If you manage this successfully, please contact the NXT
+developers: it will be worth passing on your experience to other NXT
+users. If your input format is significantly different to those
+listed, the NXT developers may still have experience that can be
+useful for your transform. We have also transformed data from <application>Anvil</application>
+and <application>ELAN</application> among others.
+</para>
+
+</section>
+
+</section>
+
+<section id="othertools_nxt_to_othertools"><title>Exporting Data from NXT into Other Tools</title>
+<para>
+<link linkend="nql">NQL</link> is a good query language for this form of data, but it is necessarily slower and more memory-intensive 
+	than some others in use (particularly by syntacticians) because it does not restrict the use of left and right context in any 
+	way (in fact, it's possible to search across several observations using it). This isn't really as much of a problem for data 
+	analysts as they think - they can debug queries on a small amount of data and then run them overnight - but it is a problem for 
+	real-time applications. And sometimes users already know other query languages that they would prefer to use. This page 
+	considers how to convert NXT data for use in two existing search utilities, 
+	<ulink url="http://tedlab.mit.edu/~dr/Tgrep2/"><application>tgrep2</application></ulink> and 
+	<ulink url="http://www.ims.uni-stuttgart.de/projekte/TIGER/TIGERSearch/"><application>TigerSearch</application></ulink>. 
+	Our recommended path to <application>tgrep2</application> is via Penn Treebank format, which can be useful as input to other 
+	utilities as well. Besides the speed improvements that come from limiting context, <application>tgrep2</application> has a number 
+	of structural operators that haven't been implemented in NQL, including immediate precedence and first and last 
+	child (although we expect to address this in 2006). We haven't gone through it looking at whether it has 
+	functionality that is difficult to duplicate in XPath; if it doesn't, then using XPath is likely to be the better 
+	option for those who already know it, but <application>tgrep2</application> already has a user community who like the 
+	elegance and compactness of the language. <application>TigerSearch</application> has a nice graphical interface and again 
+	supports structural operators missing in NQL.
+</para>
+<para>
+<application>Tgrep2</application> is for trees, and <application>TigerSearch</application>, for directed acyclic graphs with 
+	a single root. NXT represents a directed acyclic graph with multiple roots and additionally, some arbitrary graph 
+	structure thrown over the top that can have cycles. The biggest problem in conversion is determining what tree, or 
+	what single-rooted graph, to include in the conversion. This is a design problem, since it effectively means 
+	deciding what information to throw away. Every NXT corpus has its own design, so there is no completely 
+	generic solution - conversion utilities will require at least corpus-specific configurations.
+</para>
+
+<section id="othertools_tgrep2"><title>TGREP2 via Penn Treebank Format</title>
+
+<para>Penn Treebank format is simply labelled bracketing of orthography. For instance, </para>
+<programlisting>(NP (DET the) (N man))
+</programlisting>
+<para><application>Tgrep2</application> can load Penn Treebank format, but other tools use it as well. 
+	This means that it's reasonable to get to <application>tgrep2</application> via Penn Treebank format, 
+	since some of the work on conversion can be dual purposed.
+</para>
+<para>Most users of Penn Treebank format treat the labels simply as labels. <application>Tgrep2</application> users tend to 
+	overload them with more information that they can get at using regular expressions. So, for instance, if one has markup 
+	for NPs that are subjects of sentences, one might mark that using <literal>NP</literal> for non-subjects and 
+	<literal>NP-SUBJ</literal> for subjects. The hyphen as separator is important to the success of regular expressions 
+	over the labels, especially where different parts of the labelling share substrings.
+</para>
+<para>Some users of Penn Treebank format additionally overload the labels with information about out-of-tree links 
+	that can't be used in <application>tgrep2</application>, but that they have other ways of dealing with. For instance, 
+	suppose they wish to mark a coreferential link between "the man" and "he". One way of doing this is using a unique reference number for link:
+</para>
+<programlisting>(NP/ANTEC1 (DET the) (N man)) ... (PRO/REF1 he)
+</programlisting>
+<para>We recommend dividing conversion into two steps: (1) deriving a single XML file that represents the tree you want 
+	from the NXT format data, where the XML file structure mirrors the tree structure for the target treebank and any out of 
+	tree links are representing using <sgmltag class="attribute">id</sgmltag>s and <sgmltag class="attribute">idref</sgmltag>s; 
+	and (2) transforming that tree into the Penn Treebank format.
+</para>
+<para>(1) is specific to a given corpus and set of search requirements. For some users, it will be one coding file from the original data, 
+	or the result of one knit operation, in which case it's easy. It might also be a simple transformation of a saved query result. Or it 
+	might be derived by writing a Java program that constructs it using the data model API. Once you know what tree you want, the 
+	search page will give hints about how to get it from the NXT data.
+</para>
+<para>(2) could be implemented as a generic utility that reads a configuration file explaining how to pack the single-file XML 
+	structure into a Penn Treebank labelling and performs it on a given XML file. Assume that each label consists of a basic 
+	label (the first part, before any separator, usually the most critical type information), optionally followed by some rendering 
+	of attribute-value pairs, optionally followed by some rendering of out-of-tree links. The configuration file would designate 
+	separators between different kinds of information in the Treebank label and where to find the roots of trees for the treebank. 
+	(The latter is unnecessary, since anything else could be culled from the tree in step 1, but it makes it more likely that a 
+	single coding file from the NXT data format will be a usable tree for input to step 2.) For each XML tag name, it would also 
+	designate how to find the basic label (the first part, before any separator), which attribute-value pairs and links to include, 
+	and how they should be printed.
+</para>
+<para>Below is one possible design for the configuration file. Note that the configuration uses XPath fragments to specify where 
+	to find roots for the treebank and descendants for inclusion. Our assumption is that those who don't know XPath can at least
+	 copy from examples, and those who do can get more flexibility from this approach.
+</para>
+<programlisting><![CDATA[
+<NXT-to-tgrep-config>
+   <!-- specify where the treebank roots are. We will tree-walk
+        the XML from these nodes, printing as we go -->
+   <treebank-roots match="//foo"/>
+   <!-- what to use as brackets -->
+   <left-bracket value="("/>
+   <right-bracket value=")"/>
+   <!-- string with a separator to use between base label and atts;
+     if none give, none used -->
+   <base-label-sep value="-"/>
+   <!-- string with a separator to use between att name and value -->
+   <att-value-sep value=":"/>
+   <!-- string with a separator to use between different atts -->
+   <att-sep value="*"/>
+   <!-- string with a separator to use between attributes and links -->
+   <link-sep value="/"/>
+   <!-- don't bother printing attribute names or the separator between
+        the names and the values -->
+   <omit-attribute-names/>
+   <!-- if a node matches the expression given, skip it, moving
+	on to its children -->
+   <omit match="baz"/>
+   <!-- transformation instructions for nodes matching the expression given -->
+   <transform match="nt">
+       <!-- the base-label comes first in the label, again an XPath 
+       fragment.  name() for tag name, @cat for value of cat attribute -->
+       <base-label value="name()"/>    
+       <!-- where to find the orthography, if any (usually the textual content,
+       sometimes a particular attribute) -->
+       <orthography value="text()"/>
+       <!-- leave out the start attribute -->
+       <omit-attribute name="start"/>  
+       <!-- we assume all other attributes are printed in a standard
+       format with the name, att-value-sep, and then the attribute-value. 
+       If we need individual control for how attributes are printed,
+       we'll need to allow configuration of that here.
+       -->
+   </transform>
+   <!-- how to print out-of-tree links represented by id/idref in 
+    the input.  This example says expect foo tags 
+    to be linked to bar tags where the refatt attribute has the same
+    value as the foo's idatt attribute.  For the foo label, add the
+    link separator followed by ANTEC followed by the value of idatt,
+    and for the bar label, add the link separator followed by REF
+    followed by the value of refatt (which is the same value).  -->
+   <link>
+       <antecedent match="foo"/>
+       <antecedent-id name="@idatt"/>
+       <referent match="bar"/>
+       <referent-idref name="@refatt"/>
+       <link-anteclabel value="ANTEC"/>
+       <link-reflabel value="REF"/>
+   </link>
+</NXT-to-tgrep-config>
+]]></programlisting>
+
+<para>A few example tags that can be generated from this configuration from
+</para>
+
+<programlisting><![CDATA[
+<nt cat="NP" subcat="SUBJ" id="1"/>
+]]></programlisting>
+
+<para>where this serves as an antecedent in a link:
+</para>
+<para>
+<itemizedlist>
+<listitem><para><literal>NP</literal></para></listitem>
+<listitem><para><literal>NP-subcat:SUBJ/ANTEC1 </literal></para></listitem>
+<listitem><para><literal>NP-subcat:SUBJ/1 </literal></para></listitem>
+<listitem><para><literal>nt-cat:NP*subcat:SUBJ/ANTEC1</literal> </para></listitem>
+<listitem><para><literal>nt-NP:SUBJ</literal> </para></listitem>
+<listitem><para><literal>nt-NP</literal> </para></listitem>
+</itemizedlist>
+</para>
+<para>and so on.
+</para>
+<para>The utility should have defaults for everything so that it does something when there is no configuration file, choosing 
+	standard separators, not omitting any tags or attributes, printing attribute names, and failing to print any out-of-tree 
+	links. It also should not require a DTD for the input data. One thing to note: this design assumes we print 
+	separate <sgmltag class="attribute">id</sgmltag>s for every link, but some nodes could end up linked in two ways, to two different things, causing labels like 
+	<literal>FOO-BARANTEC1-BAZANTEC1</literal>. This is the more general solution, but if users always have the same <sgmltag class="attribute">id</sgmltag> attribute for both 
+	types of links, we can make the representation more compact.
+</para>
+<para>We have attracted funding to write this utility, with the work to be scheduled sometime in the period Oct 05 to Oct 06, and 
+	so we are consulting on this design to see whether it is flexible enough, complete, too complicated for the target users, 
+	and actually in demand. Note that a converter like this couldn't guarantee safety of queries given that the Penn Treebank 
+	labels get manipulated using regular expressions - the user could easily get matches on the wrong part of the label by mistake 
+	because these regular expressions are hard to write to preclude this, unless you devise your attribute values and tag names 
+	carefully so that no pair of things matches an obvious reg exp you might want to search on. The users who have requested 
+	this work expect to get around this problem by running conversion from NXT format into several different tgreppable formats 
+	for different queries that omit the information that isn't needed.
+</para>
+<para>Our biggest concern with the utility is how implementation choices could affect usability for this user community. 
+	It tends to be the less computational end of the <application>tgrep</application> user community who most want <application>tgrep</application>
+	 conversion, with speed and familiarity as the biggest issues. (Familiarity doesn't really seem to be an issue 
+	for the more computational users, and speed is slightly less of an issue since they're more comfortable with 
+	scripting and batch processing, but it's still enough of a problem for some queries that they want conversion. 
+	This may change when we complete work on a new NXT search implementation that evaluates queries by translating them to XQuery 
+	first, but that's a bigger task.) Serving the needs of less computational users introduces some problems, though. 
+	The first one is that since they know nothing about XML, and are used to thinking about trees but not more complex 
+	data models, they won't be able to write the configuration file for the utility. The second is that it may be difficult 
+	to find an implementation for the converter that runs fast, is easy to install, and doesn't require us to make executables 
+	for a wide range of platforms. (We think it needs to run fast because the users expect to create several different <application>tgrep</application>pable 
+	forms of the same data, but if they have to get someone else to do it because it requires skills they don't have to write the 
+	configuration file, this is no longer important - the real delay will be in getting someone's time.)
+</para>
+<para>We're still wrestling with this design; comments about our assessment of what's required and acceptable solutions 
+	welcome. The implementations we're considering are (a) generating a stylesheet from the configuration file and applying 
+	that to the data or (b) direct implementation reading the data and configuration file at the same time, in either perl 
+	with xml parsing and xpath modules, Java with Apache libraries, or <package>LT-XML2</package>.
+</para>
+</section>
+<section id="othertools_tigersearch"><title>TigerSearch</title>
+<para>We have put less thought into conversion into <application>TigerSearch</application>, but that doesn't mean the conversion 
+	is less useful. The fact that <application>TigerSearch</application> supports a more general data structure than trees means 
+	that it will be more useful for some people. NXT uses the XML structure to represent major trees from the data, but 
+	<application>Tiger</application>'s XML is based on graph structure, with XML tags like <sgmltag class="element">nt</sgmltag> (non-terminal node),
+	<sgmltag class="element">t</sgmltag> (terminal node), and <sgmltag class="element">edge</sgmltag>. On the other hand, since 
+	<application>Tiger</application> can represent not just trees but directed acyclic graphs with a single root, 
+	it would be more reasonable to specify a converter, again using a configuration file, in one step from NXT format. 
+	The configuration file would need to specify what to use as roots, where to find the orthography, a convention for 
+	labelling edges, and which links to omit to avoid cycles, but otherwise it could just preserve the attribute-value 
+	structure of the original. The best implementation is probably in Java using the NXT data model API to walk a loaded data set.
+</para>
+</section>
+</section>
+&knit;
+
+
+<section id="othertools_general"><title>General Approaches to Processing NXT Data</title>
+
+<para>Suppose that you have data in NXT format, and you need to make
+	some other format for part or all of it - a tailored HTML
+	display, say, or input to some external process such as a
+	machine learning algorithm or a statistical package. There are
+	an endless number of ways in which such tasks can be done, and
+	it isn't always clear what the best mechanism is for any
+	particular application (not least because it can depend on
+	personal preference). Here we walk you through some of the
+	ones we use.
+</para>
+
+<para>The hardest case for data processing is where the external
+	process isn't the end of the matter, but creates some data
+	that must then be re-imported into NXT. (Think, for instance,
+	of the task of part-of-speech tagging or chunking an existing
+	corpus of transcribed speech.) In the discussion below, we
+	include comments about this last step of re-importation, but
+	it isn't required for most data processing applications.
+</para>
+
+<section id="othertools_nxt_application"><title>Option 1: Write an NXT-based application</title>
+
+<para>Often the best option is to write a Java program that loads the
+	data into a NOM and use the NOM API to navigate it, writing
+	output as you go. For this, the iterators in the NOM API are
+	useful; there are ones, for instance, that run over all
+	elements with a given name or over individual codings. It's
+	also possible from within an application to evaluate a query
+	on the loaded NOM and iterate over the results within the full
+	NOM, not just the tree that saving XML from the query language
+	exposes. (Many of the applications in the sample directory
+	both load and iterate over query results, so it can be useful
+	to borrow code from them.) For re-importation, we don't have
+	much experience of making Java communicate with programs
+	written in other languages (such as the streaming of data back
+	and forth that might be required to add, say, part-of-speech
+	tags) but we know this is possible and that users have, for
+	instance, made NXT-based applications communicate with
+	processes running in C (but for other purposes).
+</para>
+<para>This option is most attractive:
+</para>
+<para>
+<itemizedlist>
+<listitem><para>for those who write applications anyway (since they know the NOM API)</para></listitem>
+<listitem><para>for applications where drawing the data required into one tree (the first step for the other processing mechanisms) 
+	means writing a query that happens to be slow or difficult to write, but NOM navigation can be done easily with a simpler 
+	query or no query at all</para></listitem>
+<listitem><para>for applications where the output requires something which is hard to express in the query language (like immediate precedence)
+	 or not supported in query (like arithmetic)</para></listitem>
+</itemizedlist>
+</para>
+</section>
+
+<section id="othertools_tree"><title>Option 2: Make a tree, process
+it, and (for re-importation) put it back</title> <para>Since XML
+processing is oriented around trees, constructing a tree that contains
+the data to be processed, in XML format, opens up the data set to all
+of the usual XML processing possibilities.
+</para>
+
+<section id="othertools_tree_1"><title>First step: make a tree</title>
+
+<para>Individual NXT codings and corpus resources are, of course, tree
+	structures that conveniently already come in XML files.  Often
+	these files are exactly what you need for processing anyway,
+	since they gather together like information into one file.
+	Additionally, you can use the knitting and knit-like tree
+	construction approaches described in <xref linkend="knit"/>.
+</para>
+
+<!-- START - the text below has been copied to nxtdoc.knit.xml or removed
+
+<section id="othertools_tree_knit"><title></title>
+
+<para>By "<function>knit</function>ting", we mean the process of
+creating a larger tree than that in an individual coding or corpus
+resource by traversing over child or pointer links and including what
+is found. Knitting an XML document from an NXT data set performs a
+depth-first left-to-right traversal of the nodes in a virtual document
+made up by including not just the XML children of a node but also the
+out-of-document children links (usually pointed to using <sgmltag
+class="element">nite:child</sgmltag> and <sgmltag
+class="element">nite:pointer</sgmltag>, respectively, although after
+05 May 04 this is configurable). In the data model, tracing children
+is guaranteed not to introduce cycles, so the traversal recurses on
+them; however, following links could introduce cycles, so the
+traversal is truncated after the immediate node pointed to has been
+included in the result tree. For pointers, we also insert a node in
+the tree between the source and target of the link that indicates that
+the subtree derives from a link and shows the role.  The result is one
+tree that starts at one of the XML documents from the data set,
+cutting across the other documents in the same way as the
+<literal>^</literal> operator of the query language, and including
+residual information about the pointer traces.  At May 2004, we are
+considering separating the child and pointer tracing into two
+different steps that can be pipelined together, for better
+flexibility, and changing the syntax of the element between sources
+and targets of links.
+</para>
+
+</section>
+<section id="othertools_tree_stylesheet"><title>Using a stylesheet</title>
+
+<para><filename>Knit.xsl</filename>, from NXT's lib directory, is a
+stylesheet that can be used to knit NXT format data.  It recurses down
+child links, incorporating trace summaries of pointer links as it
+encounters them. Stylesheet processor installations vary locally. Some
+people use <application>Xalan</application>, which happens to be
+redistributed with NXT.  It can be used to run a stylesheet on an XML
+file as follows. With the stylesheet <filename>knit.xsl</filename>
+(distributed in <filename class="directory">lib</filename>) copied
+into the same directory as the data:
+</para>
+
+<programlisting>
+  java org.apache.xalan.xslt.Process -in <replaceable>INFILE</replaceable> -xsl <replaceable>STYLESHEET</replaceable>
+</programlisting>
+
+
+<para>The default <sgmltag class="attribute">linkstyle</sgmltag> is
+<sgmltag class="attvalue">LTXML</sgmltag>, the default <sgmltag
+class="attribute">id</sgmltag> attribute is <sgmltag
+class="attvalue">nite:id</sgmltag>, the default indication of an
+out-of-file child is <sgmltag class="attvalue">nite:child</sgmltag>,
+and the default indication of an out-of-file pointer is <sgmltag
+class="attvalue">nite:pointer</sgmltag>. These can be overridden using
+the parameters <parameter class="option">linkstyle</parameter>,
+<parameter class="option">idatt</parameter>, <parameter
+class="option">childel</parameter>, and <parameter
+class="option">pointerel</parameter>, respectively, and so for example
+if the corpus is not namespaced and uses xpointer links,
+
+<programlisting>
+java org.apache.xalan.xslt.Process -in <replaceable>INFILE</replaceable> -xsl <replaceable>STYLESHEET</replaceable> 
+	-param linkstyle xpointer -param idatt id 
+	-param childel child -param pointerel pointer
+</programlisting>
+	
+There's a known problem between some versions of
+<application>Xalan</application> and some installations of Java 1.4
+that means sometimes this doesn't work; the fix is documented
+elsewhere (although some people just back off to Java 1.3, if they
+have it).  There are lots of other stylesheet processors around, like
+<application>Saxon</application> and
+<application>jd.xslt</application>.
+</para>
+
+<para>In NXT-1.2.6 and before (pre 05 May 04), the use of <sgmltag
+ class="attvalue">nite:id</sgmltag>, <sgmltag
+ class="attvalue">nite:child</sgmltag>, and <sgmltag
+ class="attvalue">nite:pointer</sgmltag> are hardwired, ranges don't
+ work, and there are separate stylesheets for the two <sgmltag
+ class="attribute">linkstyle</sgmltag>s, <filename>knit.xsl</filename>
+ for <sgmltag class="attvalue">xpointer</sgmltag> and
+ <filename>knit.ltxml.xsl</filename> for <sgmltag
+ class="attvalue">LTXML</sgmltag>.
+</para>
+
+<para>A minor variant of this approach is to edit
+<filename>knit.xsl</filename> so that it constructs a a tree that is
+drawn from a path that could be knitted, and/or document calls to pull
+in off-tree items. The less the desired output matches a knitted tree
+and especially the more outside material it pulls in, the harder this
+is. Also, if a subset of the knitted tree is what's required, it's
+often easier to obtain it by post-processing the output of
+<function>knit</function>.
+</para>
+
+</section>
+<section id="othertools_lxinclude"><title>Using lxinclude/lxnitepointer (pre-release)</title>
+
+<para><filename>Knit.xsl</filename> is painfully slow. It follows both
+child links and pointer links, but conceptually, these operations
+could be separate. One can always knit the child links first and pipe
+through something that knits the pointer links, giving more
+flexibility. We have implemented separate "knits" for child and
+pointer links as command line utilities with a fast implementation
+based on <package>LT XML2</package> (an upgrade to <package>LT
+XML</package></ulink>). These are currently (Nov 04) available on the
+Edinburgh DICE system in <filename
+class="directory">/group/ltg/projects/lcontrib/bin</filename> as
+<filename>lxinclude</filename> (for children) and
+<filename>lxnitepointer</filename> (for pointers).
+</para>
+
+<para><code>lxinclude -t nite
+<replaceable>FILENAME</replaceable></code> reads from the named file
+(which is really a URL) or from standard input, writes to standard
+output, and knits child links. (The <parameter>-t nite</parameter> is
+required because this is a fuller XInclude implementation; this
+parameterizes for NXT links). If you haven't used the default <sgmltag
+class="element">nite:child</sgmltag> links, you can pass the name of
+the tag you used with <parameter>-l</parameter>, using
+<parameter>-xmlns</parameter> to declare any required namespacing for
+the link name:
+</para>
+
+<programlisting>lxinclude -xmlns:n=http://example.org -t nite -l n:mychild
+</programlisting>
+<para>This can be useful for recursive tracing of pointer links if you happen to know that they do not loop. Technically, 
+	the <parameter>-l</parameter> argument is a query to allow for constructions such as <code>-l '*[@ischild="true"]'</code>.
+</para>
+
+<para>Similarly,
+</para>
+<programlisting>lxnitepointer <replaceable>FILENAME</replaceable></programlisting>
+<para>will trace pointer links, inserting summary traces of the linked elements.
+</para>
+<para>When <package>LT XML2</package> is released, we will consider what the best option is for making them available to NXT users outside Edinburgh.
+</para>
+</section>
+
+
+<section id="othertools_stylesheet_extension"><title>Using stylesheet extension functions</title>
+
+<para>As a footnote, <package>LT XML2</package> contains a stylesheet
+processor, and we're experimenting with implementing extension
+functions that resolve child and pointer links with less pain than the
+mechanism given in <filename>knit.xsl</filename>; this is very much
+simpler syntactically and also faster, although not as fast as the
+<package>LT XML2</package> based implementation of
+<function>knit</function>. This approach could be useful for building
+tailored trees and is certainly simpler than writing stylesheets
+without the extension functions. Edinburgh users can try it as
+</para>
+<programlisting>/group/ltg/projects/lcontrib/bin/lxtn -s <replaceable>STYLESHEET</replaceable> <replaceable>XMLINPUTFILE</replaceable></programlisting>
+
+<para>where a stylesheet to knit children would look like 
+<remark>FIX THIS LINK!</remark> -->
+<!-- TEMP <link linkend="knitwithextensions">this</link> -->
+<!--
+<remark>Where is this link?</remark>
+	 (and do look, it's impressively simple compared to without the extension function).
+</para>
+
+<para>We're not quite sure what to do with this. We do not currently
+intend to try the natural next step, an extension function that finds
+the (multiple) parents of a given node, because this is much harder to
+implement efficiently. For this reason even if we release it this
+approach will not have the same flexibility as using Java and
+navigation in the NOM. As it is, though, if one needs something a bit
+like <function>knit</function> but can't just knit, this tidies up the
+stylesheet considerably and sppeds up the processing.  The problem is
+we aren't sure enough people would use this to make it worth the
+effort to release it, especially since the implementation depends on
+the stylesheet processor. If you have an opinion about the utility of
+a release or which stylesheet processor most NXT users prefer, please
+tell us.
+</para>
+
+
+</section>
+
+END OF COPIED / DELETED TEXT
+-->
+
+<!--
+<section id="othertools_query"><title>Evaluating a query and saving the result</title>
+-->
+
+<para>As an alternative to knitting data into trees, if you evaluate a
+query and save the query results as XML, you will get a tree structure
+of matchlists and matches with <sgmltag
+class="element">nite:pointers</sgmltag> at the leaves that point to
+data elements. Sometimes this is the best way to get the
+tree-structured cut of the data you want, since it makes many data
+arrangements possible that don't match the corpus design and therefore
+cannot be obtained by knitting.
+</para>
+
+<para>The query engine API includes (and the search GUI exposes) an
+option for exporting query results not just to XML but to
+<application>Excel</application> format. We recommend caution in
+exercising this option, especially where further processing is
+required. For simple queries with one variable, the
+<application>Excel</application> data is straightforward to interpret,
+with one line per variable match. For simple queries with n variables,
+each match takes up n spreadsheet rows, and there is no way of finding
+the boundaries between <replaceable>n</replaceable>-tuples except by
+keeping track (for instance, using modular arithmetic).  This isn't so
+much of a problem for human readability, but it does make machine
+parsing more difficult. For complex queries, in which the results from
+one query are passed through another, the leaves of the result tree
+and presented in left-to-right depth-first order of traversal, and
+even human readability can be difficult. Again, it is possible to keep
+track whilst parsing, but between that and the difficulty of working
+with <application>Excel</application> data in the first place, its
+often best to stick to XML.
+</para>
+<!-- </section> -->
+</section>
+<section id="othertools_process_tree"><title>Second step: process the tree</title>
+<section id="othertools_processtree_stylesheet"><title>Stylesheets</title>
+<para>This is the most standard XML transduction mechanism. There are some stylesheets in the <filename class="directory">lib</filename> directory 
+	that could be useful as is, 
+	or as models; <filename>knit.xsl</filename> itself, and <filename>attribute-extractor.xsl</filename>, that can be used in conjunction 
+	with <function>SaveQueryResults</function> and <function>knit</function> to extract a flat list of attribute values for some 
+	matched query variable (available from Sourceforge CVS from 2 July 04, will be included in NXT-1.2.10).
+</para>
+<para>This option is most attractive:
+</para>
+<para>    
+<itemizedlist>
+<listitem><para>for those who write stylesheets anyway (since they know XSLT)</para></listitem>
+<listitem><para>for operations that can primarily be carried out on one coding at a time, or on knitted trees, or on query language result trees, 
+	limiting the number and complexity of the document calls required</para></listitem>
+<listitem><para>for applications where the output requires something which is not supported in query but is supported in XSLT (like arithmetic)</para></listitem>
+</itemizedlist>
+</para>
+</section>
+<section id="othertools_xmlperl"><title>Xmlperl</title>
+<para><ulink url="http://www.ltg.ed.ac.uk/~dmck/xmlstuff"><package>Xmlperl</package></ulink> gives a way of writing pattern-matching rules on 
+	XML input but with access to general perl processing in the action part of the rule templates.
+</para>
+<para>This option is most attractive:
+</para>
+<para>
+<itemizedlist>
+<listitem><para>for those who write <package>xmlperl</package> or at least perl anyway</para></listitem>
+<listitem><para>for operations that can be carried out on one coding at a time, or on knitted trees, or on query language result trees</para></listitem>
+<listitem><para>for applications where the output requires something which is not supported in query (like arithmetic)</para></listitem>
+<listitem><para>for applications where XSLT's variables provide insufficient state information</para></listitem>
+<listitem><para>for applications where bi-directional communication with an external process is needed (for instance, to add part-of-speech tags to 
+	the XML file), since this is easiest to set up in <package>xmlperl</package></para></listitem>
+</itemizedlist>
+</para>
+<para><package>Xmlperl</package> is quite old now. There are many XML modules for perl that could be useful but we have little experience of them.
+</para>
+<para>In the <ulink url="http://www.ltg.ed.ac.uk/software/ltxml2"><package>LT XML2</package> release</ulink>, see also <function>lxviewport</function>, which is another mechanism for communication with external processes.
+</para>
+</section>
+<section id="othertools_xpath"><title>ApplyXPath/Sggrep</title>
+<para>There are some simple utilities that apply a query to XML data and return the matches, like <application>ApplyXPath</application> 
+	(an Apache sample) and <function>sggrep</function> (part of 
+	<ulink url="http://www.ltg.ed.ac.uk/software/ltxml2">LT XML2</ulink>). Where the output required is very simple, 
+	these will often suffice.
+</para>
+</section>
+<section id="othertools_lxreplace"><title>Using lxreplace</title>
+<para>This is another transduction utility available that is distributed more widely with <package>LT XML2</package>.
+	 It is implemented over <package>LT XML2</package>'s stylesheet processor, but the same functionality could be implemented over some 
+	other processor.
+</para>
+<programlisting>lxreplace -q <replaceable>query</replaceable> -t <replaceable>template</replaceable></programlisting>
+
+<para><replaceable>template</replaceable> is an XSLT template body, which is instantiated to replace the nodes that 
+	match <replaceable>query</replaceable>. The stylesheet has some pre-defined entities to make the common cases easy:
+</para>
+<para>
+<itemizedlist>
+<listitem><para><sgmltag class="element">&amp;this</sgmltag>; expands to a copy of the matching element (including its attributes and children)</para></listitem>
+<listitem><para><sgmltag class="element">&amp;attrs</sgmltag>; expands to a copy of the attributes of the matching element</para></listitem>
+<listitem><para><sgmltag class="element">&amp;children</sgmltag>; expands to a copy of the children of the matching element </para></listitem>
+</itemizedlist>
+</para>
+<para>Examples:
+</para>
+<para>To wrap all elements <sgmltag class="element">foo</sgmltag> whose attribute <sgmltag class="attribute">bar</sgmltag>
+	 is <sgmltag class="attvalue">unknown</sgmltag> in an element called <sgmltag class="element">bogus</sgmltag>:
+</para>
+<programlisting><![CDATA[lxreplace -q 'foo[@bar="unknown"]' -t '&this;']]></programlisting>
+<para>(that is, replace each matching <sgmltag class="element">foo</sgmltag> element with a <sgmltag class="element">bar</sgmltag> element 
+	containing a copy of the original <sgmltag class="element">foo</sgmltag> element).
+</para>
+<para>To rename all <sgmltag class="element">foo</sgmltag> elements to <sgmltag class="element">bar</sgmltag> while retaining their attributes:
+</para>
+
+<programlisting><![CDATA[lxreplace -q 'foo' -t '&attrs;&children;']]></programlisting>
+<para>(that is, replace each <sgmltag class="element">foo</sgmltag> element with a <sgmltag class="attribute">bar</sgmltag> attribute, 
+	copying the attributes and children of the original <sgmltag class="element">foo</sgmltag> element).
+</para>
+<para>To move the (text) content of all <sgmltag class="element">foo</sgmltag> elements into an attribute called 
+	<sgmltag class="attribute">value</sgmltag> (assuming that the <sgmltag class="element">foo</sgmltag>s don't have any other attributes):
+</para>
+<programlisting>lxreplace -q 'foo' -t ''</programlisting>
+<para>(that is, replace each <sgmltag class="element">foo</sgmltag> element with a <sgmltag class="element">foo</sgmltag> element whose 
+	<sgmltag class="attribute">value</sgmltag> attribute is the 
+	text value of the original <sgmltag class="element">foo</sgmltag> element).
+</para>
+</section>
+</section>
+<section id="othertools_treetonxt"><title>Third step: add the changed tree back in</title>
+<para>Again based on <package>LT XML2</package> we have developed a command line utility that can 
+	<function>unknit</function> a knitted file back into the original component parts. 
+</para>
+<programlisting>lxniteunknit -m <replaceable>METADATA FILE</replaceable></programlisting>
+<para><function>Lxniteunknit</function> does not include a command line option for identifying the tags used for child and 
+	pointer links because it reads this information from the metadata file. With <function>lxniteunknit</function>, one possible 
+	strategy for adding information to a corpus is to knit a view with the needed data, add information straight in the knitted 
+	file as new attributes or a new layer of tags, change the metadata to match the new structure, and then unknit.
+</para>
+<para>Another popular option is to keep track of the data edits by <sgmltag class="attribute">id</sgmltag> of the affected element and 
+	splice them into the original coding file using a simple perl script.
+</para>
+</section>
+</section>
+<section id="othertools_other_xmlaware"><title>Option 3: Process using other XML-aware software</title>
+<para>NXT files can be processed with any XML aware software, though the semantics of the standoff links between files will not be 
+	respected. Most languages have their own XML libraries: under the hood, NXT uses the 
+	<ulink url="http://xml.apache.org/">Apache XML Java libraries</ulink>. We sometimes use the 
+	<ulink url="http://search.cpan.org/~msergeant/XML-XPath-1.13/XPath.pm"><package>XML::XPath</package> module for perl</ulink>, 
+	particularly on our import scripts where XSLT would be inefficient or difficult to write.
+</para>
+</section>
+
+</section>
+
+
+<section id="othertools_splitsignal"><title>Manipulating media files</title>
+
+
+<para>A wide variety of media tools can be used to create signals for
+NXT and to manipulate them for use with other tools. Here we mention a
+few that we use regularly. The cross-platform tool
+<application>mencoder</application> is good for encoding video for use
+with NXT; <application>VirtualDub</application> in conjunction with
+<application>AviSynth</application> (Windows only) are useful for
+accurately chopping up video files for use in other programs. Using
+the latter approach is better if you need frame-accurate edits,
+<application>mencoder</application> is only accurate to the nearest
+keyframe.</para>
+
+<para>As an example, we are sometimes asked to provide video extracts
+that show certain NXT phenomena. The first task is to find the
+phenomena using an NXT tool like FunctionQuery. This results in a
+tab-delimited result set each line of which will identify the video
+file to use, along with the start and end time of the segment. Using a
+scripting language like <application>perl</application> it's easy to
+transform this into a set of <application>AviSynth</application>
+format files. These files simply describe a set of media actions to
+take like loading a video file and adding an audio soundtrack, then
+chopping out the appropriate section (these would use the
+<application>AviSynth</application> functions
+<command>AVISource</command>, <command>WAVSource</command>,
+<command>AudioDub</command> and <command>Trim</command>). These files
+can then be loaded into <application>VirtualDub</application> which
+treats them like any other video file, and the result saved as an AVI
+file with whatever video / audio compression you choose. The useful
+thing about <application>VirtualDub</application> is that these
+actions can be applied to a batch of files and left to run with no
+further user-action.</para>
+
+</section>
+
+</section>

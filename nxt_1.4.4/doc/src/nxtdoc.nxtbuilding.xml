@@ -1,0 +1,48 @@
+<section id="nxtbuilding">
+	<title>How to Build From Source (and release)</title>
+<para>
+	This page is intended for developers who are intending to build NXT for a new release, but 
+	may also be of use for anybody building NXT from source.
+</para>	
+<para>
+	<itemizedlist>
+		<listitem><para>
+			Start with a fresh checkout from CVS:
+			<programlisting>cvs -z3 -d:pserver:nite.cvs.sourceforge.net:/cvsroot/nite co nxt</programlisting>
+			should work in most cases (if not, see the <ulink url="https://sourceforge.net/cvs/?group_id=53641">SourceForge CVS page</ulink>).
+		</para></listitem>
+		<listitem><para>
+			Go into the top level <filename class="directory">nxt</filename> directory, decide on a build file to use and copy it to the right directory. 
+			<programlisting>cp build_scripts/build.xml</programlisting>
+                        </para>
+			<para>
+		        Type <code>ant</code> to compile (<code>ant jar</code> is perhaps the most useful target to use as it doesn't clean 
+			all compiled classes and rebuild the javadoc every time). If there are compile errors, copy the error message 
+			into an email and send it to Jonathan or another developer (see the 
+			<ulink url="https://sourceforge.net/project/memberlist.php?group_id=53641">SourceForge members page for emails</ulink>).
+		</para></listitem>
+		<listitem><para>
+			Run the test suite(s). The NXT test suite is by no means comprehensive but tests a subset of NXT functionality. 
+			To run, you need to have the <ulink url="http://www.junit.org/"><package>JUnit</package></ulink> jar on your 
+			<envar>CLASSPATH</envar>. Then
+			<programlisting>javac -d . test-suites/nom-test-suite/NXTTestScratch.java</programlisting>
+		Now run the testing gui:
+		<programlisting>java junit.textui.TestRunner NXTTestScratch</programlisting>
+		Again, any errors should be forwarded to a developer.
+		</para></listitem>
+		<listitem><para>
+			If you are making a real public release, Update the <filename>README</filename> file in the top-level 
+			<filename class="directory">nxt</filename> directory, 
+			choosing a new minor or major release number. Commit this to CVS.
+		</para></listitem>
+		<listitem><para>
+			Now build the release using the <filename>build_scripts/build_release.xml</filename> ant file (use the default target).
+			This compiles everything, makes a zip file of the source, and one of the compiled version for release, 
+			and produces the Javadoc. If you're on an Edinburgh machine, copy the Javadoc (in the <filename class="directory">apidoc</filename> directory) 
+			to <filename class="directory">/group/project/webltg/NITE/nxt/apidoc</filename>. 
+			Test the shell script examples, and upload the new release to Sourceforge 
+			<ulink url="https://sourceforge.net/project/admin/editpackages.php?group_id=53641">here</ulink>.
+		</para></listitem>
+	</itemizedlist>
+</para>
+</section> 

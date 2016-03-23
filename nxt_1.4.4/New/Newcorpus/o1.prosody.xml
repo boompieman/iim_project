@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<nite:stream nite:id="prosody_str_1" xmlns:nite="http://nite.sourceforge.net/" xmlns:xlink="http://www.w3.org/1999/xlink">
+   <accent nite:id="a_1" tobi="H*">
+      <nite:child xlink:href="o1.words.xml#xpointer(id('w_4'))" xlink:type="simple"/>
+   </accent>
+   <accent nite:id="a_2" tobi="H*L">
+      <nite:child xlink:href="o1.words.xml#xpointer(id('w_8'))" xlink:type="simple"/>
+   </accent>
+</nite:stream>

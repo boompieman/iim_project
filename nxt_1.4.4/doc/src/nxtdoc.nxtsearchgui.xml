@@ -1,0 +1,63 @@
+<section id="nxtsearchgui">
+      <title>The NXT Search GUI</title>
+
+<para>
+
+The search GUI can be reached either by using <filename>search.bat/search.sh</filename> and
+specifying which corpus to load or by using the <filename class="extension">.bat/.sh</filename> for the
+specific corpus (if it exists) and choosing the <guimenuitem>Search</guimenuitem> option.  It
+has two tabbed windows.  The query tab allows the user to type in a
+query.  Cut and paste from other applications works with this
+window.  The query can also be saved on the <guimenu>Bookmark</guimenu> menu, but at
+May 2004 this doesn't work well for long queries. 
+There is a button to press to do the <guibutton>search</guibutton>, which
+automatically takes the user either to a pop-up window with an
+error message explaining where the syntax of the query is incorrect,
+or, for a valid query, to the result tab.  This window shows the
+results as an XML tree structure, with more information about the
+element the user has selected (with the mouse) displayed below the
+main tree.  
+
+</para>
+<para>
+
+The GUI includes an option to <guimenuitem>save</guimenuitem> the XML result tree to
+a file.  This can be very handy in conjunction with <function>knit</function> 
+ for performing data analysis.  It also includes an option
+to save the results in a rudimentary <application>Excel</application> spreadsheet.  This is less
+handy, especially in the case of complex queries, because the return
+value is hierarchically structured  but the spreadsheet
+just contains information about each matched element dumped into
+a flat list by performing a depth-first, left-to-right traversal of
+the results. However, for relatively simple queries and people who are used to
+data filtering and pivot tables in <application>Excel</application>, it can be the easiest first
+step for analysis.
+
+</para>
+
+<para>
+
+The search GUI works on an entire corpus at once.  This can make
+it slow to respond if the corpus is very large or if the query is
+very complicated (although of course it's possible to comment out
+observations in the metadata to reduce the amount of information it
+loads).  Sometimes a query is slow because it's doing something more
+complicated than what the user intended.  A query can be interrupted
+mid-processing and will still return a partial result list, which 
+can be useful for checking it.
+
+</para>
+
+<para>
+
+At May 2004, when the user chooses to open a corpus from the <guimenu>File</guimenu>
+menu, the search GUI expects the metadata
+file to be called <filename><replaceable>something</replaceable>.corpus</filename>, although many users are likely
+to have it called <filename><replaceable>something</replaceable>.xml</filename> (so that it behaves properly in
+other applications like web browsers).  Choose the
+<guimenuitem>All files</guimenuitem> option (towards the bottom of the open dialogue box) in
+order to see <filename class="extension">.xml</filename> files as well as <filename class="extension">.corpus</filename> ones.  
+
+</para>
+
+</section>

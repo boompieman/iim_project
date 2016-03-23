@@ -1,0 +1,529 @@
+<?xml version="1.0"?>
+<!--
+	
+	Simple ant file for Java projects.
+	
+	Builds class files, javadoc and jar. Produces
+	zip files containing binaries-only and source-only
+	distributions of the project.
+
+	(Dominic Seymour, Judy Robertson, Jonathan Kilgour)
+-->
+<project name="nite2" default="dist">
+
+	<!-- Important directories, relative to project root. -->
+	<property name="source.dir" value="src"/>
+	<property name="build.dir" value="bin"/>
+	<property name="builds.dir" value="build_scripts"/>
+	<property name="icons.dir" value="src"/>
+	<property name="doc.dir" value="apidoc"/>
+	<property name="docbook.dir" value="doc"/>
+	<property name="docbook.build.dir" value="doc/src"/>
+	<property name="lib.dir" value="lib"/>
+	<property name="samples.dir" value="samples"/>
+	<property name="transform.dir" value="transforms"/>
+	<property name="data.dir" value="Data"/>
+	<property name="meta.dir" value="Data/meta"/>
+	<property name="xsl.dir" value="Data/xsl"/>
+	<property name="signals.dir" value="Data/signals"/>
+	<property name="xml.dir" value="Data/xml"/>
+	<property name="image.dir" value="Data/Images"/>
+	<property name="script.dir" value="."/>
+	<property name="help.dir" value="src/net/sourceforge/nite/tools/javahelpsources"/>
+
+	<!-- Name of the output JAR file. -->
+	<property name="jar.file" value="${lib.dir}/nxt.jar"/>
+
+	<!-- Name of the output ICONs file. -->
+	<property name="icons.jar.file" value="${lib.dir}/icons.jar"/>
+
+	<!-- Name of the helpset jars. -->
+	<property name="nehelp.jar.file" value="${lib.dir}/necoderHelp.jar"/>
+	<property name="dahelp.jar.file" value="${lib.dir}/dacoderHelp.jar"/>
+	<property name="vidhelp.jar.file" value="${lib.dir}/videolabelerHelp.jar"/>
+	<property name="testhelp.jar.file" value="${lib.dir}/testcoderHelp.jar"/>
+	
+	<!--
+		Base name of the distribution zip file.
+		This will expanded as in "nxt-200303111511.zip".
+		This is the current date and time concatenated
+	-->
+	<property name="zip.basename" value="nxt"/>
+
+	<!--
+		TODO: Add a target which deploys a distribution
+		into a centralized location after building. Could
+		just copy it into a directory structure; could
+		upload it to an ftp server using ant "ftp" task.
+	-->
+
+	<!-- 
+		Distribution.
+	-->
+	<target name="dist"
+		depends="init, clean, zip"
+		description="Produces distribution zip files.">
+		
+		<!--
+			All work will be done while satisfying
+			this target's dependencies.
+		-->
+	</target>
+	
+	
+	<!-- Initialization. -->
+	<target name="init">
+	
+		<!-- Set time and date stamp properties. -->
+		<tstamp/>
+		
+		<!-- Make sure directory structure is complete. -->
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${doc.dir}"/>
+		
+	</target>
+	
+	<!-- Compile classes.	-->
+	<target name="classes" description="Compiles all Java classes">
+		<javac	srcdir="${source.dir}"
+				destdir="${build.dir}"
+				source= "1.5"
+				target= "1.5">
+			<classpath>
+				<fileset dir="${lib.dir}">
+		        	<include name="*.jar"/>
+		      	</fileset>	
+		      	<fileset dir="${lib.dir}/JMF/lib">
+		        	<include name="*.jar"/>
+		      	</fileset>		
+			</classpath>
+		</javac>	
+
+                <!-- Put the samples .class files in the lib dir as
+                it's on the path and separate from the bin (doesn't get jarred) -->
+		<javac	srcdir="${samples.dir}"
+		                includes="SimpleSaveExample.java,
+	                          SimpleQueryDisplay.java,
+	                          SimpleTimelineDisplay.java,
+	                          Index.java,
+	                          NGramCalc.java,
+	                          MovePOS.java,
+	                          DagmarGestures.java, 
+	                          MonitorDisplay.java,
+	                          PrepareSchemaValidation.java, 
+                                  CountQueryResults.java,
+                                  CountQueryMulti.java,
+                                  FunctionQuery.java,
+                                  SortedOutput.java,
+                                  SaveQueryResults.java,
+                                  MatchInContext.java,
+                                  ICSITopicSegmenter.java,
+                                  ICSIExtract2.java,
+                                  ICSIDisplay.java,
+                                  AMIExtract.java,
+                                  AMITopicSegmenter.java"
+				destdir="${lib.dir}"
+				source= "1.5"
+				target= "1.5">
+			<classpath>
+				<pathelement path="${build.dir}"/>
+				<fileset dir="${lib.dir}">
+		        	<include name="*.jar"/>
+				</fileset>	
+		      	        <fileset dir="${lib.dir}/JMF/lib">
+		           	   <include name="*.jar"/>
+		      	        </fileset>		
+			</classpath>
+		</javac>	
+	</target>
+	
+	
+	<!--
+		Distribution JAR file.
+	-->
+	<target name="jar"
+			depends="classes, icons"
+			description="Produces project JAR files">
+		
+		<!-- Make the jar. -->
+		<jar destfile="${jar.file}"
+				basedir="${build.dir}"/>
+									
+	</target>
+
+	<!--
+		ICONS JAR FILE
+	-->
+	<target name="icons"
+			depends="classes"
+			description="Produces icon JAR file">
+		
+		<!-- Make the jar. -->
+		<jar destfile="${icons.jar.file}"
+				basedir="${icons.dir}" includes="net/sourceforge/nite/icons/*/*.gif, net/sourceforge/nite/icons/*/*/*.gif"/>
+
+									
+	</target>
+
+	<!--
+		HELPSET JAR FILES
+	-->
+	<target name="helpset"
+			depends=""
+			description="Produces helpset JAR files fror Twente tools">
+		
+		<!-- Make the jars. -->
+		<jar destfile="${nehelp.jar.file}"
+				basedir="${help.dir}" includes="necoder.*, necoder/**, shared/**"/>
+		<jar destfile="${testhelp.jar.file}"
+				basedir="${help.dir}" includes="testcoder.*,testcoder/**, shared/**"/>
+		<jar destfile="${dahelp.jar.file}"
+				basedir="${help.dir}" includes="dacoder.*, dacoder/**, shared/**"/>
+		<jar destfile="${vidhelp.jar.file}"
+				basedir="${help.dir}" includes="videolabeler.*, videolabeler/**, shared/**"/>
+									
+	</target>
+	
+<!-- nicked from
+http://www.redhillconsulting.com.au/blogs/simon/archives/000360.html
+in an attempt to preserve execute permissions on .command files 
+
+Not really flexible enough as we have several zipfilesets in our zips
+and those can't nest in an exec..
+
+<macrodef name="zipdir">
+    <attribute name="destfile"/>
+    <attribute name="sourcedir"/>
+    <echo>Building zip: @{destfile}</echo> 
+    <exec executable="zip" dir="@{sourcedir}">
+        <arg value="-qR"/>
+        <arg value="@{destfile}"/>
+        <arg value="*"/>
+        <arg value="-x *.command* "/>
+    </exec>
+</macrodef>
+-->
+	
+	<!--
+		Distribution ZIP file.
+	-->
+	<target name="zip" depends="jar, javadoc, scripts, helpset"
+			description="Produces distribution zip file.">
+		
+		<!-- Make the binaries zip file. -->
+		<zip destfile="${zip.basename}-${DSTAMP}${TSTAMP}.zip">
+			<!--
+				Note: Use zipfileset with prefix attribute to
+				control where in the zip file things get put.
+			-->
+			<zipfileset prefix="${doc.dir}" dir="${doc.dir}"/>
+			<zipfileset prefix="${transform.dir}" dir="${transform.dir}"/>
+			<zipfileset prefix="${lib.dir}" dir="${lib.dir}"/>
+			<zipfileset dir="${script.dir}" filemode="755">
+				<!-- Lack of prefix attr here assumes script.dir="."! -->
+				<include name="*.bat"/>
+				<include name="*.sh"/>
+				<include name="*.command"/>
+			</zipfileset>
+
+			<!-- SAMPLE PROGRAMS -->
+			<zipfileset prefix="${samples.dir}" dir="${samples.dir}">
+				<include name="SimpleSaveExample.java"/>
+				<include name="SimpleQueryDisplay.java"/>
+				<include name="SimpleTimelineDisplay.java"/>
+				<include name="DagmarGestures.java"/>
+				<!--<include name="SentenceCoder.java"/>-->
+				<include name="MonitorDisplay.java"/>
+			        <include name="Index.java"/>
+			        <include name="NGramCalc.java"/>
+				<include name="PrepareSchemaValidation.java"/>
+				<include name="CountQueryResults.java"/>
+				<include name="CountQueryMulti.java"/>
+				<include name="FunctionQuery.java"/>
+				<include name="SortedOutput.java"/>
+				<include name="SaveQueryResults.java"/>
+				<include name="MatchInContext.java"/>
+			</zipfileset>
+
+			<!-- SIGNALS - remember to add these manually
+			to the directory structure before build -->
+			<zipfileset prefix="${signals.dir}/dagmar" dir="${signals.dir}/dagmar">
+				<include name="o1.dagmar.avi"/>
+			</zipfileset>
+
+			<!-- METADATA -->
+			<zipfileset prefix="${meta.dir}" dir="${meta.dir}">
+				<include name="dagmar-metadata.xml"/>
+                
+                <!-- DR: added 16.02.2005, the metadata for the videolabeling demo based on the dagmar corpus -->
+				<include name="videolabeling-metadata.xml"/>
+				
+				<include name="single-sentence-metadata.xml"/>
+				<include name="genesis.xml"/>
+			</zipfileset>
+
+			<!-- XML DATA -->
+			<zipfileset prefix="${xml.dir}/SingleSentence" dir="${xml.dir}/SingleSentence" includes="*.xml"/>
+			<zipfileset prefix="${xml.dir}/dagmar" dir="${xml.dir}/dagmar" includes="*.xml"/>
+			<zipfileset prefix="${xml.dir}/Genesis" dir="${xml.dir}/Genesis" includes="*.xml,*.txt"/>
+
+			<!-- IMAGES -->
+			<zipfileset prefix="${image.dir}" dir="${image.dir}"/>
+
+			<fileset dir="." includes="README.txt"/>
+			<fileset dir="." includes="README_MAC.txt"/>
+
+                        <!-- DOCBOOK DOCUMENTATION (run transform first!!) -->
+			<zipfileset dir="${docbook.build.dir}">
+	           	   <include name="*.pdf"/>
+                        </zipfileset>
+		</zip>
+		
+		<!-- Make the source-only zip file. -->
+		<zip destfile="${zip.basename}-${DSTAMP}${TSTAMP}-src.zip">
+			<zipfileset prefix="${source.dir}" dir="${source.dir}"/>
+			<zipfileset prefix="${docbook.dir}" dir="${docbook.dir}"/>
+			<zipfileset prefix="${builds.dir}" dir="${builds.dir}"/>
+		</zip>
+		
+		<!--
+			TODO: Could add further calls to zip to produce other
+			versions of the distribution.
+		-->
+			
+	</target>
+	
+	
+	<!--
+		Generate multi-platform runner scripts.
+	-->
+	<target name="scripts"
+			description="Generate command line scripts.">
+		
+		<!-- Your basic runner script. -->
+		<antcall target="_script">
+			<param name="script.name" value="dagmar"/>
+			<param name="script.class" value="net.sourceforge.nite.nxt.GUI -corpus Data/meta/dagmar-metadata.xml"/>		
+		</antcall>
+
+		<antcall target="_script">
+			<param name="script.name" value="genesis"/>
+			<param name="script.class" value="net.sourceforge.nite.nxt.GUI -corpus Data/meta/genesis.xml"/>		
+		</antcall>
+
+        <!-- DR: added 16.02.2005, a start script for the videolabeling demo based on the dagmar corpus -->
+		<antcall target="_script">
+			<param name="script.name" value="videolabeling-demo"/>
+			<param name="script.class" value="net.sourceforge.nite.nxt.GUI -corpus Data/meta/videolabeling-metadata.xml"/>		
+		</antcall>
+
+        <!-- DR: added 16.02.2005, a start script for the generic NXT load GUI -->
+		<antcall target="_script">
+			<param name="script.name" value="NXT-start-GUI"/>
+			<param name="script.class" value="net.sourceforge.nite.nxt.GUI"/>		
+		</antcall>
+
+		<antcall target="_script">
+			<param name="script.name" value="single-sentence"/>
+			<param name="script.class" value="net.sourceforge.nite.nxt.GUI -corpus Data/meta/single-sentence-metadata.xml"/>		
+		</antcall>
+
+		<antcall target="_script">
+			<param name="script.name" value="search"/>
+			<param name="script.class" value="net.sourceforge.nite.search.GUI"/>
+		</antcall>
+	
+	
+		<!-- Fix EOL characters in generated scripts. -->
+		<fixcrlf srcdir="." eol="crlf" includes="*.bat"/>
+		<fixcrlf srcdir="." eol="lf" includes="*.sh"/>
+		<fixcrlf srcdir="." eol="lf" includes="*.command"/>
+
+                <!-- fix permissions -->
+                <chmod file="${script.dir}\*.command" perm="a+x" />		
+                <chmod file="${script.dir}\*.sh" perm="a+x" />		
+	</target>
+
+	<!--
+		Generate javadoc.
+	-->
+	<target name="javadoc"
+			description="Generates API documentation.">
+		<javadoc	
+				destdir="apidoc"
+				access="public"
+				source="1.5"
+				sourcepath="${source.dir}"
+				packagenames = "net.sourceforge.nite.*"
+				>
+            <group title="Core" packages="net.sourceforge.nite.meta*:net.sourceforge.nite.nom*:net.sourceforge.nite.nxt*:net.sourceforge.nite.time*:net.sourceforge.nite.util*"/>
+            <group title="Search" packages="net.sourceforge.nite.query*:net.sourceforge.nite.search*"/>
+            <!--group title="Data inspection and reliability" packages="net.sourceforge.nite.datainspection*"/-->
+            <group title="GUI" packages="net.sourceforge.nite.gui*"/>
+            <group title="Stylesheet processing" packages="net.sourceforge.nite.nstyle*"/>
+            <group title="Configurable annotation tools" packages="net.sourceforge.nite.tools*"/>
+            <group title="AMI" packages="net.sourceforge.nite.ami*"/>
+			<classpath>
+						
+			</classpath>
+			
+		</javadoc>	
+	</target>
+
+
+	<!--
+		Clean output dirs.
+	-->
+	<target name="clean"
+			description="Removes files generated by build process">
+
+		<!--
+			Note the use of includeEmptyDirs, combined with
+			**/*. This makes ant delete everything under
+			the target dir, while leaving it intact.
+			Equivalent to: rm -rf DIR/*
+		-->
+
+		<!-- Nuke the class files. -->
+		<delete includeEmptyDirs="true" verbose="true">
+			<fileset dir="${build.dir}" includes="**/*"/>
+		</delete>
+		
+		<!-- Nuke the javadoc. -->
+		<delete includeEmptyDirs="true" verbose="true">
+			<fileset dir="${doc.dir}" includes="**/*"/>
+		</delete>
+		
+		<!-- Goodbye project jar files. -->
+		<delete verbose="true" file="${jar.file}"/>
+ 	        <delete verbose="true" file="${nehelp.jar.file}"/>
+ 	        <delete verbose="true" file="${dahelp.jar.file}"/>
+ 	        <delete verbose="true" file="${testhelp.jar.file}"/>
+ 	        <delete verbose="true" file="${vidhelp.jar.file}"/>
+
+		
+		<!-- Goodbye previously generated zip files. -->
+		<delete verbose="true">
+			<fileset dir="." includes="${zip.basename}*.zip"/>
+		</delete>
+
+		<!-- Goodbye compiled samples. -->
+		<delete verbose="true">
+			<fileset dir="${lib.dir}" includes="*.class"/>
+		</delete>
+		
+		<!-- And scripts. -->
+		<delete verbose="true">
+			<fileset dir="${script.dir}">
+				<include name="*.bat"/>
+				<include name="*.sh"/>
+				<include name="*.command"/>
+			</fileset>
+		</delete>
+		
+	</target>
+
+	<target name="tidy"
+			description="Removes class and JAR files generated by build process">
+
+		<!--
+			Note the use of includeEmptyDirs, combined with
+			**/*. This makes ant delete everything under
+			the target dir, while leaving it intact.
+			Equivalent to: rm -rf DIR/*
+		-->
+
+		<!-- Nuke the class files. -->
+		<delete includeEmptyDirs="true" verbose="true">
+			<fileset dir="${build.dir}" includes="**/*"/>
+		</delete>
+		
+		<!-- Goodbye project jar files. -->
+		<delete verbose="true" file="${jar.file}"/>
+ 	        <delete verbose="true" file="${nehelp.jar.file}"/>
+ 	        <delete verbose="true" file="${dahelp.jar.file}"/>
+ 	        <delete verbose="true" file="${testhelp.jar.file}"/>
+ 	        <delete verbose="true" file="${vidhelp.jar.file}"/>
+
+		<!-- Goodbye compiled samples. -->
+		<delete verbose="true">
+			<fileset dir="${lib.dir}" includes="*.class"/>
+		</delete>
+		
+		<!-- And scripts. -->
+		<delete verbose="true">
+			<fileset dir="${script.dir}">
+				<include name="*.bat"/>
+				<include name="*.sh"/>
+				<include name="*.command"/>
+			</fileset>
+		</delete>
+		
+	</target>
+
+
+	<!--
+		Internal target which produces a runner scripts for
+		Win32 and Unix. The basename of the script is taken
+		from the script.name parameter. The class to run
+		comes from script.class parameter. The scripts are
+		placed in the script.dir directory.				
+	-->
+	<target name="_script">
+		
+		<echo message="Generating script: ${script.name}"/>
+	
+		<echo file="${script.dir}/${script.name}.bat">@echo off
+rem Generated by ant, ${TODAY}.
+rem Note that a Java runtime should be on the path.
+rem The current directory should be root of the ${zip.basename} install.
+
+java -Xms128m -Xmx1024m -cp lib;lib/nxt.jar;lib/jdom.jar;lib/JMF/lib/jmf.jar;lib/pnuts.jar;lib/resolver.jar;lib/xalan.jar;lib/xercesImpl.jar;lib/xml-apis.jar;lib/jmanual.jar;lib/jh.jar;lib/helpset.jar;lib/poi.jar;lib/eclipseicons.jar;lib/icons.jar;lib/forms.jar;lib/looks.jar;lib/necoderHelp.jar;lib/videolabelerHelp.jar;lib/dacoderHelp.jar;lib/testcoderHelp.jar;lib/prefuse.jar ${script.class} %*
+		</echo>
+		
+		<echo file="${script.dir}/${script.name}.sh">#!/bin/bash
+# Generated by ant, ${TODAY}
+# Note that a Java runtime should be on the path.
+# The current directory should be root of the ${zip.basename} install.
+# unless you edit this variable to contain the path to your install
+# then you can run from anywhere.
+NXT="."
+
+# Adjust classpath for running under cygwin.
+if [ $OSTYPE = 'cygwin' ]; then
+	export CLASSPATH=".;$NXT;$NXT/lib;$NXT/lib/nxt.jar;$NXT/lib/jdom.jar;$NXT/lib/JMF/lib/jmf.jar;$NXT/lib/pnuts.jar;$NXT/lib/resolver.jar;$NXT/lib/xalan.jar;$NXT/lib/xercesImpl.jar;$NXT/lib/xml-apis.jar;$NXT/lib/jmanual.jar;$NXT/lib/jh.jar;$NXT/lib/helpset.jar;$NXT/lib/poi.jar;$NXT/lib/eclipseicons.jar;$NXT/lib/icons.jar;$NXT/lib/forms.jar;$NXT/lib/looks.jar;$NXT/lib/necoderHelp.jar;$NXT/lib/videolabelerHelp.jar;$NXT/lib/dacoderHelp.jar;$NXT/lib/testcoderHelp.jar;$NXT/lib/prefuse.jar"
+else
+	export CLASSPATH=".:$NXT:$NXT/lib:$NXT/lib/nxt.jar:$NXT/lib/jdom.jar:$NXT/lib/JMF/lib/jmf.jar:$NXT/lib/pnuts.jar:$NXT/lib/resolver.jar:$NXT/lib/xalan.jar:$NXT/lib/xercesImpl.jar:$NXT/lib/xml-apis.jar:$NXT/lib/jmanual.jar:$NXT/lib/jh.jar:$NXT/lib/helpset.jar:$NXT/lib/poi.jar:$NXT/lib/eclipseicons.jar:$NXT/lib/icons.jar:$NXT/lib/forms.jar:$NXT/lib/looks.jar:$NXT/lib/necoderHelp.jar:$NXT/lib/videolabelerHelp.jar:$NXT/lib/dacoderHelp.jar:$NXT/lib/testcoderHelp.jar:$NXT/lib/prefuse.jar"
+fi
+
+java -Xms128m -Xmx1024m ${script.class}
+		</echo>
+
+		<echo file="${script.dir}/${script.name}.command">#!/bin/bash
+# Generated by ant, ${TODAY}
+# Note that a Java runtime should be on the path.
+# The current directory should be root of the ${zip.basename} install.
+# unless you edit this variable to contain the path to your install
+# then you can run from anywhere.
+
+# this magic incantation changes to the directory we're running from
+cd "${0%/*}"
+
+NXT="."
+FMJHOME="$NXT/lib/fmj"
+
+FMJJARS="$FMJHOME:$FMJHOME/fmj.jar:$FMJHOME/lib:$FMJHOME/lib/jdom.jar:$FMJHOME/lib/jffmpeg-1.1.0.jar:$FMJHOME/lib/jl1.0.jar:$FMJHOME/lib/jogg-0.0.7.jar:$FMJHOME/lib/jorbis-0.0.15.jar:$FMJHOME/lib/lti-civil.jar:$FMJHOME/lib/mp3spi1.9.4.jar:$FMJHOME/lib/tritonus_share.jar:$FMJHOME/lib/vorbisspi1.0.2.jar"
+
+export CLASSPATH=".:$NXT:$NXT/lib:$NXT/lib/nxt.jar:$NXT/lib/pnuts.jar:$NXT/lib/resolver.jar:$NXT/lib/xalan.jar:$NXT/lib/xercesImpl.jar:$NXT/lib/xml-apis.jar:$NXT/lib/jmanual.jar:$NXT/lib/jh.jar:$NXT/lib/helpset.jar:$NXT/lib/poi.jar:$NXT/lib/eclipseicons.jar:$NXT/lib/icons.jar:$NXT/lib/forms.jar:$NXT/lib/looks.jar:$NXT/lib/necoderHelp.jar:$NXT/lib/videolabelerHelp.jar:$NXT/lib/dacoderHelp.jar:$NXT/lib/testcoderHelp.jar:$NXT/lib/prefuse.jar:$FMJJARS"
+
+# the bootclasspath argument may seem redundant (and it can cause
+# problems!) but on some macs, JMF is on the system CLASSPATH and this
+# makes sure we override that. Comment / uncomment as necessary!
+#java -Xms128m -Xmx512m -Xbootclasspath/p:$CLASSPATH -Djava.library.path="$FMJHOME" ${script.class}
+java -Xms128m -Xmx512m -Djava.library.path="$FMJHOME" ${script.class}
+
+		</echo>
+	
+	</target>
+
+</project>

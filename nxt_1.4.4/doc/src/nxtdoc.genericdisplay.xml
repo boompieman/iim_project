@@ -1,0 +1,41 @@
+<section id="genericdisplay">
+   <title>The Generic Display</title>
+   <para>
+      NXT comes with a generic display so that it can at least
+      display and search any corpus in NXT format "out of the
+      box", without having to configure the end user coding tools or
+      build a tailored tool. It provides the absolute basics. It
+      isn't meant for serious use, but it can be useful to test out
+      new data or if you don't need GUIs often enough to spend time
+      getting something better set up. 
+   </para>
+<para>
+The Generic Display works on one 
+observation at a time.  It can be invoked at the command
+line as follows:
+
+<programlisting>
+java net.sourceforge.nite.gui.util.GenericDisplay -c <replaceable>CORPUS</replaceable> -o <replaceable>OBS</replaceable> -f <replaceable>FONTSIZE</replaceable> -q <replaceable>QUERY</replaceable>
+</programlisting>
+
+In the call, <replaceable>CORPUS</replaceable> gives a path to a metadata file and <replaceable>OBS</replaceable> names an observation
+that is listed in that metadata file.  These are mandatory.  You may optionally specify a font size for the data rendering.  You may also specify a query that will be used to choose kinds of data for display.  Only the variable type information will be used in the processing; the display will show data just from the files that include data that matches variables of those types.  For instance, -q '($w word)($d dialogue-act):' will render display windows for words and dialogue-acts only, ignoring all other data.  This is particularly useful for corpora with many different kinds of annotation, where it would create too busy a display to show everything.  For larger corpora, NXT is unable to render all of the annotations at once because this would take too much memory.  It is only possible to run the generic display for such corpora with the -q option.  
+</para>
+
+<remark>add screenshot.  Is there more to say? </remark>
+<para>
+
+The Generic Display
+simply puts up an audio/video window for each signal associated
+with an observation, plus one window per coding that shows the 
+elements in an <classname>NTextArea</classname>, one element per line, 
+with indenting corresponding to the tree
+structure and a rendering of the attribute values, the PCDATA the
+element contains, and enough information about pointers to be able
+to find their targets visually on the other windows.
+It doesn't try to do anything clever about window placement.  
+As with other NXT GUIs, there is a <guimenu>Search</guimenu> menu, and the display
+shows both search and time highlights.
+</para>
+
+</section>

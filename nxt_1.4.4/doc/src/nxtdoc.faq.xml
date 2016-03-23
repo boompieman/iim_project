@@ -1,0 +1,429 @@
+<appendix id="faq">
+	<title>FAQ</title>
+	
+<para>
+	End user and developer questions for NXT still tend to be dealt with by private email, 
+	although we do realize that we should move over to using public forums for this. When 
+	we receive a question more than once, we try to make time to change the web pages to make 
+	the answer clear in the correct location. This page is for frequently asked questions 
+	that haven't yet found a proper home, plus their answers.
+</para>
+
+
+<qandaset defaultlabel="qanda">
+<qandadiv>
+<title>Namespacing</title><anchor id="namespacingfaq"/>
+<qandaentry>
+	<question>
+		<para>
+		Exactly what does <code>xmlns:nite="http://nite.sourceforge.net/"</code> do in the xml files? Is it necessary?
+		</para>
+	</question>
+	<answer>
+		<para>
+		 It declares the nite namespace. If you use it in your data, then you have to include this attribute on the root element 
+		of the data files that include elements and attributes from this namespace. In NXT format data, users typically 
+		namespace the reserved attributes and element names to avoid naming conflicts (e.g., attributes for ids, start and end times, 
+		and elements for document roots, out-of-file children, and pointers).
+		</para>
+	</answer>
+</qandaentry>
+<qandaentry>
+	<question>
+		<para>
+		Can I use namespacing in my data set?
+		</para>
+	</question>
+	<answer>
+		<para>
+		In theory namespacing is a good idea, but there is a bug in NXT's query language parser that means it can't handle 
+		namespaced element names and attributes. For this reason, you should avoid namespacing, with the possible exception 
+		of XML document roots (which aren't available to query anyway) and the reserved attributes that have their own 
+		special meaning to NXT and dedicated query language syntax (the id, available as <code>ID($x)</code>, the start time, 
+		available as <code>START($x)</code>, and the end time, available as <code>END($x)</code>).
+		</para>
+	</answer>
+</qandaentry>
+</qandadiv>
+
+<qandadiv>
+<title>Fonts and Font Sizes</title><anchor id="fontsfaq"/>
+
+<qandaentry>
+	<question>
+		<para>
+		How do I change the font in an NXT GUI?
+		</para>
+	</question>
+	<answer>
+		<para>
+		You can do whatever you want in a customized tool. The standard and configurable NXT GUIs don't specify a font, 
+		so what you get depends on your java installation. Getting different fonts for different parts of the displayed 
+		data requires you to write customized tools or to contribute code to the project that allows the user to specify 
+		in the configuration file what font to use for a particular element, attribute, or element's textual content.
+		</para>
+	</answer>
+</qandaentry>
+<qandaentry>
+	<question>
+		<para>
+		How do I change the font size in an NXT GUI?
+		</para>
+	</question>
+	<answer>
+		<para>
+			You can do whatever you want in a customized tool. The standard and configurable NXT GUIs have a 
+			font size (usually 12 point) wired in, with the exception (at September 2006) of the <classname>GenericDisplay</classname>, 
+			which allows a font size to be passed in at the command line. The simplest change would be to recompile 
+			other GUIs with the font size you want, although it would be better to contribute code that allows 
+			users to specify the font size in the configuration file. Some previous customized tools have allowed 
+			the end user to change the font size for a display from a menu. If you wish to revive this code for general use, contact us.
+		</para>
+		<para>
+			The main NXT GUI (<classname>net.sourceforge.nite.nxt.GUI</classname>) that allows the user to choose among the 
+			registered programs for a data set (those mentioned in the metadata under 
+			<sgmltag class="element"><![CDATA[<callable-programs/>]]></sgmltag>) automatically adds a 
+			<classname>GenericDisplay</classname> to the list. This automatic addition uses the default font size (12 point). 
+			If you want a menu entry for a different font size, you need to register the generic display with the 
+			font size you require. The declaration to do this is, e.g.:
+		</para><para>
+<programlisting><![CDATA[
+<callable-programs>
+   <callable-program description="20 point GenericDisplay" name="net.sourceforge.nite.gui.util.GenericDisplay">
+       <required-argument name="corpus" type="corpus"/>
+       <required-argument name="observation" type="observation"/>
+       <required-argument name="fontsize" default="20"/>
+   </callable-program>
+</callable-programs>
+]]></programlisting>
+</para>		
+<para>
+To pop up a window asking the user to enter the fontsize they require, use:
+</para>
+<para>
+<programlisting><![CDATA[
+<callable-programs>
+   <callable-program description="20 point GenericDisplay" name="net.sourceforge.nite.gui.util.GenericDisplay">
+       <required-argument name="corpus" type="corpus"/>
+       <required-argument name="observation" type="observation"/>
+       <required-argument name="fontsize" default="20"/>
+   </callable-program>
+</callable-programs>
+]]></programlisting>
+		</para>
+	</answer>
+</qandaentry>
+</qandadiv>
+
+<qandadiv>
+<title>GUIs</title><anchor id="guifaq"/>
+<qandaentry>
+	<question>
+		<para>
+		Why is the <classname>GenericDisplay</classname> unusable? / Why does the <classname>GenericDisplay</classname> run out of memory?
+		</para>
+	</question>
+	<answer>
+		<para>
+		The <classname>GenericDisplay</classname> is designed to throw up windows corresponding to every XML tree in the data 
+		set for the observation chosen. If your data set has many different annotations, this will be too many windows for 
+		the user to handle, and if it's really big, you many not even be able to load them all at once. You can cut it 
+		down using the query argument to specify the kinds of things you actually want to see in the display. 
+		The <classname>GenericDisplay</classname> is designed to be something that will work, badly, for any NXT format data set - 
+		for actual work you will almost certainly want to set up one of the configurable interfaces or write your own 
+		customized display.
+		</para>
+	</answer>
+</qandaentry>
+</qandadiv>
+<qandadiv>
+<title>Data Model</title><anchor id="datamodelfaq"/>
+<qandaentry>
+	<question>
+		<para>
+		Are filenames case sensitive?
+		</para>
+	</question>
+	<answer>
+		<para>
+		Yes.
+		</para>
+	</answer>
+</qandaentry>
+<qandaentry>
+	<question>
+		<para>
+		Can I use the same element name in two different layers?
+		</para>
+	</question>
+	<answer>
+		<para>
+		No. NXT needs each element to belong to exactly one layer because otherwise it doesn't know how to 
+		serialize the data set, or what files to load when it requires elements of a specific type.
+		</para>
+	</answer>
+</qandaentry>
+<qandaentry>
+	<question>
+		<para>
+		Can I use the same attribute name for two different elements?
+		</para>
+	</question>
+	<answer>
+		<para>
+		Yes.
+		</para>
+	</answer>
+</qandaentry>
+<qandaentry>
+	<question>
+		<para>
+		What kinds of properties can elements inherit from their children?
+		</para>
+	</question>
+	<answer>
+		<para>
+		Only timing information using the reserved start and end time attributes, and this only if time 
+		inheritance is enabled for the element type involved.
+		</para>
+	</answer>
+</qandaentry>
+<qandaentry>
+	<question>
+		<para>
+		What are ids for, and what constraints are there on the values for ids?
+		</para>
+	</question>
+	<answer>
+		<para>
+		An id can be any string that's globally unique. If you are importing data and don't have ids on it yet, 
+		you can get NXT to generate ids for you by loading the data and then saving it. Ids are used to manage 
+		the relationship between display elements in a GUI and the underlying data, and for specifying out-of-file 
+		child and pointer links.
+		</para>
+	</answer>
+</qandaentry>
+<qandaentry>
+	<question>
+		<para>
+		Can elements in two structural layers point to each other?
+		</para>
+	</question>
+	<answer>
+		<para>
+		Yes. In general, any element can point to any other element, as long as all the elements from a given 
+		layer point to elements from the same layer, and this relationship is declared in the metadata. 
+		Pointers do not have to be in featural layers; the featural layer is just useful conceptually 
+		for the kind of layer that only relates to the rest of the data set via pointers.
+		</para>
+	</answer>
+</qandaentry>
+</qandadiv>
+<qandadiv>
+<title>Data Set Design</title><anchor id="datasetdesignfaq"/>
+<qandaentry>
+	<question>
+		<para>
+		What if I want elements from one layer to be able to draw children from either some layer 
+		or the the layer that layer draws children from, skipping straight to what is usually a grandchild?
+		</para>
+	</question>
+	<answer>
+		<para>
+		This violates the NXT data model. Suppose the <sgmltag class="element">phrase-layer</sgmltag> contains the element 
+		<sgmltag class="element">phrase</sgmltag>, which draws children from the <sgmltag class="element">subphrase-layer</sgmltag>, 
+		which contains the element <sgmltag class="element">subphrase</sgmltag>, which draws children from the 
+		<sgmltag class="element">word-layer</sgmltag>, which contains the element <sgmltag class="element">word</sgmltag>. 
+		There are two standard ways to encode the relationship you want:
+		<itemizedlist mark="bullet">
+			<listitem><para>
+				Wrap non-subphrase runs of <sgmltag class="element">word</sgmltag> elements in some new tag, say, 
+				<sgmltag class="element">nosubphrase</sgmltag>, and use these as the children for phrases, so that 
+				you get get strict decomposition in the layers. Then the data conforms completely, but users who are 
+				used to distance limited operators like <literal>^1</literal> will need to know that the intermediate 
+				<sgmltag class="element">nosubphrase</sgmltag> tag is there in the structure.
+			</para></listitem>
+			<listitem><para>
+				Serialize <sgmltag class="element">phrase</sgmltag> and <sgmltag class="element">subphrase</sgmltag> elements 
+				in the same file, and declare them as two tags within the same recursive layer. Then either can contain <sgmltag class="element">word</sgmltag>s, 
+				but also either can contain each other This has the disadvantage that the data model design is declared to be 
+				less restrictive than it should be for the data set, so data validation wouldn't catch <sgmltag class="element">subphrase</sgmltag> elements 
+				that contain <sgmltag class="element">phrase</sgmltag> elements, for instance.
+			</para></listitem>
+			<listitem><para>
+				Declare <sgmltag class="element">phrase-layer</sgmltag> to draw children from 
+				<sgmltag class="element">subphrase-layer</sgmltag>, have <sgmltag class="element">phrase</sgmltag> elements point to 
+				<sgmltag class="element">word</sgmltag>s directly whenever you want, and either store all three layers in the 
+				same file or never use code that lazy loads.
+			</para></listitem>
+		</itemizedlist>
+		The first one is what was designed in as the preferred solution; the others are what data sets usually do. 
+		The third one may not be robust against future NXT development.
+		</para>
+	</answer>
+</qandaentry>
+
+<qandaentry>
+	<question>
+		<para>
+		When should I use pointers and when should I use children?
+		</para>
+	</question>
+	<answer>
+		<para>
+		Use children whenever this is acceptable in the data model (i.e., when it doesn't create loops or require an 
+		element to have multiple, conflicting sets of children), turning off the temporal inheritance if you 
+		need to - it's much easier to query elements related by hierarchy than by pointer.
+		</para>
+	</answer>
+</qandaentry>
+<qandaentry>
+	<question>
+		<para>
+		How much data should I put in one XML file?
+		</para>
+	</question>
+	<answer>
+		<para>
+		Divide your data into files by thinking about typical uses of the data. If one layer draws children from another, 
+		and the two layers always get used together (both within NXT and in external processing), then you can 
+		save some loading overhead by putting them in the same file. If, however, users may want one without the other, 
+		separate them into two files so that lazy loading can minize the data set size in working memory. 
+		If you have an element with many attributes, most of which are rarely used, consider putting 
+		the information conveyed by the attributes in one or more files containing elements that use the old, 
+		reduced elements as children, or that point to them. This makes querying the rarely used information 
+		more cumbersome, but saves overhead in the more common uses.
+		</para>
+	</answer>
+</qandaentry>
+<qandaentry>
+	<question>
+		<para>
+		Should I represent my orthography in textual content, or use an attribute?
+		</para>
+	</question>
+	<answer>
+		<para>
+		The original NXT developers were split between some who wanted to preserve the TEI-ish notion that 
+		the textual content is the base text and some who didn't want any privileged textual content 
+		at all. Both designs have strengths for different kinds of data sets, so it depends. 
+		Most current data sets seem to use textual content.
+		</para>
+		<para>
+			For NXT, textual content has the following special properties:
+
+		<itemizedlist mark="bullet">
+			<listitem><para>
+				In query, you can get at it using e.g. <code>TEXT($w)</code> Some users find this more intuitive than 
+				having to remember a specific attribute name.
+			</para></listitem>
+			<listitem><para>
+				Some of the libraries for building GUIs based on text or transcription expect textual content, 
+				and so e.g. coding tools and transcription-based displays (which you haven't been using so far) 
+				can require less setup if the data is laid out this way - but adding a delegate function that 
+				displays based on an attribute isn't hard.
+			</para></listitem>
+			<listitem><para>
+				Some command line utilities, like <classname>SortedOutput</classname>, treat an element as having textual 
+				content equal to the whitespace-delimited concatenation of its children in order. This can make it 
+				easier to extract some kinds of tables out of an NXT data set (for instance, a list of phrases by 
+				syntactic type) It's possible to get the text out in such tables if it is in attributes on 
+				words lower down in the hierarchy using <classname>FunctionQuery</classname> with the extract function, but cumbersome.
+			</para></listitem>
+			<listitem><para>
+				In future, it's possible that the query language will always treat an element as having textual 
+				content equal to the whitespace-delimited concatenation of its children in order. This was 
+				part of our original design and we have recently had someone complain that NXT doesn't do this,
+				 but we haven't made a decision about whether to make this extension or committed resource to it yet. 
+				If we do this work we could consider adding a reserved attribute for orthography so that we 
+				can treat it equivalently to textual content and suit both choices.
+			</para></listitem>
+		</itemizedlist>
+		There are cases where using textual content is less elegant, as, for instance, in parallel corpora, 
+		where there are two rival versions of the orthography of equal importance.
+		</para>
+	</answer>
+</qandaentry>
+
+<qandaentry>
+	<question>
+		<para>
+		What's special about ontologies? Can I search for the "top-level" code and get all the child codes? 
+		How is it reflected in the underlying data structure?
+		</para>
+	</question>
+	<answer>
+		<para>
+		Ontologies are a way of providing type or attribute value information that isn't just a string, 
+		but where the types or values fit into a hierarchical structure in their own right. Suppose your ontology contains:
+		</para>
+<programlisting><![CDATA[
+[ontol.xml]
+<foo id="id0" name="animal">
+    <foo id="id1" name="bird">
+       <foo id="id2" name="sparrow"/>
+       <foo id="id3" name="chickadee"/>
+    </foo>
+    <foo id="id4" name="dog">
+       <foo id="id5" name="mutt"/>
+    </foo>
+</foo>
+]]></programlisting>
+		<para>Your elements can point into the ontology:</para>
+<programlisting><![CDATA[
+<el>
+    <nite:pointer href="ontol.xml#id3"/>
+</el>
+]]></programlisting>
+		<para>to get type information. You can test for chickadees:</para>
+<programlisting><![CDATA[
+($a el)($b foo):($a > $b) &&  ($b@name="chickadee")
+]]></programlisting>
+		<para>but you can also test for birds in general:</para>
+<programlisting><![CDATA[		
+($a el)($b foo):($a > $b)::($c foo):($c@name="bird") && ($c ^ $b)
+]]></programlisting>
+		<para>Elements in ontologies have searchable relationships just like everything else.</para>
+		<para>
+			In another sense, ontologies aren't at all special, because you could encode the same information 
+			as a corpus-resource and still be able to access the information from the query language. 
+			Using an ontology is more restrictive because it assume one tag name throughout the hierarchy.
+		</para>
+	</answer>
+</qandaentry>
+
+</qandadiv>
+<qandadiv>
+<title>Query Language</title><anchor id="querylanguagefaq"/>
+<qandaentry>
+	<question>
+		<para>
+		Is there a "not dominates" operator, like <literal>!^</literal>?
+		</para>
+	</question>
+	<answer>
+		<para>
+		Use e.g. <code>!($a ^ $b)</code>.
+		</para>
+	</answer>
+</qandaentry>
+</qandadiv>
+<qandadiv>
+<title>Performance</title><anchor id="performancefaq"/>
+<qandaentry>
+	<question>
+		<para>
+		What are the memory limits to NXT in loading data?
+		</para>
+	</question>
+	<answer>
+		<para>
+		 The in-memory data representation uses around 7 times the disk storage space for the same data, 
+		or a bit less. If lazy loading is on, only the files that are actually needed are loaded.
+		</para>
+	</answer>
+</qandaentry>
+</qandadiv>
+
+</qandaset>
+</appendix> 

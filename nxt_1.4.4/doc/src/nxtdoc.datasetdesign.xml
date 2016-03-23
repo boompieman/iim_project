@@ -1,0 +1,291 @@
+<section id="datasetdesign">
+    <title>Data Set Design</title>
+
+<remark>  Sometimes designers want the same pointer role from the same node type to be able to point to nodes drawn from not just one target 
+	layer, but from a disjunction of layers.  There's no fix, so we don't mention it? </remark>
+
+
+    <para>Because NXT does not itself commit the user to any particular
+data representation as long as it is expressed in terms of the NITE
+Object Model, it requires users to design their data sets by expressing
+formally what the annotations contain and how the annotation relate 
+to each other.  For complex data sets with many different kinds of
+annotations, there can be many different possible arrangements, and 
+it can be difficult to choose among them, particularly for novice users.  
+In this section, we comment on the design choices NXT presents.</para>
+
+
+<section id="datasetdesign_children_vs_pointers">
+   <title>Children versus Pointers</title>
+
+   <para>
+     Often in NXT data sets, there is a choice between whether to 
+     represent a relationship between two nodes as that of parent
+     and child or using a pointer.
+   </para>
+
+    <para>
+     In general, prefer parent-child relationships except where that
+     violates the constraints of the NITE Object Model by introducing
+     cycles into the graph structure.  If necessary, turn off time
+     percolation within a tree to have parent-child relationships make
+     sense.  Trees are both faster to process and easier to access
+     within the query language; the hat operator (<literal>^</literal>)
+     calculates ancestorhood at any distance, but the pointer operator
+     (<literal>></literal>) is for one level at a time.
+      The one exception is cases where using a pointer seems to fit
+      the semantics of the relationship more naturally and where
+      querying will not require tracing through arbitrary numbers of
+      nodes.
+    </para>
+
+</section>
+
+<section id="datasetdesign_tag_set">
+   <title>Possible Tag Set Representations</title>
+
+   <para>A tag set is a list of types for some annotation. For
+   instance, for a dialogue act annotation, two typical tags in the
+   set would be <literal>question</literal> and
+   <literal>statement</literal>.  Dialogue acts would typically be
+   represented as a single layer of nodes that draw their children
+   from a transcription layer, but this still leaves the question of
+   how to represent their tag.  There are three possibilities:
+   </para>
+<orderedlist>
+
+<listitem><para>defining a different code in the layer for each tag and
+using this code, or "node type"; 
+   </para></listitem>
+
+<listitem><para>having one code but using an attribute defined using an
+enumerated attribute value list containing the tags;    
+</para></listitem>
+
+<listitem><para> or having one code that points into a separate
+ontology or other kind of corpus resource that contains nodes that
+themselves represent the tags.  </para></listitem>
+
+</orderedlist>
+
+   <para>The first option might seem the most natural, but it is
+   cumbersome in the query language because in searches over more than
+   one tag, each possible tag must be given in a disjunction for
+   matching the node type (e.g., <code>($d question |
+   statement)</code>).  A further advantage of the other two
+   representations is that NXT's query language provides regular
+   expression matching over attribute values; that is, if the tag set
+   includes two kinds of questions, <literal>yn-question</literal> and
+   <literal>wh-question</literal> and the tags are given as attribute
+   values on some node, then expressions such as <code>($d@tag ~
+   /.*question/)</code> will match them both.  
+   </para>
+
+    <para> Of the other two representations, the simpler choice of
+    using an enumerated attribute value makes queries more succinct
+    (e.g., <code> ($s dialogueact):($s@type=="question")</code>
+    rather than <code>($s dialogueact)($t
+    da-type):($s>"type"$t):($t@name=="question")</code>).  However,
+    historically the configurable annotation tools could only be set
+    up using ontologies, forcing their use for data created using
+    these tools. The discourse segmentation and discourse entity tools
+    were changed in NXT version 1.4.0 to allow either method, and the
+    signal labeller is expected to follow suit shortly.  For new
+    corpora, using an ontology retains two advantages.  The first is
+    the ability to swap in different versions without having to change
+    the data itself, for instance, to rename the tags or change the
+    structure of the ontology. The second is for tag sets where the
+    designers wish to encode more information than can be packed
+    clearly into one string for use with regular expression matching
+    --- the nodes in an ontology can contain as many attributes as are
+    required to describe a tag or pointers to and from other data
+    structures, and can themselves form a tree structure instead of a
+    flat list.  The latter is useful for testing tags by "supertype";
+    for instance, if all initiating dialogue act tags are grouped
+    together under one node in the ontology, whether or not an act is
+    an initiation can be tested e.g. by <code>($d dialogueact)($t
+    da-type)($s da-type):($d >"type" $t) &amp;&amp; ($s ^ $t) &amp;&amp;
+    ($s@name=="initiation") </code>.
+   </para>
+
+
+  <remark> Check version of tools plus names of tools. </remark>
+</section>
+
+<section id="datasetdesign_orthography">
+   <title>Orthography as Textual Content versus as an String Attribute</title>
+
+   <para>Ordinarily, orthography is represented using the textual
+   content of a node.  Alternatively, orthography can be represented
+   in a user-defined string attribute.
+   </para>
+
+    <para>
+      There are several advantages to representing orthography as
+      textual content.  The first is for processing outside NXT ---
+      since textual content is a common representation, there are a
+      number of XML tools that expect to find orthography there
+      already.  The second is that the configurable tools also expect
+      this, and so they will work for data represented this way
+      without the need to modify how they render transcription by
+      writing delegate methods specifically for the corpus.  However,
+      using the textual content is not always practicable.  This is
+      because in the NITE Object Model, nodes can have either textual
+      content or a set of children, but not both.  Although different,
+      rival orthographies for the same signal can be accommodated easily
+      using different, rival transcription layers, complex orthographic
+      encodings which require orthography at different levels in the same
+      tree cannot.  As an example, consider cases where a word was said
+      in a reduced form (e.g., "gonna"), but it is felt necessary to break
+      this down further into its component words ("going" and "to").  
+      If this is to be represented as one element decomposed into two,
+      the top one cannot have textual content, and therefore orthography 
+      must be represented using a string attribute.
+    </para>
+
+    <para> The reason why NITE Object Model nodes cannot have both
+    textual content and children is to make it clear how to traverse
+    trees within it.  If a node had both, we would not know whether
+    the textual content should come before the children, after them,
+    or somewhere in the middle.  The reason it was included was
+    because it was considered useful to treat the orthography as
+    special within the data representation.  One might, for instance,
+    consider the textual content of a node to be a concatenation of
+    the textual content of its children in order using some
+    appropriate separator.  We are currently discussing whether the
+    NITE Object Model ought to perform this operation in future
+    versions, or whether we ought to deprecate the use of textual
+    content altogether in favour of string attributes that concatenate
+    except where overridden at a higher level in the tree.
+    </para>
+
+<remark> Check accuracy of text content/child statement.  Check percolation with JK.</remark>
+</section>
+
+
+<section id="datasetdesign_namespaces">
+   <title>Use of Namespaces</title>
+
+<para>
+   Ordinarily, we would recommend the use of namespaces throughout a
+   data set, particularly where a corpus is expected to attract many
+   different annotations from different contributors.  However, NXT's
+   query language processor has historically contained a bug which
+   means that it is unable to parse types and attribute names that
+   contain namespaces.  This is not a problem for default use of the
+   <literal>nite</literal> namespace because the query language exposes the
+   namespaced attributes using functions (e.g., <code>ID($x)</code>
+   for <code>$x@nite:id</code>, but it is for user-defined uses of
+   namespacing.  We expect this problem to be resolved at some point
+   in the future (after version 1.3.7) but not as a high priority.
+</para>
+
+<remark> Put in Sourceforge bug number? </remark>
+</section>
+
+<section id="datasetdesign_files">
+   <title>Division into Files for Storage</title>
+
+
+
+<para>The set of intersecting trees in a set of annotations
+   constrains how the data will be stored, since each tree must be
+   stored in a different file (or set of files, in the case of agent
+   annotations).  However, it does not fully specify the division into
+   files, since NXT has both in-file and out-of-file representations
+   for parent-child relationships. Data set designers can choose to
+   store an entire tree in one file (or set of files) or to split the
+   tree into several files, specifying which layers go in each.</para>
+
+<para>Dividing a tree into several files can have several benefits.
+   The first is that since NXT lazy loads one file at a time as it
+   needs it, it can mean less data gets loaded over all, making the
+   processing quicker and less memory-intensive.  The second is that
+   each file is simpler, making it easier to process as plain old XML,
+   especially the base layers, since these have no out-of-file child
+   links. The third is that during corpus creation, assuming some
+   basic ground rules about building layers up from the bottom, each
+   file can be edited independently.  However, dividing a tree into
+   several files also has some drawbacks --- the data takes more space
+   on disk it parent-child relationships are represented as
+   out-of-file links rather than using the structure of the XML file,
+   and there is a processing overhead involved in the operation of
+   loading each file.
+   </para>
+
+<para>  A good general rule of thumb is to consider
+   whether use of one layer means that the other layer will also be
+   needed.  Unless most users will always want the two layers
+   together, both inside and outside NXT, then store them in different
+   files.
+</para>
+
+
+</section>
+
+<section id="skiplayers" xreflabel="Skipping Layers">
+
+   <title id="skiplayers.title">Skipping Layers</title>
+
+
+
+   <para>Sometimes, the layering model imposed by NXT metadata is more
+   rigid than a corpus designer would like.  It can be useful to allow
+   some nodes in a layer to draw children not from the declared next
+   layer, but from the layer directly below it, skipping a layer
+   completely.  This can be the case when the middle layer contains
+   some phenomenon that covers only some of the lowest level nodes.
+   For instance, suppose one intends a corpus with dialogue act
+   annotation and some kind of referring expression markup, both over
+   the top of words.  Referring expressions are within acts, so it
+   would be possible to have them between acts and words in one tree,
+   if the layer structure allowed acts to mix words and referring
+   expressions as children. 
+   </para>
+
+   <para>
+   Some NXT corpora have simply violated the layer model in this way,
+   and at present, for the most part it still works; however, because
+   NXT by default uses "lazy loading" to avoid loading data files when
+   it knows they are not needed, users of these corpora must turn lazy
+   loading off - a major cost for memory and processing time that is
+   untenable for larger data sets - or else consider for each data use
+   whether lazy loading is safe in that instance.  In addition, relying
+   on NXT's current behaviour in this regard may be risky as the
+   software develops.  There are several other options.
+   </para>
+
+   <para>
+   The first is to separate out the middle and top layers into separate
+   trees, making them both draw children from the bottom layer, but 
+   independently. (This has the side effect of serializing them into different 
+   files.) Then nodes in the top layer are no longer parents of nodes
+   in the middle layer, but they can be related to each other via the
+   nodes from the bottom layer that they both contain.
+   </para>
+
+   <para>
+   The second is to wrap all of the unannotated node spans from the
+   bottom layer with a new node type in the middle layer, and have the
+   top layer draw children from the bottom layer indirectly via these
+   new nodes.  The additional nodes would take some storage space and memory.
+   The one thing that might trip
+   corpus users up about this arrangement is if they use distance-limited
+   ancestorhood in queries, since they would be likely to forget the nodes
+   are there.
+   </para>
+
+   <para>
+   The third is to declare the top and middle layers together as one
+   recursive layer, which means as a side effect that they must be
+   serialized to the same file.  This method behaves entirely as 
+   desired, but prevents NXT from validating the data correctly, since
+   NXT allows any node type from a recursive layer to contain any
+   other node type from the layer as a child.  
+   </para>
+
+
+</section>
+
+
+</section>

@@ -1,0 +1,66 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" 
+ [  <!ENTITY introduction SYSTEM "nxtdoc.introduction.xml">
+    <!ENTITY datamodel SYSTEM "nxtdoc.datamodel.xml">
+    <!ENTITY queryref SYSTEM "nxtdoc.queryref.xml">
+    <!ENTITY genericdisplay SYSTEM "nxtdoc.genericdisplay.xml">
+    <!ENTITY nxtsearchgui SYSTEM "nxtdoc.nxtsearchgui.xml">
+    <!ENTITY signallabeller SYSTEM "nxtdoc.signallabeller.xml">
+    <!ENTITY decoder SYSTEM "nxtdoc.decoder.xml">
+    <!ENTITY dscoder SYSTEM "nxtdoc.dscoder.xml">
+    <!ENTITY funding SYSTEM "nxtdoc.funding.xml">
+ ]>
+
+<article>
+  <title>NQL Reference Manual</title>
+
+  <articleinfo>
+    <revhistory>
+      <revision>
+        <revnumber>0.1</revnumber>
+
+        <date>27 Sep 06</date>
+      </revision>
+    </revhistory>
+
+    <authorgroup>
+      <author>
+        <firstname>Jean</firstname>
+
+        <surname>Carletta</surname>
+      </author>
+
+      <author>
+        <firstname>Stefan</firstname>
+
+        <surname>Evert</surname>
+      </author>
+
+      <author>
+        <firstname>Jonathan</firstname>
+
+        <surname>Kilgour</surname>
+      </author>
+
+      <author>
+        <firstname>Holger</firstname>
+
+        <surname>Voormann</surname>
+      </author>
+    </authorgroup>
+
+  </articleinfo>
+
+  <para>...</para>
+
+  
+  &queryref;
+
+  <section>
+    <title>Further reading</title>
+
+    <para>Bug reports and feature requests are kept on <ulink url="http://sourceforge.net/projects/nite/">Sourceforge</ulink>.</para>
+
+  </section>
+
+</article>

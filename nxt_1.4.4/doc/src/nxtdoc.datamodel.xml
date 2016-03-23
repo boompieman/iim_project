@@ -1,0 +1,335 @@
+<section id="NOM-impl">
+   <title id="nom-impl.title">The NITE Object Model</title>
+
+<remark> should NOM come before Data Set Model or after? </remark>
+   <para>
+The NITE Object Model consists of a general graph structure, and then
+some properties imposed on top of that graph structure that make using
+that structure more computationally tractable whilst still expressing
+the sorts of relationships that are prevalent among annotations.
+   </para>
+
+   <para>
+The NITE Object Model is a graph where the nodes are required to have
+a <firstterm>simple type</firstterm> and may additionally have
+<firstterm>attribute-value pairs</firstterm> elaborating on the simple type,
+<firstterm>timings</firstterm>, 
+<firstterm>children</firstterm> that the node structurally dominates, 
+<firstterm>textual content</firstterm>,
+<firstterm>pointers</firstterm> relating the node to other nodes,
+and <firstterm>external pointers</firstterm> relating the node to external
+data not represented in the NITE Object Model.
+Any individual node may have either children or textual content, but not
+both.  
+   </para>
+
+<remark> TEMP do we want to restrict the NOM by definition so that only one external pointer can be included in any node?  This is the de facto restriction in the way external-reference-layers are defined, but the NOM is often less restricted than the layer structure, and it makes sense to me to keep the structure as parallel to pointers as possible (including keeping the arity open). </remark>
+<para>
+  The <firstterm>simple type</firstterm> is a string.  
+</para>
+
+<para>
+An <firstterm>attribute</firstterm> is identified by a simple label string and
+takes a <firstterm>value</firstterm> that conforms to one of three types: a
+string, a number, or an enumeration.  The simple type of the element
+determines what attributes it can contain.  For any element, the
+simple type plus the attribute-value pairs defined for the element
+represent its full type.
+</para>
+
+<para>
+<firstterm>Timing</firstterm> information can be present, and is represented by
+reserved start and end attributes containing numbers that represent
+offsets from the start of the synchronized signals.
+</para>
+
+<para>
+The <firstterm>children</firstterm> are represented by an (ordered) list of other nodes.
+</para>
+
+<para>
+The <firstterm>textual content</firstterm> is a string.  For nodes that have
+children instead of textual content, some NXT-based tools use
+an informal convention that the textual content of the node is
+equivalent to textual content of its descendants, concatenated
+in order and whitespace-separated.
+</para>
+
+<para>
+The <firstterm>pointers</firstterm> are represented by a list of
+<firstterm>role</firstterm> and <firstterm>filler</firstterm> pairs.
+A <firstterm>role</firstterm> is a simple label string that has an
+expected arity, or number of nodes, expected to fill the role: one, or
+one-or-more.  A role is <firstterm>filled</firstterm> by a set of
+nodes with the expected arity.  We sometimes use the term
+<firstterm>features</firstterm> for these pointers.
+</para>
+
+<para>
+The <firstterm>external pointers</firstterm> are also represented by a
+list of <firstterm>role</firstterm> and <firstterm>filler</firstterm>
+pairs.  A <firstterm>role</firstterm> is again a simple label string
+with an expected arity of one or one-or-more.
+The role of an external pointer
+is <firstterm>filled</firstterm> by a string that specifies a datum in
+the external reference format, with the details of how the referencing
+works left to the application program.  This can be useful, for instance,
+in tailored applications that need to cooperate with existing tools that
+display data in the other format.
+</para>
+
+<para>
+The object model also imposes some properties on the parent-child
+relationships within this general graph structure.  Firstly, the
+parent-child relationships in this graph must be acyclic, so that its
+transitive closure can be interpreted as a dominance
+relation. Secondly, there must not be more than one path between any
+two elements. Because of these constraints, the parent-child graph
+(which, unlike a tree, allows children to have multiple parents)
+decomposes into a collection of intersecting tree-like structures,
+called <firstterm>hierarchies</firstterm>. Each hierarchy has its own structural
+ordering (similar to an ordered tree), but these orderings must be
+consistent where hierarchies intersect.
+</para>
+
+<para>
+If an element has timing information, the element's start time must be
+less than or equal to its end time. In addition, if elements in a
+dominance relation both have timing information, the time interval
+associated with the ancestor must include that of the descendant.  The
+times of elements need not be consistent with any of the structural
+orderings.  Timing information can thus be used to define an
+additional partial ordering on the graph, which is not restricted to a
+single hierarchy.
+</para>
+
+<para>
+In the object model, there are no structural or timing constraints
+imposed on nodes based on the pointers between them.  The pointers
+merely provide additional, arbitrary graph structure over the top
+of the intersecting hierarchy model.
+</para>
+
+<remark> TEMP We say nodes can have text or children, not both, and that text content of non-leaves is concatenation of descendent's text as informal convention in some tools - is this correct? </remark>
+
+</section>
+
+<!--**************************-->
+
+<section id="layering" xreflabel="NITE Data Set Model">
+   <title>The NITE Data Set Model</title>
+
+
+   <para>
+Our object model is simply an abstract graph structure with a number
+of properties enforced on it that govern orderings. However, it can be
+difficult for data set designers to think of their data in terms this
+abstract, rather than the more usual concepts such as corpus, signal,
+and annotation.  
+For this reason, we provide a data
+set model in these familiar terms that can easily be expressed using
+our object model and from whose structure the essential properties we
+require regarding orderings and acyclicity fall out.  Data set
+designers use this level of the model to describe their designs,
+and by providing metadata that expresses the design formally, make it
+possible to validate the overall structure of any specific data set
+against their intended design.
+   </para>
+
+<para>
+Here we describe the main entities and relationships that occur in
+our data set model.
+</para>
+
+<variablelist>
+   <title>Data Set Model Concepts</title>
+<varlistentry>
+   <term>Observation</term>
+   <listitem><para> 
+   An observation is the data collected for one
+   interaction — one dialogue or small group discussion, for example.
+   </para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term>Corpus</term>
+   <listitem><para> 
+    A corpus is a set of observations that have the
+   same basic structure and together are designed to address some
+   research need.  For each simple data type, metadata for the corpus
+   determines what attribute-value pairs can be used to refine the
+   type, whether or not elements of that type have timing information
+   and/or children, and what features can be present for them.
+   </para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+   <term>Agent and Interaction</term>
+   <listitem><para> An agent is one interactant in an observation.
+   Agents can be human or artificial.  We provide the concept of agent
+   so that signals and annotations can be identified as recording or
+   describing the behaviour of a single agent or of the interacting
+   group as a whole.  As an example, individual agents speak, but it
+   takes two of them to have a handshake, and possibly the entire set
+   to perform a quadrille.  Any signal or annotation involving more
+   than an individual agent counts as belonging to the interaction even
+   if it involves a subset of the agents present.
+  </para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term>Signal</term>
+   <listitem><para> A signal is the output from one sensor used to
+   record an observation: for example, an audio or video file or blood
+   pressure data.  An observation may be recorded using more than one
+   signal, but these are assumed to be synchronized, so that
+   timestamps refer to the same time on all of them. 
+   This can be achieved through pre-editing.  
+   Individual signals
+   can capture either one agent (for instance, a lapel microphone or  
+   a close-up camera) or the interaction among the agents (for instance,
+   a far-field microphone or overhead camera).
+   </para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term id="layer" xreflabel="layer definition">Layer</term>
+
+   <listitem><para> A layer is a set of nodes that together span an
+   observation in some way, containing all of the annotations for a
+   particular agent or for the interaction as a whole that are either
+   of the same type or drawn from a set of related types. Which data
+   types belong together in a layer is defined by the corpus metadata.
+   For instance, the TEI defines a set of tags for representing words,
+   silences, noises, and a few other phenomena, which together span a
+   text and make up the orthographic transcription.  In this
+   treatment, these tags would form a layer in our data set model.
+   </para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term>Time-aligned layer</term>
+   <listitem><para> 
+A time-aligned layer is a layer that contains nodes timed directly
+against signal.
+   </para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term>Structural layer</term>
+   <listitem><para> 
+
+A structural layer is a layer where the nodes have children.  
+The children of a structural layer are
+constrained to be drawn from a single layer, which, in order to allow
+recursive structures, can be itself.  Ordinarily
+nodes in this layer will inherit timing information from their children
+if their children are timed, but this inheritance can be blocked.
+   </para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term>Featural layer</term>
+   <listitem><para> 
+
+A featural layer is a layer where the nodes point to other nodes, but
+do not contain children or timing information.  
+A featural layer draws together other nodes into
+clusters that represent phenomena that do not adhere to our timing
+relationships.  For instance, a featural layer might contain
+annotations that pair deictic gestures with deictic pronouns.  Since
+deictic pronouns and their accompanying gestures can lag each other by
+arbitrary amounts, there is no sense in which the deictic pair spans
+from the start of one to the end of the other.
+   </para></listitem>
+</varlistentry>
+ 
+<varlistentry>
+   <term>External reference layer</term>
+   <listitem><para> 
+
+External reference layers give a mechanism for pointing from an NXT
+data graph into some data external to NXT that is not in NXT's data
+format.  In an external reference layer, the nodes point both
+to other NXT nodes and specify a reference to external data.
+For instance, an external reference layer might contain annotations
+that pair transcribed words with references in an ontology represented
+in OWL.  
+   </para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term>Coding</term>
+   <listitem><para> 
+
+A coding is a sequence of one or more layers that describe an
+observation, all either for the same agent or for the interaction as a
+whole, where each layer’s children are taken from the next layer in
+the sequence, ending either in a layer with no children or in a layer
+whose children are in the top layer of another coding.  Codings
+defined in this way consist of tree structures, and the relations
+among codings allow the intersecting hierarchies of the NITE Object
+Model. Since most coherent annotations applied to linguistic data fit
+into tree structures, for many corpora, the codings will correspond to
+what can be thought of loosely as types of annotation.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term>Corpus Resource</term>
+   <listitem><para> 
+A corpus resource is a sequence of one of more layers that provide
+reference data to which coding nodes can point.  A corpus resource
+might be used, for instance, to represent the objects in the universe
+to which references refer, the lexical entries that correspond to 
+spoken word tokens, or an ontology of types for a linguistic phenomena
+that provides more information than the basic strings given in a node's
+simple type.  The nodes in a corpus resource will not have timing
+information. For backwards compatibility, NXT corpora may describe
+individual corpus resources as <firstterm>object sets</firstterm> or <firstterm>ontologies</firstterm>, where object sets are expected to form 
+flat lists and ontologies may have tree structure. 
+   </para></listitem>
+</varlistentry>
+
+<varlistentry>
+   <term>Code</term>
+   <listitem><para> A code is an individual data item, corresponding
+   to one node in the NITE Object Model.  The metadata declaration for
+   codes of a specific type defines the attribute-value pairs that are
+   allowed for that type.  If the code relates to other codes using
+   pointers, the declaration specifies by role in which layer the
+   target of the pointer must be found.  Further restrictions on the
+   types allowed as children for any given code arise from the layer
+   in which the code is placed.
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+<para>
+Together, these definitions preserve the ordering properties that we
+desire; intuitively, time-aligned and structural layers are ordered,
+and timings can percolate up structural layers from a time-aligned
+layer at the base.  The layer structure within a coding prohibits
+cycles. 
+</para>
+
+<para> The structure of any particular data set
+   is declared in these terms in the metadata file for the 
+    corpus and imposed by it; for instance, 
+    if you validate a corpus against the
+    metadata, any nodes that violate the layering constraints
+    declared in the metadata will be
+    flagged.  However, technically speaking, the NITE Object Model
+    itself is perfectly happy to load and work with data that violates
+    the layer model as long as the data graph itself contains no
+    cycles.  A number of previous corpora have violated the layering
+    model deliberately in order to avoid what the designers see as too
+    rigid constraints (see <xref linkend="skiplayers"
+endterm="skiplayers.title"/>).  We don't
+    recommend this because violations can have unintended consequences
+    unless the designers understand how NXT's loading, validation, and
+    serialization work, and may not continue to have the same effects
+    as NXT development continues.
+    </para>
+</section>

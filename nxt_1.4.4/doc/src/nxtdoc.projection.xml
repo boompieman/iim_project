@@ -1,0 +1,103 @@
+<section id="projection">
+	<title>Projecting Images Of Annotations</title>
+	
+<para>
+	Sometimes even though an annotation layer draws children from some lower layer, it's useful to know what 
+	the closest correspondence is between the segments in that layer and some different lower layer. 
+	For instance, consider having both hand transcription and hand annotation for dialogue acts above it, 
+	and also ASR output with automatic dialogue act annotation on top of that. There is no relationship 
+	apart from timing between the hand and automatic dialogue acts, but to find out how well the automatic 
+	process works, it's useful to know whether it segments the hand transcribed words the same way, 
+	and with the same categories, as the hand annotation does.
+</para>
+<para>
+	<classname>ProjectImage</classname> is a tool that allows this comparison to be made. Given some source annotation 
+	that segments the data by drawing children from a lower layer, and the name of a target annotation that is 
+	defined as drawing children from a different lower layer, it creates the target annotation by adding annotations 
+	that are just like the source but with the other children. A child is inside a target segment if its timing midpoint 
+	is after the start and before the end of the source segment. If there are no such children, then the target 
+	element will be empty. <classname>ProjectImage</classname> adds a pointer from each target element back to 
+	its source element so that it's easy to check categories etc.
+</para>
+	
+<note><para>ProjectImage was committed to CVS on 21/11/2006 and will be in all subsequent NXT builds.</para></note>
+	
+<orderedlist numeration="arabic">
+	<listitem><para>
+		<link linkend="compile">Checkout and build from CVS</link> (or use a build if there is one post 21/11/06).
+	</para></listitem>
+	<listitem><para>
+		Edit your metadata file and prepare the ground. You need to decide what NXT element is being projected onto 
+		which other. As an example we'll look at Named Entities on the AMI corpus: imagine we want to project manually 
+		generated NEs onto ASR output to take a look at the result. You'll already have the manual NEs and ASR transcription 
+		declarations in your metadata:
+<programlisting><![CDATA[
+<coding-file name="ne" path="namedEntities">
+    <structural-layer draws-children-from="words-layer" name="ne-layer">
+        <code name="named-entity" text-content="false">
+            <pointer number="0" role="type" target="ne-types"/>
+        </code>
+    </structural-layer>
+</coding-file>
+
+<!-- ASR version of the words -->
+<coding-file name="asr" path="ASR">
+    <time-aligned-layer name="asr-words-layer">
+        <code name="asrword" text-content="true"/>
+        <code name="asrsil"/>
+    </time-aligned-layer>
+</coding-file>
+]]></programlisting>
+		and now you need to add the projection layer into the metadata file, remembering to add a pointer from the target to source layer:
+<programlisting><![CDATA[
+<!-- ASR Named entities -->
+<coding-file name="ane" path="ASRnamedEntities">
+    <structural-layer draws-children-from="asr-words-layer" name="asr-ne-layer">
+        <code name="asr-named-entity" text-content="false">
+            <pointer number="0" role="source_element" target="ne-layer"/>
+            <pointer number="0" role="type" target="ne-types"/>
+        </code>
+    </structural-layer>
+</coding-file>
+]]></programlisting>
+	</para></listitem>
+	<listitem><para>
+		Using a standard NXT <envar>CLASSPATH</envar> or just using the <parameter>-cp</parameter> argument to the java command below like this: 
+		<code>-cp lib/nxt.jar:lib/xercesImpl.jar</code>, run <classname>ProjectImage</classname>:
+<programlisting>
+java net.sourceforge.nite.util.ProjectImage -c /<replaceable>path/to</replaceable>/AMI-metadata.xml 
+          -o ES2008a -s named-entity -t asr-named-entity
+</programlisting>
+	The arguments to <classname>ProjectImage</classname> are:
+		<itemizedlist mark="opencircle">
+			<listitem><para>
+				<parameter>-c</parameter> metadata file including definition for the target annotation
+			</para></listitem>
+			<listitem><para>
+				<parameter>-o</parameter> Optional observation argument. If it's not there the projection will be done for the entire corpus
+			</para></listitem>
+			<listitem><para>
+				<parameter>-s</parameter> source element name
+			</para></listitem>
+			<listitem><para>
+				<parameter>-t</parameter> target element name
+			</para></listitem>
+		</itemizedlist>
+	</para></listitem>
+</orderedlist>
+<para>
+	The output is a (set of) standard NXT files that can be loaded with the others. To get textual output, use <classname>FunctionQuery</classname>
+	on the target annotation resulting from running <classname>ProjectImage</classname> (see <xref linkend="functionquery"/>).
+</para>
+	
+<section id="projection_notes">
+	<title>Notes</title>
+<para>
+	<classname>ProjectImage</classname> can be used to project any type of data segment onto a different child layer, and so has many uses beyond the one described. 
+	The main restriction is that the segments must all use the same tag name. Although it might be more natural to define the imaging in terms 
+	of a complete NXT layer, the user would have to specify at the command line a complete mapping from source tags to target tags, which 
+	would be cumbersome. Moreover, many current segmentation layers use single tags. In future NXT versions we may consider generalizing 
+	to remove this restriction.
+</para>
+</section>
+</section> 

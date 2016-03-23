@@ -1,0 +1,199 @@
+<section id="knit" xreflabel="Knitting and Unknitting NXT Data Files">
+    <title id="knit.title">Knitting and Unknitting NXT Data Files</title>
+
+
+<para>By "<function>knit</function>ting", we mean the process of
+creating a larger tree than that in an individual coding or corpus
+resource by traversing over child or pointer links and including what
+is found. Knitting an XML document from an NXT data set performs a
+depth-first left-to-right traversal of the nodes in a virtual document
+made up by including not just the XML children of a node but also the
+out-of-document children links (usually pointed to using <sgmltag
+class="element">nite:child</sgmltag> and <sgmltag
+class="element">nite:pointer</sgmltag>, respectively, although the
+namimg of these elements is configurable). In the data model, tracing
+children is guaranteed not to introduce cycles, so the traversal
+recurses on them; however, following links could introduce cycles, so
+the traversal is truncated after the immediate node pointed to has
+been included in the result tree. For pointers, we also insert a node
+in the tree between the source and target of the link that indicates
+that the subtree derives from a link and shows the role.  The result
+is one tree that starts at one of the XML documents from the data set,
+cutting across the other documents in the same way as the
+<literal>^</literal> operator of the query language, and including
+residual information about the pointer traces.  At May 2004, we are
+considering separating the child and pointer tracing into two
+different steps that can be pipelined together, for better
+flexibility, and changing the syntax of the element between sources
+and targets of links.
+</para>
+
+<para>Unknitting is the opposite process, involving splitting up a
+large tree into smaller parts with stand-off links between them.</para>
+
+<para>Knitting NXT data can create standard XML files from stand-off
+XML files. This can be essential for downstream processing that is XML
+aware but does not deal with stand-off markup. <link
+linkend="datastorage" endterm="datastorage.title"/> describes NXT's
+stand-off annotation format. </para>
+
+<!--
+<para>Knitting can be useful in many situations - one example is for
+processing the output of NXT queries saved using the SaveQueryResults
+tool (<link linkend="commandlinetools" endterm="commandline.title"/>). That data is saved as a
+structured list of pointers into the NXT data set, but it may be
+more useful instead to have a structured list of actual XML
+elements.</para>
+-->
+
+<para>There are two distinct approaches for kitting data: using an
+XSLT stylesheet, or using the LT XML2 toolkit.</para>
+
+<section id="knitxslt">
+  <title>Knit using Stylesheet</title>
+
+<para>To resolve the children and pointers from any NXT file there is
+a stylesheet in NXT's <filename class="directory">lib</filename>
+directory called <filename>knit.xsl</filename>. Stylesheet processor
+installations vary locally. Some people use
+<application>Xalan</application>, which happens to be redistributed
+with NXT.  It can be used to run a stylesheet on an XML file as
+follows.</para>
+
+<programlisting>
+ java org.apache.xalan.xslt.Process -in INFILE -xsl lib/knit.xsl -param idatt id 
+    -param childel child -param pointerel pointer -param linkstyle ltxml 
+    -param docbase file:///my/file/directory 2> errlog > OUTFILE
+</programlisting>
+
+<para>The docbase parameter indicates the directory of the INFILE, used to
+resolve the relative paths in child and pointer links. If not
+specified, it will default to the location of the stylesheet (NOT the
+input file!). Note that if you're using the absolute location of the
+INFILE, it is perfectly fine to just set docbase to the same thing,
+because the entity resolver will take its base URL (according to xslt
+standard) for document function calls. </para>
+
+<note><para>This means you may have to move XML files around so that
+all referred-to files are in the same directory.</para></note>
+
+<para>The default <sgmltag class="attribute">linkstyle</sgmltag> is
+<sgmltag class="attvalue">LT XML</sgmltag>, the default <sgmltag
+class="attribute">id</sgmltag> attribute is <sgmltag
+class="attvalue">nite:id</sgmltag>, the default indication of an
+out-of-file child is <sgmltag class="attvalue">nite:child</sgmltag>,
+and the default indication of an out-of-file pointer is <sgmltag
+class="attvalue">nite:pointer</sgmltag>. These can be overridden using
+the parameters <parameter class="option">linkstyle</parameter>,
+<parameter class="option">idatt</parameter>, <parameter
+class="option">childel</parameter>, and <parameter
+class="option">pointerel</parameter>, respectively, and so for example
+if the corpus is not namespaced and uses xpointer links,
+</para>
+<programlisting>
+java org.apache.xalan.xslt.Process -in <replaceable>INFILE</replaceable> -xsl <replaceable>STYLESHEET</replaceable> 
+	-param linkstyle xpointer -param idatt id 
+	-param childel child -param pointerel pointer
+</programlisting>
+
+
+<!-- text from comments in knit.xsl removed because it's basically
+already in the introduction above -->
+
+<!-- <para>For out-of-file children, knit inserts a copy of the child as a normal
+XML child.  That's uncontroversial.  It's less clear what behaviour
+should be used for pointers, since these are allowed to introduce
+cycles.  This stylesheet goes ahead and inserts the target node, but
+doesn't trace its children, in order to avoid loops.  Between the
+element pointed to and the element that points, it inserts a new
+element with a name derived from the parent name and pointer role,
+separated by a hyphen.  This element has ref and pointer attributes;
+ref is the original href, and pointer is "yes", helping to identify
+them in later processing.  This process could end up with bad XML if an
+element ends up in the file twice, once because it can be found via a
+child and once because it can be found via a pointer.  Also, nothing
+about NXT format guarantees unique ids in the corpus as a whole, so
+the ids may not not be unique in the knitted file (which is only a
+problem if you write a DTD identifying them as ids).</para> -->
+
+<para>A minor variant of this approach is to edit
+<filename>knit.xsl</filename> so that it constructs a a tree that is
+drawn from a path that could be knitted, and/or document calls to pull
+in off-tree items. The less the desired output matches a knitted tree
+and especially the more outside material it pulls in, the harder this
+is. Also, if a subset of the knitted tree is what's required, it's
+often easier to obtain it by post-processing the output of
+<function>knit</function>.
+</para>
+
+</section>
+
+<section id="knitltxml">
+  <title>Knit using LT XML2</title> 
+
+<para><filename>Knit.xsl</filename> can be very slow. It follows both
+child links and pointer links, but conceptually, these operations
+could be separate. We have implemented separate "knits" for child and
+pointer links as command line utilities with a fast implementation in
+<ulink url="http://www.ltg.ed.ac.uk/software/ltxml2"><package>LT
+XML2</package></ulink>: <filename>lxinclude</filename> (for children) and
+<filename>lxnitepointer</filename> (for pointers). </para>
+<para><code>lxinclude -t nite
+<replaceable>FILENAME</replaceable></code> reads from the named file
+(which is really a URL) or from standard input, writes to standard
+output, and knits child links. (The <parameter>-t nite</parameter> is
+required because this is a fuller XInclude implementation; this
+parameterizes for NXT links). If you haven't used the default <sgmltag
+class="element">nite:child</sgmltag> links, you can pass the name of
+the tag you used with <parameter>-l</parameter>, using
+<parameter>-xmlns</parameter> to declare any required namespacing for
+the link name:
+</para>
+
+<programlisting>lxinclude -xmlns:n=http://example.org -t nite -l n:mychild
+</programlisting>
+<para>This can be useful for recursive tracing of pointer links if you happen to know that they do not loop. Technically, 
+	the <parameter>-l</parameter> argument is a query to allow for constructions such as <code>-l '*[@ischild="true"]'</code>.
+</para>
+
+<para>Similarly,</para>
+
+<programlisting>lxnitepointer <replaceable>FILENAME</replaceable></programlisting> 
+
+<para>will trace pointer links, inserting summary traces of the linked
+elements.</para>
+
+<section id="othertools_stylesheet_extension"><title>Using stylesheet
+extension functions</title>
+
+<para>As a footnote, <package>LT XML2</package> contains a stylesheet
+processor called <filename>lxtn</filename>, and we're experimenting with implementing extension
+functions that resolve child and pointer links with less pain than the
+mechanism given in <filename>knit.xsl</filename>; this is very much
+simpler syntactically and also faster, although not as fast as the
+<package>LT XML2</package> based implementation of
+<function>knit</function>. This approach could be useful for building
+tailored trees and is certainly simpler than writing stylesheets
+without the extension functions. Edinburgh users can try it as
+</para>
+
+<remark>Complete this section with description of extension functions.</remark>
+
+</section>
+
+</section>
+
+<section id="unknitltxml">
+  <title>Unknit using LT XML2</title> 
+
+<para>Again based on <package>LT XML2</package> we have developed a command line utility that can 
+	<function>unknit</function> a knitted file back into the original component parts. 
+</para>
+<programlisting>lxniteunknit -m <replaceable>METADATA FILE</replaceable></programlisting>
+
+<para><function>Lxniteunknit</function> does not include a command
+line option for identifying the tags used for child and pointer links
+because it reads this information from the metadata file. 
+</para>
+</section>
+</section>

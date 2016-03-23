@@ -1,0 +1,91 @@
+<appendix id="comparison">
+	<title>Comparison to other efforts</title>
+
+<para>Several other tools and frameworks exist that offer some
+functionality which overlaps with that of NXT. This section describes
+these other tools and how they relate to NXT.</para>
+
+<remark>some of the information here may be out of date</remark>	
+<note><para>
+	Any errors in the descriptions below are our own. These descriptions are based on published information at March 2004.
+</para></note>
+	
+<section id="comparison_agt">
+	<title>Annotation Graph Toolkit (AGTK)</title>
+	<para>
+		<ulink url="http://agtk.sourceforge.net/">The <application>Annotation Graph Toolkit</application></ulink>, 
+		or <application>AGTK</application>, employs a data model, the annotation graph, which is a directed acyclic graph where edges are 
+		labeled with feature-value pairs and nodes can be labeled with time offsets. Structural relationships 
+		can be expressed by convention in the edge labelling, but they are not exposed directly in the 
+		API as they are in NXT; instead, the focus is on the efficient handling of temporal information. 
+		AGTK is written in C++ and comes with a Java port. A query language is planned for AGTK but 
+		is not yet available. Although AGTK does not provide direct support for writing graphical user 
+		interfaces, it does include wrappers for Tcl/Tk and Python, two scripting languages in which writing 
+		such interfaces is easier than in C++ itself. The developers expect interfaces to call upon 
+		<package>WaveSurfer</package>, a compatible package, to display waveforms and play audio files.
+	</para>
+</section>
+<section id="comparison_atlas">
+	<title>ATLAS</title>
+	<para>
+		<ulink url="http://www.nist.gov/speech/atlas/"><application>ATLAS</application></ulink> is intended to generalize the 
+		annotation graph and differs in two main ways. First, it allows richer relationships between 
+		annotation and signal. In annotation graphs, the only relationship between annotation and 
+		signal that is supported in the data handling is the timespan on the signal to which the 
+		annotation refers, given as a start and end time. NXT is similar to <application>AGTK</application> in this regard. 
+		<application>ATLAS</application>, however, defines more generic signal regions which can refer to other properties 
+		besides the timing. For example, on a video signal, a region could pinpoint a screen location using X and Y 
+		coordinates. Second, <application>ATLAS</application> explicitly represents structural relationships 
+		by allowing annotations to name a set of "children", without constraining how many "parents" an annotation may have. 
+		The framework for defining the semantics of this relationship and for specifying which types of 
+		annotations expect which other types as children, MAIA, is still under development. 
+		It has the potential to be very flexible, especially if the semantics of the parent-child 
+		relationship can vary depending on the types of data objects that they link. The <application>ATLAS</application> data 
+		model is implemented in Java, and the developers plan both a query language and direct support 
+		for writing graphical user interfaces.
+	</para>
+</section>
+<section id="comparison_mmax">
+	<title>MMAX</title>
+	<para>
+		<ulink url="http://www.eml-research.de/english/research/nlp/download/index.php"><application>MMAX2</application></ulink>
+is primarily used for annotation of text, but it has the facility to play some kinds of audio signal in synchrony with its 
+		data display. Timing information is represented in the stylesheet that <application>MMAX2</application> uses to specify a data display 
+		format declaratively and not in the data itself. <application>MMAX2</application>'s data model is rather simpler than NXT's, but it 
+		allows one to specify different types of annotation all of which point independently to the base documents, 
+		and links between annotations. <application>MMAX2</application> also has a query language based on the idea of intersections between 
+		paths. <application>MMAX2</application> is easier to set up than NXT but in general NXT is more useful, the more one's work relies 
+		on crossing hierarchies, complex structural relationships, or timing information.
+	</para>
+</section>
+<section id="comparison_emu">
+	<title><application>EMU</application></title>
+	<para>
+		<ulink url="http://emu.sourceforge.net/"><application>EMU</application></ulink> also shares some properties with NXT, in that it allows 
+		time-aligned labelling of speech data including hierarchical decomposition across 
+		different tiers of labels and specifically supports query of the label sets. 
+		(This differentiates <application>EMU</application> from tools such as <application>Anvil</application> and 
+		<application>TASX</application> that are just coding 
+		tools without more general support, although given the availability of XML query languages 
+		to deal with their data formats, it's not clear that this really makes a difference.)
+	</para>
+</section>
+	<section id="comparison_others">
+		<title>Others</title>
+		<para>
+			Other tools and frameworks worth considering: <ulink url="http://gate.ac.uk/"><application>GATE</application></ulink>, 
+			<ulink url="http://wordfreak.sourceforge.net/"><application>WordFreak</application></ulink> and 
+			<ulink url="http://callisto.mitre.org/"><application>CALLISTO</application></ulink> if your data is textual (i.e., you don't need signal playing to annotate) 
+				and you can tolerate stand-off using character offsets; 
+			<ulink url="http://www.noldus.com/site/doc200401012"><application>The Observer</application></ulink>, 
+			<ulink url="http://www.fit.vutbr.cz/research/grants/m4/editor/index.htm.cs.iso-8859-2"><application>EventEditor</application></ulink>
+					<ulink url="http://medien.informatik.fh-fulda.de/tasxforce"><application>TASX</application></ulink>, 
+			<ulink url="http://www.dfki.de/~kipp/anvil/description.html"><application>Anvil</application></ulink>, 
+			and <ulink url="http://www.mpi.nl/tools/elan.html"><application>ELAN</application></ulink> for simple time-stamped labelling of 
+						signals (with some tools offering linking between elements).
+		</para>
+	</section>
+
+&encoding; 
+
+</appendix> 

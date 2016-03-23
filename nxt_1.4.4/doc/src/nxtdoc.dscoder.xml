@@ -1,0 +1,32 @@
+<section id="dscoder">
+   <title>The discourse segmenter</title>
+
+   <para>
+
+        The final GUI is for segmenting discourse into contiguous
+        stretches of text (or of speech by one person) and categorizing the
+        segments. The most common use for this style of interface is a
+        dialogue act coder. Coding is performed by marking the end of each
+        discourse segment; the segment is assume to start at the end of the
+        last segment (or the last segment by the same speaker, with the option
+        of not allowing segments to draw words across some higher level
+        boundary, such as previously marked speaker turns). A permanent
+        dialogue box displays information about the currently selected act and
+        allows a number of properties to be specified for it beyond simple
+        type. The coding mechanisms supported include a tickbox to cover
+        boolean properties such as termination of the act before completion,
+        free text comments, and choice from a small, enumerated, mutuallly
+        exclusive list, such as might be used for noting the dialogue act's
+        addressee. Although this structure covers some styles of dialogue act
+        coding, this tool is not suitable for schemes such as MRDA where
+        dual-coding from the same act type list is allowed. This tool
+        additionally allows the user to indicate directional relationships
+        between acts using the same mechanism as in the discourse entity
+        coder, although for current dialogue act schemes this is a minority
+        requirement.
+
+    </para>
+
+    <para>Java class: <classname>net.sourceforge.nite.tools.dacoder.DACoder</classname></para>
+
+</section>

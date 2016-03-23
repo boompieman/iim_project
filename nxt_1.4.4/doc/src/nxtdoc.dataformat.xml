@@ -1,0 +1,307 @@
+<section id="datastorage">
+  <title id="datastorage.title">Data Storage</title>
+
+<remark> TEMP the AMI ontologies appear to declare both names and filenames - must be wrong? </remark>
+<remark> TEMP do we need a section explaining filenaming for object sets, or are we deprecating them? </remark>
+
+
+<para> NXT corpora are serialized, or saved to disk, into many
+different XML files in which the structure of the data graph in the
+NITE Object Model is expressed partly using the XML structure of the
+individual files and partly using <code>links</code> between files.
+</para>
+
+<section id="data_namespacing">
+     <title> Namespacing </title>
+ 
+<para>
+   NXT is designed to allow data to be divided into namespaces, so
+   that different sites can contribute different annotations, possibly
+   even for the same phenomena, without worrying about naming
+   conflicts. Any code or attribute in a NITE Object Model can have a
+   name that is in a namespace, by using an XML namespace for the XML
+   element or attribute corresponding to the NOM code or attribute.
+   However, see <ulink url="http://sourceforge.net/projects/nite/">
+   NXT bug 1633983</ulink> for a description of a bug in how the query
+   parser handles namespaced data.
+</para>
+
+<para>
+   The <sgmltag class="namespace">nite:</sgmltag> namespace, "http://nite.sourceforge.net/",
+   is intended for elements and
+   attributes that have a special meaning for NXT processing, and
+   is used for them by default.  This covers, for instance, the ids
+   used to realize out-of-file links and the start and end times that
+   relate data nodes to signal.
+ Although use of the <sgmltag class="namespace">nite:</sgmltag>
+    namespace makes for a clearer data set design, nothing in the
+    implementation relies on it; the names of all the elements and
+    attributes intended for the <sgmltag class="namespace">nite:</sgmltag> namespace can be
+    changed by declaring an alternative in the metadata file, and they
+    do not have to be in the <sgmltag class="namespace">nite:</sgmltag> namespace.
+</para>
+
+<para>
+  In addition the <sgmltag class="namespace">nite:</sgmltag> namespace, corpora that choose
+XLink style links (see 
+<remark>Fix this link!</remark>
+<!-- TEMP <xref linkend="xlinks"/> -->
+) make use of the 
+<sgmltag class="namespace">xlink:</sgmltag> namespace, <literal><![CDATA[http://www.w3.org/1999/xlink]]></literal>.
+</para>
+
+<para>
+As for any other XML, NXT files that make use a namespace must declare the
+namespace. This includes the metadata file. 
+One way of doing this is to add the declaration as an attribute
+on the document (root) element of the file.  For instance, 
+assuming the default choices of 
+<sgmltag class="namespace">nite:root</sgmltag> for the root element name and <sgmltag class="namespace">nite:id</sgmltag>
+for identifiers, the declaration for the <sgmltag class="namespace">nite:</sgmltag> namespace
+might look like this:
+
+<programlisting><![CDATA[
+<nite:root nite:id="stream1" xmlns:nite="http://nite.sourceforge.net/">
+...
+</nite:root>
+]]></programlisting>
+
+For more information about namespacing, see <ulink url="http://www.w3.org/TR/REC-xml-names/"/>.
+</para>
+
+</section>
+
+<section id="data_codings">
+  <title>Coding Files</title>
+    <para> 
+The data set model places codes strictly in layers, with
+codings made up of layers that draw children from each other in 
+strict sequence.  This is so that within-coding parent-child
+relationships can be represented using the structure of the XML
+storage file itself.  For a single observation,
+each coding is stored as a single XML file.  The top of each XML tree
+is a <sgmltag class="element">root</sgmltag> element that does not correspond to any
+data node, but merely serves as a container for XML elements
+that correspond to the nodes in the top layer of the coding being
+represented.  Then the within-coding children of a node will be
+represented as XML children of that element, and so on.  Within 
+a layer, represented as all elements of a particular depth from
+the XML file root (or set of depths, in the case of recursive layers),
+the structural order of the nodes will be the same as the order
+of elements in the XML file.
+    </para>
+
+</section>
+
+
+<section id="links" xreflabel="Links">
+     <title>Links</title>
+
+<para> 
+
+The structure of a coding file suffices for storing information about
+parent-child relationships within a single coding.  However, nodes
+at the top and bottom layers of a coding may have parent-child relationships
+with nodes outside the coding, and any node in the coding may be related
+by pointer to nodes that are either inside or outside the coding.
+In addition, nodes in external reference layers may be related to 
+external data stored in files that are not in XML format.
+These relationships are expressed in the XML using <sgmltag class="element">links</sgmltag>.
+NXT relies on having two reserved XML element types for representing
+links, one for children and one for pointers, including external reference
+pointers. The XML element types are, by default, <sgmltag class="namespace">nite:child</sgmltag>
+and <sgmltag class="namespace">nite:pointer</sgmltag>, but they can be changed in the 
+section of the metadata file that declares reserved elements (see
+<xref linkend="reserved-els-and-atts"/>).
+If a NOM node has an out-of-coding child or a pointer, then the XML
+element that corresponds to it will represent this relationship by
+containing an XML child of the appropriate type.  
+</para>
+
+<remark>is it true that external reference pointers use nite:pointer? </remark> 
+
+<para>
+Links can be represented in either <package>LTXML1</package> style or using XLink, but
+the choice of link style must be uniform throughout a corpus.
+The choice is specified on the <code>&lt;corpus&gt;</code> declaration
+within the metadata file (see <xref linkend="top-level-corpus-description" endterm="top-level-corpus-description.title"/>).
+NXT can be used to convert a corpus from LTXML1 link style to XLink
+style (see <!-- TEMP <xref linkend=""/> -->).
+	<remark>NO LINK AVAILABLE</remark>
+</para>
+
+<para>With either link style, the document (XML file) for a
+reference must be specified without any path information, as if it
+were a relative URI to the current directory.  NXT uses
+information from the metadata file about where to find files to 
+decode the links.  This creates the limitation for external XML processes
+that use the links that either all the XML files must be in one directory
+or the external process must do its own path resolution.
+</para>
+
+<para>
+Also, with either link style, NXT can read and write ranges in order to cut
+down storage space.  A range can be used to represent a complete sequence
+of elements drawn in order from the data, and references the sequence
+by naming the first and last element.
+Ranges must be well-formed, meaning that they must
+begin and end with elements from the same layer, and in a recursive layer,
+from elements at the same level in the layer. To make it easier to use
+external XML processing that can't handle ranges, NXT can be used to
+convert a corpus that uses ranges into one that instead references every
+element individually (see <!-- TEMP <xref linkend=""/> -->).<remark>NO LINK AVAILABLE</remark>
+</para>
+<remark>
+ TEMP  MORE ABOUT THE SEMANTICS OF RANGES - I'M SURE WE HAD TEXT FOR THIS ONCE BEFORE BUT CAN'T FIND IT.  
+
+ TEMP  Are there any constraints on link style and href syntax for external reference links?  
+	Can they be in LTXML1 syntax?  I suspect the external application is responsible for parsing them, 
+	so there are fewer restrictions on what goes in the href attribute.  Explain the situation in this section.  
+</remark>
+
+<section id="ltxmllinks" xreflabel="LTXML1 Links"><title>LTXML1 Style Links</title>
+<para>
+In LTXML1 style, 
+pointers and children will have an (un-name-spaced) <sgmltag class="attribute">href</sgmltag>
+attribute that specifies the target element.  
+</para>
+
+<para>
+The following is an example in the LTXML1 style 
+of an NXT pointer link (using the default
+<sgmltag class="element">nite:pointer</sgmltag> element) that refers to one element.
+
+<programlisting><![CDATA[
+<nite:pointer role="foo" href="q4nc4.g.timed-units.xml#id('word_1')"/>
+]]></programlisting>
+
+The following is an example in the XLink style 
+of an NXT child link (using the default
+<sgmltag class="element">nite:child</sgmltag> element) that refers to a range of elements.
+
+<programlisting><![CDATA[
+<nite:child href="q4nc4.g.timed-units.xml#id('word_1')..id('word_5')"/>
+]]></programlisting>
+
+</para>
+</section>
+<section id="xlinks" xreflabel="XLink  Style Links"><title>XLink Style Links</title>
+
+<para>When using the XLink style, the target element should conform
+to the XLink standard for describing links between resources
+<ulink url="http://www.w3.org/TR/xlink/"/>,
+and use the  
+<ulink url="http://www.w3.org/TR/2003/REC-xptr-framework-20030325/">XPointer framework</ulink>
+with the  
+<ulink url="http://www.w3.org/TR/2002/WD-xptr-xpointer-20021219/">XPointer xpointer() Scheme</ulink>
+to specify
+the URI.  NXT only implements a small subset of these
+standards, and so requires a very particular link syntax.  NXT elements
+that express links in this style must include the <sgmltag class="attribute">xlink:type</sgmltag>
+attribute with the value <literal>simple</literal>, and specify the
+URI in the <sgmltag class="attribute">xlink:href</sgmltag> attribute. The xpointer reference
+must either refer to a single element within a 
+document by id or by picking out the range of nodes between two nodes
+using the <function>range-to</function> function with the endpoints specified by
+<sgmltag class="element">id</sgmltag>.
+</para>
+
+<para>
+The following is an example in the XLink style 
+of an NXT pointer link (using the default
+<sgmltag class="element">nite:pointer</sgmltag> element) that refers to one element.
+
+<programlisting><![CDATA[
+<nite:pointer role="foo" xlink:href="o1.words.xml#xpointer(id('w_1'))" 
+      xlink:type="simple"/>
+]]></programlisting>
+
+The following is an example in the XLink style 
+of an NXT child link (using the default
+<code>nite:child</code> element) that refers to a range of elements.
+
+<programlisting><![CDATA[
+<nite:child xlink:href="o1.words.xml#xpointer(id('w_1')/range-to(id('w_5')))" 
+      xlink:type="simple"/>
+]]></programlisting>
+</para>
+
+
+ </section>
+</section>   
+
+   <section id="filenaming">
+     <title id="filenaming.title"> Data And Signal File Naming</title>
+
+
+
+     <para>The actual names used for data and signal files in an NXT corpus
+depend on the codings and signals defined for it.  Rather than containing
+a complete catalog mapping individual codings and signals to individual files
+on disk, NXT assumes consistent naming across a corpus.  It constructs
+the names for a file from pieces of information in the data set model
+(see <xref linkend="layering"/>).  Both these pieces of filenames
+and the paths to directories containing the various kinds of files
+are specified in the metadata file
+(see <xref linkend="metadata" endterm="metadata.title"/>).
+     </para>
+
+   <section id="data_signal_files">
+        <title> Signal Files</title>
+         <para>For signal files recording interaction,
+the name of the file is found by concatenating the
+<replaceable>name</replaceable> of the <sgmltag class="element">observation</sgmltag>, the <replaceable>name</replaceable>
+of the <sgmltag class="element">signal</sgmltag>, and the <sgmltag class="element">extension</sgmltag> declared for
+the signal, using dots as separators.
+For instance, the <literal>overhead</literal> video, an AVI with extension 
+<literal>avi</literal>, for 
+observation <literal>o1</literal> would be stored in file <literal>o1.overhead.avi</literal>.
+     </para>
+
+     <para>For signal files recording individuals, the filename will
+     additionally have the <sgmltag class="element">agent</sgmltag> <replaceable>name</replaceable> after the <sgmltag class="element">signal</sgmltag>
+     <replaceable>name</replaceable>.  For instance, the <literal>closeup</literal> video, an AVI
+     with extension <literal>avi</literal>, for agent <literal>A</literal> in
+     observation <literal>o1</literal> would be stored in file
+     <literal>o1.A.closeup.avi</literal>.
+     </para>
+
+   </section>
+
+   <section id="data_coding_files">
+        <title> Coding Files</title>
+    
+     <para>For coding files representing interaction behaviour, the
+     name of the XML file is found by concatenating the
+     <replaceable>name</replaceable> of the <sgmltag class="element">observation</sgmltag>, the
+     <replaceable>name</replaceable> of the <sgmltag class="element">coding</sgmltag>, and the extension
+     <literal>xml</literal>, using dots as separators.  For instance,
+     the <literal>games</literal> coding for observation
+     <literal>o1</literal> would be stored in file
+     <literal>o1.games.xml</literal>.
+     </para>
+     <para>For coding files representing agent behaviour, the name of
+     the XML file will additionally have the <sgmltag class="element">agent</sgmltag> <replaceable>name</replaceable>
+     after the <sgmltag class="element">observation</sgmltag> <replaceable>name</replaceable>.  For instance, the
+     <literal>words</literal> coding for agent
+     <literal>giver</literal> in observation <literal>o1</literal>
+     would be stored in file <literal>o1.giver.moves.xml</literal>.
+     </para>
+
+   </section>
+
+   <section id="data_corpus_resources">
+        <title> Corpus Resources and Ontologies</title>
+
+   <para>Corpus resources and ontologies are for the entire corpus, not one per observation.
+The name of the XML file is found by
+concatenating the <code>name</code> of the corpus resource or onotology
+and the extension
+<literal>xml</literal>. 
+   </para>
+
+   </section>
+  </section>
+
+
+</section>

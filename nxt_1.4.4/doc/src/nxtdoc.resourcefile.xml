@@ -1,0 +1,210 @@
+<section id="resources" xreflabel="Resource Files">
+    <title>Dependency Structures</title>
+
+<para>Resource files are an adjunct to metadata files that provide
+more flexible support for large cross-annotated corpora. A resource is
+loosely a set of files that instantiate a particular
+<sgmltag>coding</sgmltag> in the metadata file. For example, if both
+<literal>fred</literal> and <literal>doris</literal> have taken
+part in manual dialogue-act annotation, and an automatic process has
+also been run to derive dialogue acts for all or part of the corpus,
+all three would have their own resource in the resource file (see
+example below). </para>
+
+<para>Resource files should also specify dependencies between
+resources. This helps to ensure that coherent groups of annotations
+are loaded together. For example, an automatic dialogue act resource
+that was run over manual transcription must specify a different
+word-level dependency than a process run over ASR (automatic speech
+recognition) output.</para>
+
+<para>Once a resource file is present for a corpus, loading multiple
+versions of the same coding becomes simpler, provided IDs are unique
+within the corpus. New annotation elements can even be added to the
+corpus while this kind of <emphasis>reliability</emphasis> data is
+loaded, because of the separation that resources afford us.</para>
+
+<para>There is a simple API for creating resources programatically and
+it is hoped that a set of higher-level utilities will emerge to make
+this process easier.</para>
+
+<section id="resource_file_syntax">
+    <title>Resource File Syntax</title>
+
+<para>The example resource file below illustrates most of the features
+provided by resource files.
+
+<programlisting><![CDATA[
+
+<resources>
+  <resource-type coding="da-types">
+    <resource id="datypes" description="DA types" type="manual" 
+      path="ontologies"/>
+  </resource-type>
+  <resource-type coding="dialog-act" default="true">
+    <virtual-resource id="da_gold">
+      <dependency observation="IS1008b" idref="da_doris"/>
+      <dependency observation=".*" idref="da_fred"/>
+      <dependency observation=".*" idref="da_doris"/>
+    </virtual-resource>
+    <resource id="da_doris" description="Dialogue acts manual version" 
+         type="manual" annotator="Doris" path="dialogueActs/doris">
+      <dependency observation=".*" idref="AMIwordsref1"/>
+      <dependency observation=".*" idref="datypes"/>
+    </resource>
+    <resource id="da_fred" description="Dialogue acts manual version" 
+         type="manual" annotator="Fred" path="/home/jonathan/fredDAs">
+      <dependency observation=".*" idref="AMIwordsref1"/>
+      <dependency observation=".*" idref="datypes"/>
+    </resource>
+    <resource id="da_auto1" description="Automatic DAs over manual words" 
+         type="automatic" path="automanda1">
+      <dependency observation=".*" idref="AMIwordsref1"/>
+      <dependency observation=".*" idref="datypes"/>
+    </resource>
+    <resource id="da_auto1" description="Automatic DAs over ASR" 
+         type="automatic" path="autoasrda1">
+      <dependency observation=".*" idref="AMIwordsASRa1"/>
+      <dependency observation=".*" idref="datypes"/>
+    </resource>
+  </resource-type>
+
+  <resource-type coding="words">
+    <resource id="AMIwordsref1" description="manual transcription" 
+         type="manual" annotator="various" path="manual">
+    </resource>
+    <resource id="AMIwordsASRa1" description="ASR transcription" 
+         type="automatic" annotator="various" path="../auto/ASR_AS1_feb07">
+    </resource>
+  </resource-type>
+</resources>
+
+]]></programlisting>
+
+The resource file consists of a set of <sgmltag class="element">resource-type</sgmltag>
+elements inside a containing <sgmltag class="element">resources</sgmltag> element. Each
+<sgmltag class="element">resource-type</sgmltag> groups together a set of resources that instantiate the
+same coding in the metadata file. Note that the word
+<emphasis>coding</emphasis> is used here, but a resource can also
+instantiate an ontology or similar corpus-level data file (see the
+<sgmltag class="attvalue">da-types</sgmltag> resource group in the example above).
+</para>
+
+<para><sgmltag class="attribute">Path</sgmltag>s in the resource file can be absolute, but if they are
+relative, they are relative to the location of the resource file
+(which itself may be relative to the metadata file). It is important
+that each resource has a separate directory so that, for example, each
+annnotator may code the same meeting in order to check inter-annotator
+agreement. All files will be expected to conform to the NXT naming
+conventions.</para>
+
+<para>Each resource can have a list of dependencies. Virtual resources
+are described below, but for a <sgmltag class="element">resource</sgmltag> element,
+dependencies will be to particular instantiations of the codings they
+directly dominate and directly point to (there's no need to list
+more remote descendents as dependencies). </para>
+
+<para>Resources can be grouped into
+<sgmltag class="element">virtual-resource</sgmltag>s. These groups do not specify a path but
+instead exist solely to group a particular set of real resources. If a
+gold standard coding exists for dialogue acts, as in the example above
+(see the dialogue-act virtual resource called
+<sgmltag class="attvalue">da-gold</sgmltag>), it can specify by means of
+dependencies, how it is derived from the set of manual
+dialogue-act annotations. So the <sgmltag class="attvalue">da-gold</sgmltag> resource derives its
+gold-standard data for observation IS1008b from Doris; for all other
+meetings that Fred has annotated, his annotation then takes
+precedence; and for meetings that Fred has not annotated, we use
+Doris's annoatation. Note that regular expressions are matched using
+Java's <code>java.util.regex</code>. Note that virtual resources will
+always have dependencies that point to resources in the same
+resource-type group.</para>
+
+<para>At most one resource inside each resource-type can be marked as
+the default which means it will be the one loaded in the absence of
+any explicit overriding instruction. See the <sgmltag class="attvalue">da-gold</sgmltag>
+resource in the example above.</para>
+
+<para>Finally, the <sgmltag class="attribute">notloadedwith</sgmltag> attribute on a
+<sgmltag class="element">resource</sgmltag> element may specify exactly one other resource
+which should never be loaded along with this one. This should not be
+required particularly often, but may be useful if you have clashing
+IDs and need to avoid co-loads, or if it would just be confusing for
+users. If NXT is asked to load incompatible resources, it will print a
+warning message.</para>
+
+</section>
+
+<section id="resource_file_behaviour">
+    <title>Behaviour</title>
+
+<para>Various rules are adhered to when loading files into NXT using a
+resource file:
+<itemizedlist>
+
+<listitem><para>two versions of the same coding are never co-loaded
+unless there's an explicit request. To request multiple loads, use the
+<function>forceResourceLoad(resource_id)</function> or <function>forceAnnotatorCoding(annotator,
+coding_id)</function> methods of <code><classname>NOMWriteCorpus</classname></code>.</para></listitem>
+
+<listitem><para>Whenever a particular resource is loaded, its
+dependents automatically become the preferred resource for their
+respective codings. This is also true whenever a resource is the
+default in the resource file, or preferred / forced using an API
+call.</para></listitem>
+
+<listitem><para>If elements in a high level coding are requested and
+some of its descendents are already loaded (or preferred), the
+resources that depend (however indirectly) on the already-loaded
+resources will be preferred.</para></listitem>
+
+<listitem><para>Competing resources will be selected by applying these
+rules in order: choose manually forced resources from API calls;
+choose manually preferred resources, or those dependent on forced or
+preferred resources, or dependent on already-loaded resources; choose
+resources with their <sgmltag class="attribute">default</sgmltag> attribute in the resource
+file set to <sgmltag class="attvalue">true</sgmltag>; choose virtual resources over ordinary
+resources. </para></listitem>
+
+<listitem><para>If there are multiple choices for which resource to
+load for a coding, and no single resource is derived using the
+algorithm above, the user will be asked to select a resource. Users
+can avoid these questions by selecting a coherent set of defaults in
+the resource file, or via API calls.</para></listitem>
+
+</itemizedlist>
+</para>
+
+<para>The only way to override this behaviour is to set the Java
+property <property>NXT_RESOURCES_ALWAYS_ASK</property> to <literal>true</literal>. This forces
+a user decision for every coding to be loaded (unless only one
+resource instantiates the coding).</para>
+
+</section>
+
+
+<section id="resource_validation">
+    <title>Validation</title>
+<para>Resource files are validated when they are loaded. To avoid
+confusion, it is advised but not enforced that paths to data locations
+should be specified only in the resource file if it is present, rather
+than allowing a mix of metadata and resource file paths. It is also
+expected that if a resource file is present it should be complete in
+terms of its coverage of metadata codings. Warnings will be also be
+issued when <sgmltag class="attribute">coding</sgmltag> attributes don't match valid elements
+in the metadata file.
+</para>
+
+<para>Resource files can affect data validation as they allow a
+particular resource to refer to multiple resources that instantiate
+the same coding. For example, an alignment element can refer to a
+<sgmltag class="element">word</sgmltag> in the reference transcription as well as a
+<sgmltag class="element">word</sgmltag> from the ASR version of the transcript. Before
+resource files were introduced such an alignment would require the
+ASR and reference word elements to have different types. The
+disadvantage of using resources in this way is that such data
+cannot be validated without extra effort.</para>
+
+</section>
+
+</section>

@@ -1,0 +1,117 @@
+<!-- July 2009 (Jonathan Kilgour)
+
+This build file performs the transform / styling required to create
+the NXT documentation for web and print. It also publishes the data to
+the web. Usage:
+ ant clean
+ ant build
+ ant publish
+
+Prerequisites:
+ saxon - http://saxon.sourceforge.net/
+ prince - http://www.princexml.com/
+ xmlto - http://cyberelk.net/tim/software/xmlto/
+-->
+
+<project name="NXTdocumentation" default="build" basedir=".">
+
+  <!-- CHANGE THESE PROPERTIES FOR YOUR OWN LOCAL INSTALLS -->
+  <property name="publish.web.dir" value="/group/project/nxt/html/nxtdoc" />
+  <property name="publish.web.html.dir" value="/group/project/nxt/html/documentation" />
+  <property name="publish.pdf" value="/group/project/nxt/html/documentation/pdf/documentation_v0.3.pdf"/>
+  <property name="saxon.jar" value="/disk/scratch/NXTdocumentationStuff/saxon/saxon9he.jar"/>
+  <property name="prince" value="/disk/scratch/NXTdocumentationStuff/prince/bin/prince"/>
+  <property name="xmlto" value="/usr/bin/xmlto"/>
+
+  <!-- PROBABLY NO NEED TO CHANGE THESE ONES -->
+  <property name="localwebdir" value="./site" />
+  <property name="localhtmldir" value="./html" />
+  <property name="srcdir" value="src"/>
+  <property name="doctotal" value="${srcdir}/nxtdoc.top.total.xml" />
+  <property name="totalxml" value="${srcdir}/total.xml" />
+  <property name="totalpdf" value="nxtdoc.pdf" />
+  <property name="docbookstyledir" value="${srcdir}/wysiwygdocbook1.02" />
+  <property name="imagedir" value="${srcdir}/images" />
+  <property name="xsltdir" value="${srcdir}/XSLT"/>
+  <property name="xsltwebsplit" value="${xsltdir}/split.xsl"/>
+  <property name="xsltprinttoc" value="${xsltdir}/table_of_contents.xsl"/>
+
+
+  <!-- Initialize. Unfortunately even with failonerror set false,
+  creation of symlinks fails when the symlink already exists. Only
+  solution appears to be copy, because when you delete the directory,
+  either the symlinks are followed and the linked dirs are deleted(!)
+  or the symlinks don't get deleted if followsymlinks is false.  -->
+  <target name="init">
+    <mkdir dir="${localwebdir}" />
+
+    <!-- Can't see how to copy a directory to another, instead I get
+    the contents of the directory, so I seem to need to know the name
+    of the source dir.. -->
+    <copy todir="${localwebdir}/wysiwygdocbook1.02"><fileset dir="${docbookstyledir}"/></copy>
+    <copy todir="${localwebdir}/images"><fileset dir="${imagedir}"/></copy>
+  </target>
+
+  <target name="clean">
+    <delete dir="${localwebdir}"/>
+    <delete dir="${localhtmldir}"/>
+    <delete file="${totalxml}" />
+    <delete file="${totalpdf}" />
+    <delete file=".my.xml" />
+  </target>
+
+
+
+  <macrodef name="xslt-saxon">
+    <attribute name="in"/>
+    <attribute name="out"/>
+    <attribute name="style"/>
+    <sequential>
+      <echo level="info">XSLT Generating @{out}</echo>
+      <java classname="net.sf.saxon.Transform"
+            classpath="${saxon.jar}"
+            logError="true"
+            output="@{out}"
+            fork="true">
+        <arg value="@{in}"/>
+        <arg value="@{style}"/>
+      </java>
+    </sequential>
+  </macrodef>
+
+  <!-- it's rather difficult to get ANT to work properly with
+  Saxon, but there's a macro from Jeff I at:
+  http://vocaro.com/trevor/blog/2007/01/08/how-to-use-saxon-with-ant/
+  that's actually more stable and useful than the SaxonLiaison approach.
+  -->
+  <target name="build" depends="init">
+    <property name="javax.xml.transform.TransformerFactory"
+      value="com.icl.saxon.TransformerFactoryImpl"/>
+    <!-- Pre-process for print to add Table of Contents etc -->
+    <xslt-saxon in="${doctotal}" style="${xsltprinttoc}" out="${totalxml}" />
+
+    <!-- prince process for print -->
+    <exec executable="${prince}">
+      <arg value="${totalxml}"/>
+      <arg line="-o ${totalpdf}"/>
+    </exec>
+
+    <!-- split into multiple XML files for web presentation -->    
+    <xslt-saxon in="${doctotal}" style="${xsltwebsplit}" out=".my.xml" />
+
+    <!-- finally do the standard HTML transform  using 'xmlto' for
+    people with bad browsers -->
+    <exec executable="${xmlto}">
+      <arg line="-o ${localhtmldir} html"/>
+      <arg value="${doctotal}"/>
+    </exec>
+
+  </target>
+
+  <target name="publish">
+    <copy todir="${publish.web.dir}"><fileset dir="${localwebdir}" includes="*.xml"/></copy>
+    <copy todir="${publish.web.html.dir}"><fileset dir="${localhtmldir}" includes="*.html"/></copy>
+    <copy tofile="${publish.pdf}" file="${totalpdf}"/>
+  </target>
+
+</project>

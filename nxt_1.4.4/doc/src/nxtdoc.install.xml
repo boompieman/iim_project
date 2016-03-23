@@ -1,0 +1,186 @@
+<section id="install">
+    <title>Downloading and Using NXT</title>
+
+    <para>Platform-independent binary and source distributions of NXT
+   can be downloaded from Sourceforge at <ulink
+   url="http://sourceforge.net/projects/nite/">http://sourceforge.net/projects/nite/</ulink>.
+   For most purposes the binary download is appropriate; the source
+   download will be distinguished by <code>_src</code> suffix after
+   the version number. For the most up-to-date version of NXT, the
+   SourceForge CVS repository is available. For example
+
+<programlisting>
+cvs -z3 -d:pserver:nite.cvs.sourceforge.net:/cvsroot/nite co nxt
+</programlisting>
+
+would get you a current snapshot of the entire NXT development tree.
+</para>
+
+
+  <section id="prerequisites"><title>Prerequisites</title>
+
+    <para>Before using NXT, make sure you have a recent version of
+    Java installed on your machine: <package>Java 1.4.2_04</package> is the minimum
+    requirement and <package>Java 1.5</package> is recommended. Learn about Java on your
+    platform, and download the appropriate version using <ulink
+    url="http://java.sun.com/">Sun's Java Pages</ulink>.</para>
+
+    <para>For optimum media performance you may also want to download
+    <ulink
+    url="http://java.sun.com/products/java-media/jmf/2.1.1/download.html">JMF</ulink>
+    and the platform-specific performance pack for your OS. NXT comes
+    packaged with a platform-independent version of <package>JMF</package>. Users of MacOS should use
+    <ulink url="http://fmj.sourceforge.net">the FMJ libraries</ulink> instead which use
+    <application>QuickTime</application> for media playback for improved performance and easier installation. NXT
+    comes packaged with a version of <package>FMJ</package> compiled specifically with <application>QuickTime</application> support.</para>
+  </section>
+
+  <section id="getting_started"><title>Getting Started</title>
+    <itemizedlist>
+      <listitem>
+        <para>Step 1: <ulink url="http://sourceforge.net/projects/nite/">download</ulink> and unzip nxt_<replaceable>version</replaceable>.zip</para>
+      </listitem>
+
+      <listitem>
+        <para>Step 2: Some data and simple example programs are
+        provided to give a feel of NXT. On windows, try double-clicking
+        a <code>.bat</code> file; on Mac, try running a <code>.command</code> file; 
+        on Linux (or Mac) try running a shell script from a terminal e.g. <code>sh
+        single-sentence.sh</code>. More details in <emphasis>Sample
+        Corpora</emphasis> section below.</para>
+		  <!--ADD LINK ABOVE TO THE RIGHT SECTION-->
+      </listitem>
+
+      <listitem>
+        <para>Step 3: Try some sample media files: Download
+        <ulink url="http://www.ltg.ed.ac.uk/NITE/signals/signals.zip">signals.zip</ulink> (94 Mb) and unzip it into the Data directory in
+        your NXT directory. Now when you try the programs they should
+        run with synced media.</para>
+      </listitem>
+
+    </itemizedlist>
+
+    <section id="sample_corpora"><title>Sample Corpora</title>
+
+     <para>Some example NXT data and simple example programs are
+     provided with the NXT download. There are several corpora
+     provided, with at most one observation per corpus, even though in
+     some cases the full corpus can actually consist of several
+     hundred observations. Each corpus is described by a metadata
+     files in the <code>Data/meta</code> directory, with the data
+     itself in the <code>Data/xml</code> directory. The Java example
+     programs reside in the <code>samples</code> directory and are
+     provided as simple examples of the kind of thing you may want to
+     do using the library.</para>
+
+<itemizedlist>
+<listitem><para>single-sentence - a very small example corpus marked
+up for part of speech, syntax, gesture and prosody. Start the
+appropriate script for your platform; start the <emphasis>Generic
+Corpus Display</emphasis> and rearrange the windows. Even though there
+is no signal for this corpus, clicking the play button on the NITE
+Clock will time-highlight the words as the time goes by. Try popping
+up the seacrh window using the <emphasis>Search</emphasis> menu and
+typing a query like <code>($g lgest)($w word):$g # $w</code>. This
+searches for left-handed gestures that temporally overlap words. You
+should see the three results highlighted when you click
+them. </para></listitem>
+
+<listitem><para>dagmar - a slightly larger example corpus: a single monologue
+marked up for syntax and gesture. We provide a sample gesture-type
+coding interface which shows synchronisation with video (please
+download signals.zip to see this in action).</para></listitem>
+
+<listitem><para>smartkom - a corpus of human compuiter dialogues. We provide
+several example stylesheet displays for this corpus showing the
+display object library and synchronization with signal (again, please
+download signals.zip above to see synchronisation)</para></listitem>
+
+<listitem><para>switchboard - a corpus of telephone dialogues. We provide
+coders for <emphasis>animacy</emphasis> and <emphasis>markables</emphasis> which are in
+real-world use. </para></listitem>
+
+<listitem><para>maptask-standoff - This is the full multi-rooted tree
+version of the Map Task corpus. We provide one example program that
+saves a new version of the corpus with the part-of-speech values
+as attributes on the <sgmltag class="element">&lt;tu&gt;</sgmltag> (timed unit) tags, moving them from the
+<sgmltag class="attribute">"tag"</sgmltag> attribute of <sgmltag class="element">&lt;tw&gt;</sgmltag> tags that dominate the <sgmltag class="element">&lt;tu&gt;</sgmltag> tags.
+</para></listitem>
+
+<listitem><para>monitor - an eye-tracking version of the Map Task corpus.</para></listitem>
+
+<listitem><para>ICSI - a corpus of meetings. We provide coders for topic
+segmentation, extractive summarization etc. The entire meeting corpus
+consists of more than 75 hours of meeting data richly annotated both
+manually and automatically.</para></listitem>
+</itemizedlist>
+    </section>
+  </section>
+
+  <section id="setting_classpath"><title>Setting the CLASSPATH</title>
+
+   <para>All of the <code>.bat</code>, <code>.command</code> and <code>.sh</code> scripts in
+   the NXT download have to set the Java <code>CLASSPATH</code> before
+   running an NXT program. To compile and run your own NXT programs
+   you need to do the same thing. The classpath normally includes all
+   of the <code>.jar</code> files in the <code>lib</code> directory,
+   plus the <code>lib</code> directory itself. Many programs only use
+   a small proportion of those JAR files, but it's as well to include
+   them all. JMF is a special case: you should find NXT plays media if
+   the <code>CLASSPATH</code> contains <code>lib/JMF/lib/jmf.jar</code>. However,
+   this will be sub-optimal: on Windows JMF is often included with
+   Java, so you will need no jmf.jar on your <code>CLASSPATH</code> at all; on
+   other platforms consult  <link linkend="playmedia"/>.
+
+</para>
+</section>
+
+&playmedia;
+
+&controls;
+
+  <section id="compile" xreflabel="Compiling from Source"><title>Compiling from Source and Running the Test Suites</title>
+    <itemizedlist>
+      <listitem>
+        <para>Go into the top level <code>nxt</code> directory, decide on a build
+file to use and copy it to the right directory e.g. <code>cp
+build_scripts/build.xml .</code>. Type <code>ant</code> to compile
+(<code>ant jar</code> is perhaps the most useful target to use as it
+doesn't clean all compiled classes and rebuild the javadoc every
+time). If there are compile errors, copy the error message into an
+email and send it to Jonathan or another developer (see <ulink
+url="https://sourceforge.net/project/memberlist.php?group_id=53641">the
+SourceForge members page for emails</ulink>). </para></listitem>
+
+<listitem><para>Run the test suite(s). The NXT test suite is by no means
+comprehensive but tests a subset of NXT functionality. To run, you
+need to have the <ulink url="http://www.junit.org/">JUnit</ulink> jar on your
+CLASSPATH. Then
+<programlisting>
+javac -d . test-suites/nom-test-suite/NXTTestScratch.java
+</programlisting>
+Now run the tests:
+<programlisting>
+java junit.textui.TestRunner NXTTestScratch
+</programlisting>
+
+Again, any errors should be forwarded to a developer.</para></listitem>
+
+<listitem><para>If you are making a real public release, Update the
+<code>README</code> file in the top-level <code>nxt</code> directory, choosing
+a new minor or major release number. Commit this to CVS.</para></listitem>
+
+<listitem><para>Now build the release using the
+<code>build_scripts/build_release.xml</code> ant file (use the default
+target). This compiles everything, makes a zip file of the source, and
+one of the compiled version for release, and produces the Javadoc. If
+you're on an Edinburgh machine, copy the Javadoc (in the
+<code>apidoc</code> directory) to
+
+<code>/group/project/webltg/NITE/nxt/apidoc</code>.  Test the shell script
+examples, and upload the new release to <ulink
+url="https://sourceforge.net/project/admin/editpackages.php?group_id=53641">SourceForge</ulink>.
+</para></listitem>
+    </itemizedlist>
+  </section>
+</section>

@@ -1,0 +1,84 @@
+<html>
+
+<body>
+<h1>Playing a video</h1>
+
+<h2>Playback</h2>
+
+<p>With the video player (see Figure 1) you can play any media signal that is
+available for the loaded observation. At the top of the player there is a combo
+box that lists the available signals (both video and audio). The signals in the
+M4 corpora are listed in Table 1.</p>
+
+<p><img src="../images/cvl-video.png" width="369" height="449"></p>
+<p>Figure 1: Video player</p>
+
+<table border="1"><tr valign="top">
+<td><b>Lapel-mix</b></td>
+<td>only audio</td>
+</tr><tr valign="top">
+<td><b>cam1</b></td>
+<td>video from the camera facing agents p3 and p1</td>
+</tr><tr valign="top">
+<td><b>cam2</b></td>
+<td>video from the camera facing agents p0 and p2</td>
+</tr><tr valign="top">
+<td><b>cam3</b></td>
+<td>video from the camera facing the white board</td>
+</tr><tr valign="top">
+<td><b>video-mix</b></td>
+<td>video mix of all three cameras</td>
+</tr></table>
+<p>Table 1: Media signals</p>
+
+<p>At startup, the Continuous Video Labeling Tool loads signal <b>cam1</b>.
+When you select another signal, it is loaded into the video player and the
+video is paused and reset to the start of the signal.</p>
+
+<p>Under the video is the playback line with a marker that shows the current
+time position in the video. You can drag the marker to change the position.
+Under the playback line are the control buttons and two check boxes. With the
+control buttons you can play and pause the video and you can move the video
+position five seconds forward or backward.</p>
+
+<p>The two check boxes are named <b>Synchronise</b> and <b>Mute</b>. When the
+<b>Mute</b> box is checked, the audio is not played back.</p>
+
+<h2>Synchronisation</h2>
+
+<p>The <b>Synchronise</b> box is checked at startup and should never be
+unchecked, because otherwise the program cannot determine the current video
+time. The annotation and view windows are synchronised with the video, so while
+you are playing a video, the windows highlight the annotation at the current
+video time. Figure 2 shows that the video is at the position of the second gaze
+annotation of agent p3.</p>
+
+<p><img src="../images/cvl-video-synchronise.png" width="369" height="165"></p>
+<p>Figure 2: Annotations are synchronised with the video</p>
+
+<p>You can also select one or more annotations and play the video fragment that
+covers the selected annotations. You can select annotations in an
+<a href="guide-make.html">annotation window</a> or
+<a href="guide-view.html">view window</a>. Just click an annotation or drag
+over the annotations that you want to select. Then hold the CTRL key and click
+the right mouse button to play back the video fragment.</p>
+
+<h2>Changing the play rate</h2>
+
+<p>At the bottom of the video player you see the rate slider. It is used to
+slow down or fasten up the playback. The slider ranges from -4x to +4x and has
+an exponential scale. When the slider is positioned at -4x, the video will be
+played back 4 times as slow as normal. At +4x the video will be played back
+4 times as fast. At position 0 the play rate is normal.</p>
+
+<p>Just drag the marker to change the play rate, but note that the rate is only
+changed when the player is paused. If the video player is playing, you can
+still drag the marker and the play rate will change as soon as you pause the
+player.</p>
+
+<p>When the rate slider is not at position 0, the <b>Reset</b> button is
+enabled. Click it to reset the slider to position 0.</p>
+
+</body>
+
+</html>

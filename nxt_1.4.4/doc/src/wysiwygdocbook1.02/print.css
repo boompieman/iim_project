@@ -1,0 +1,273 @@
+/*
+ * print.css
+ *
+ * Using the CSS style http://www.informatik.fh-wiesbaden.de/~werntges/home_t/proj/wysiwyg-dbk01.html 
+ * this simply ignores some stuff for printing. See the COPYING and
+ * CREDITS files in this directory for details about the Wysiwyg DocBook
+ * style.
+ * 
+ * JK 10/6/9
+ */
+
+@import "driver.css";
+
+@prince-pdf {
+    prince-pdf-page-mode: show-bookmarks
+}
+
+/* don't render remarks */
+remark {
+ display: none;
+}
+
+/* or sections marked private */
+/*
+section[status="private"] {
+ display: none;
+}
+*/
+
+article {
+  counter-reset: page 1
+  counter-reset: pages 1
+  font-family: Tahoma, sans-serif;
+  font-size: 12px;
+  counter-reset: issue;
+  prince-hyphens: auto;
+  text-align: justify;
+}
+
+appendix {
+ font-family: Tahoma, sans-serif;
+ font-size: 12px;
+}
+
+bibliography {
+ font-family: Tahoma, sans-serif;
+ font-size: 12px;
+}
+
+/* This is taken from the Prince documentation:
+http://www.princexml.com/doc/6.0/page-numbers/ */ 
+toc {
+  font-size: 12px;
+  columns: 2;
+  page: table-of-contents;
+}
+
+@page table-of-contents {
+    @top { content: "Table of Contents" }
+    @bottom {
+          content: none;
+/*        content: counter(page, lower-alpha) */
+    }
+}
+
+@page blank {
+    @top { content: none }
+    @bottom { content: none; }
+}
+
+article > section > title {
+  prince-bookmark-level: 1;
+  prince-bookmark-state: closed;
+}
+
+article > section > section > title {
+  prince-bookmark-level: 2;
+}
+
+article > appendix > title {
+  prince-bookmark-level: 1;
+  prince-bookmark-state: closed;
+}
+
+article > appendix > section > title {
+  prince-bookmark-level: 2;
+}
+
+tocpart>tocentry::before {
+  content: target-counter(attr(linkend), section) ". ";
+  font-weight: bolder;
+}
+
+tocpart.appendix>tocentry::before {
+  content: "Appendix " target-counter(attr(linkend), appendix, upper-alpha) ". ";
+  font-weight: bolder;
+}
+
+tocpart>tocchap>tocentry::before {
+  content: target-counter(attr(linkend), section) "." target-counter(attr(linkend), section1) ". ";
+  font-weight: bolder;
+}
+
+tocpart.appendix>tocchap>tocentry::before {
+  content: target-counter(attr(linkend), appendix, upper-alpha) "." target-counter(attr(linkend), section) ". ";
+  font-weight: bolder;
+}
+
+tocentry::after {
+  content: leader('.') target-counter(attr(linkend), page);
+  font-style: normal;
+}
+
+xref::before {
+  content: " ";
+}
+
+/* xrefs are used in two distinct ways (at least), so we treat those
+with an 'endterm' attribute (grab the text content of the referred-to
+element) differently to those that don't (use the value of the
+pre-defined 'content' element which is calculetaed by the
+table-of-contents XSLT stylesheet) */
+xref[endterm] {
+  content: "'" target-content(attr(endterm)) "'";
+}
+
+xref {
+  content: "'" attr(content) "'";
+}
+
+xref::after {
+  content: " p." target-counter(attr(linkend), page);
+}
+
+@page {
+  size: a4;
+  margin: 21mm 15mm;
+  border-bottom: thin solid black;
+  padding-bottom: 0.5em;
+  @bottom {
+    content: "Page " counter(page) " of " counter(pages)
+  }
+  @top {
+/*    content: "Documentation for the NITE XML Toolkit" */
+      content: string(doctitle, first);
+  }
+}
+
+@page :first {
+  @top-center {
+     content: normal;
+  }
+}
+
+.openbookmarks {
+prince-bookmark-state: open;
+}
+.closedbookmarks {
+prince-bookmark-state: closed;
+} 
+
+body {
+  font: 10.7pt/1.3 "Liberation Serif", serif;
+}
+
+article > title {
+  page: blank;
+  page-style: blank;
+}
+
+article > section {
+  page-break-before: always;
+}
+
+article > section > title { 
+  string-set: doctitle "NXT Documentation: " counter(section) ". " content() 
+}
+
+article > appendix > title { 
+  string-set: doctitle "NXT Documentation: Appendix " counter(appendix, upper-alpha) ". " content() 
+}
+
+
+article > section > section > section > section { 
+  counter-increment: section3;
+  counter-reset: section4;
+  clear: both;
+}
+
+article > section > section > section > section > title::before {
+ content: counter(section) "." counter(section1) "." counter(section2) "." counter(section3) " ";
+}
+
+
+article > section > section > section { 
+  counter-increment: section2;
+  counter-reset: section3;
+  clear: both;
+}
+
+article > section > section > section > title::before {
+ content: counter(section) "." counter(section1) "." counter(section2) " ";
+}
+
+article > section > section { 
+  counter-increment: section1;
+  counter-reset: section2;
+  clear: both;
+}
+
+article > section > section > title::before {
+ content: counter(section) "." counter(section1) " ";
+}
+
+article > section { 
+  counter-increment: section;
+  counter-reset: section1;
+  clear: both;
+}
+
+article > section > title::before {
+ content: counter(section) " ";
+}
+
+appendix { 
+  counter-reset: section;
+  counter-increment: appendix;
+}
+
+appendix > title::before {
+ content: counter(appendix, upper-alpha) ". ";
+}
+
+appendix > section { 
+  counter-increment: section; 
+}
+
+appendix > section > title::before {
+ content: counter(appendix, upper-alpha) "." counter(section) " ";
+}
+
+articleinfo {
+  page: blank;
+  display: block;
+}
+
+articleinfo author {
+  display:block;
+  text-align:center;
+}
+
+articleinfo revhistory revnumber {
+  font-weight:bolder;
+}
+
+articleinfo revhistory revnumber:after {
+  font-weight: normal;
+  content: " - ";
+}
+
+articleinfo revhistory {
+  display: block;
+}
+
+articleinfo revhistory::before {
+  font-weight:bolder;
+  content: "Document revisions ";
+}
+
+@page article-info {
+  @top { content: none }
+  @bottom { content: none }
+}

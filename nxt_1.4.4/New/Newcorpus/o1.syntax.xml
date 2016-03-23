@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<nite:stream nite:id="syntax_str_1" nite:content="set" xmlns:nite="http://nite.sourceforge.net/" xmlns:xlink="http://www.w3.org/1999/xlink">
+   <s nite:id="s_1">
+      <np nite:id="np_1" hlem="man">
+         <nite:child xlink:href="o1.words.xml#xpointer(id('w_1')/range-to(id('w_2')))" xlink:type="simple"/>
+      </np>
+      <vp nite:id="vp_1" hlem="buy">
+         <nite:child xlink:href="o1.words.xml#xpointer(id('w_3'))" xlink:type="simple"/>
+         <np nite:id="np_2" hlem="toy">
+            <nite:child xlink:href="o1.words.xml#xpointer(id('w_4')/range-to(id('w_5')))" xlink:type="simple"/>
+         </np>
+         <pp nite:id="pp_1" prep="for" hlem="child">
+            <nite:child xlink:href="o1.words.xml#xpointer(id('w_6'))" xlink:type="simple"/>
+            <np nite:id="np_3" hlem="child">
+               <nite:child xlink:href="o1.words.xml#xpointer(id('w_7')/range-to(id('w_8')))" xlink:type="simple"/>
+            </np>
+         </pp>
+      </vp>
+   </s>
+</nite:stream>

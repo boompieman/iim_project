@@ -1,0 +1,17 @@
+<section id="timeline">    <title>Using Timelines in NXT</title><para>This section describes how to use timelines to view and edit NXTdata. Timelines are available from NXT 1.4.1 onwards. The NiteTimelineclass provides a scrolling window containing blobs arranged by time onone axis, and by layer on the other. A layer groups together a set ofNOMElements, and each layer may contain a series of numberedsub-layers. Timelines are a potentially useful display for a widerange of reviewing and editing tasks like comparing multipleannotators' data or correcting start / end times of existingdata.</para><section>   <title>Using SimpleTimelineDisplay for your corpus</title><para>The simplest way to create timeline displays is to passappropriate arguments to the program in the<emphasis>samples</emphasis> directory called<code>SimpleTimelineDisplay</code>...</para></section><section>   <title>Using a configuration file</title><para>Not available yet.</para></section><section>   <title>Programatic control of the timeline and delegate classes</title><para>Note: we hope that many of these programatic controls for thetimeline will eventually be available as configration options similar tothose available for the built-in coding tools like the named-entitycoder. For now they can only be achieved using programs.</para><para>Several properties of the timeline display can be controlled bythe user by writing simple <emphasis>delegate</emphasis> classes inJava: the text content (label) of each element and the grouping (layer) of eachelement. The layer determines the line on which the elementappears. Additionally, an element can be assigned to a depth within a layer, such that
+each layer takes up multiple lines, and elements can be further separated.</para><para>Writing a delegate class involves writing some very simple Javacode to return a <code>String</code> from a<code>NOMElement</code>. The class must implement the simple
+<code>TranscriptionToTextDelegate</code> interfacein the <code>net.sourceforge.nite.gui.transcriptionviewer</code>package. Alternatively, for simple labelling and grouping, the timeline will
+accept attribute names as the sources for the strings. </para>
+
+<para>The depth of an element with a layer is controlled by the interface <code>ElementToLayerDepthDelegate</code> which provides a single method to return an <code>int</code>
+from a <code>NOMElement</code>.</para>
+</section>
+<section>   <title>Creating and editing elements in a timeline</title><para>To create a new NOMElement when the mouse is clicked or dragged on the
+timeline, you will need to assign a <code>TimelineNOMElementCreator</code> using the 
+<code>net.sourceforge.nite.gui.timelineviewer.TimeGrid.setElementCreator()</code>
+method. The <code>TimelineNOMElementCreator</code> defines a single method that accepts
+a list of properties gathered from the mouse action and returns a NOMElement that will
+be assigned to the newly created blob.</para>
+<para><code>TimelineNOMElementCreator</code> defines the following method:
+<code>NOMElement createNewElement(float start, float end, java.lang.String label, java.lang.String layer, int depth)</code>
+</para></section></section>

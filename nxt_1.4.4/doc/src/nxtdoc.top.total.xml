@@ -1,0 +1,153 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+ [ <!ENTITY introduction PUBLIC "nxtdoc.introduction" "nxtdoc.introduction.xml">
+   <!ENTITY funding PUBLIC "nxtdoc.funding" "nxtdoc.funding.xml">
+   <!ENTITY install PUBLIC "nxtdoc.install" "nxtdoc.install.xml">
+   <!ENTITY queryref  PUBLIC "nxtdoc.queryref" "nxtdoc.queryref.xml">
+   <!ENTITY data PUBLIC "nxtdoc.data" "nxtdoc.data.xml">
+   <!ENTITY datamodel PUBLIC "nxtdoc.datamodel" "nxtdoc.datamodel.xml">
+   <!ENTITY datasetdesign PUBLIC "nxtdoc.datasetdesign" "nxtdoc.datasetdesign.xml">
+   <!ENTITY dataformat PUBLIC "nxtdoc.dataformat" "nxtdoc.dataformat.xml">
+   <!ENTITY metadata PUBLIC "nxtdoc.metadata" "nxtdoc.metadata.xml">
+   <!ENTITY resources PUBLIC "nxtdoc.resourcefile" "nxtdoc.resourcefile.xml">
+   <!ENTITY validation PUBLIC "nxtdoc.validation" "nxtdoc.validation.xml">
+   <!ENTITY databuilds PUBLIC "nxtdoc.databuilds" "nxtdoc.databuilds.xml">
+   <!ENTITY analysis PUBLIC "nxtdoc.analysis" "nxtdoc.analysis.xml">
+   <!ENTITY commandlinetools PUBLIC "nxtdoc.commandlinetools" "nxtdoc.commandlinetools.xml">
+   <!ENTITY guis PUBLIC "nxtdoc.guis" "nxtdoc.guis.xml">
+   <!ENTITY genericdisplay PUBLIC "nxtdoc.genericdisplay" "nxtdoc.genericdisplay.xml">
+   <!ENTITY nxtsearchgui PUBLIC "nxtdoc.nxtsearchgui" "nxtdoc.nxtsearchgui.xml">
+   <!ENTITY signallabeller PUBLIC "nxtdoc.signallabeller" "nxtdoc.signallabeller.xml">
+   <!ENTITY decoder PUBLIC "nxtdoc.decoder" "nxtdoc.decoder.xml">
+   <!ENTITY dscoder PUBLIC "nxtdoc.dscoder" "nxtdoc.dscoder.xml">
+   <!ENTITY nsdisplay PUBLIC "nxtdoc.nsdisplay" "nxtdoc.nsdisplay.xml">
+   <!ENTITY dtvdisplay PUBLIC "nxtdoc.dtvdisplay" "nxtdoc.dtvdisplay.xml">
+   <!ENTITY othertools PUBLIC "nxtdoc.othertools" "nxtdoc.othertools.xml">
+   <!ENTITY knit PUBLIC "nxtdoc.knit" "nxtdoc.knit.xml">
+   <!ENTITY controls PUBLIC "nxtdoc.programmaticcontrols" "nxtdoc.programmaticcontrols.xml">
+   <!ENTITY futurework PUBLIC "nxtdoc.futurework" "nxtdoc.futurework.xml">
+   <!ENTITY furtherreading PUBLIC "nxtdoc.furtherreading" "nxtdoc.furtherreading.xml">
+   <!ENTITY metadataappendix PUBLIC "nxtdoc.metadataappendix" "nxtdoc.metadata.appendix.xml">
+   <!ENTITY configappendix PUBLIC "nxtdoc.configappendix" "nxtdoc.config.appendix.xml">
+   <!ENTITY playmedia PUBLIC "nxtdoc.playmedia" "nxtdoc.playmedia.xml">
+   <!ENTITY reliability PUBLIC "nxtdoc.reliability" "nxtdoc.reliability.xml">
+   <!ENTITY projection PUBLIC "nxtdoc.projection" "nxtdoc.projection.xml">
+   <!ENTITY nxtbuilding PUBLIC "nxtdoc.building" "nxtdoc.nxtbuilding.xml">
+   <!ENTITY getinvolved PUBLIC "nxtdoc.getinvolved" "nxtdoc.getinvolved.xml">
+   <!ENTITY faq PUBLIC "nxtdoc.faq" "nxtdoc.faq.xml">
+   <!ENTITY motivation PUBLIC "nxtdoc.motivation" "nxtdoc.motivation.xml">
+   <!ENTITY comparison PUBLIC "nxtdoc.comparison" "nxtdoc.comparison.xml">
+   <!ENTITY howtousemetadata PUBLIC "nxtdoc.howtousemetadata" "nxtdoc.howtousemetadata.xml">
+   <!ENTITY encoding PUBLIC "nxtdoc.encoding" "nxtdoc.encoding.xml">
+   <!ENTITY pubsandinfo PUBLIC "nxtdoc.pubsandinfo" "nxtdoc.pubsandinfo.xml">
+]>
+<!--<?xml-stylesheet type="text/xsl" href="chunk.xsl"?>-->
+
+<?xml-stylesheet href="wysiwygdocbook1.02/print.css" type="text/css"?> 
+<!-- <?xml-stylesheet href="docbook.css" type="text/css"?> -->
+
+<article id="nite_help">
+
+  <title>Documentation for the NITE XML Toolkit</title>
+
+  <articleinfo>
+    <revhistory>
+      <revision>
+        <revnumber>0.3</revnumber>
+        <date>11 June 09</date>
+      </revision>
+      <revision>
+        <revnumber>0.2</revnumber>
+        <date>28 March 07</date>
+      </revision>
+      <revision>
+        <revnumber>0.1</revnumber>
+        <date>12 Jan 07</date>
+      </revision>
+    </revhistory>
+
+    <authorgroup>
+      <author>
+        <firstname>Jean</firstname>
+        <surname>Carletta</surname>
+      </author>
+
+      <author>
+        <firstname>Stefan</firstname>
+        <surname>Evert</surname>
+      </author>
+
+      <author>
+        <firstname>Jonathan</firstname>
+        <surname>Kilgour</surname>
+      </author>
+
+      <author>
+        <firstname>Craig</firstname>
+        <surname>Nicol</surname>
+      </author>
+
+      <author>
+        <firstname>Dennis</firstname>
+        <surname>Reidsma</surname>
+      </author>
+
+      <author>
+        <firstname>Judy</firstname>
+        <surname>Robertson</surname>
+      </author>
+
+      <author>
+        <firstname>Holger</firstname>
+        <surname>Voormann</surname>
+      </author>
+    </authorgroup>
+  </articleinfo>
+
+<!-- TEMP must still go through web pages looking for documentation that hasn't even been slotted into the structure here -->
+
+<section id="draft" status="private"><title>Drafts before v1.0</title>
+<para>In October 2006, we decided to move over NXT documentation from
+being completely web-based to being written in DocBook so that we
+can generate HTML, JavaDoc, and PDF at will.  We are rewriting much
+much of the documentation at the same time.  Versions of the documentation
+numbered before v1.0 are incomplete, although the outline gives some
+idea of our intentions for it.  In this version, version 0.1, not
+all of the information has been checked for accuracy yet.
+The most
+likely difficulties concern the following areas: corpus resources, ontologies,
+and object sets; validation; incomplete description of data set concepts.
+In addition, not all the formatting works, and the query reference
+manual has not been fully converted over to DocBook, so it is incomplete
+and hard to read in this version.
+</para>
+</section>
+
+  &introduction; 
+  &install; <!-- includes elements: playmedia, controls -->
+
+<!-- Newly separated data section includes entities: datamodel,
+ dataformat, metadata, resources, validation, datasetdesign,
+ databuilds --> 
+  &data;
+  &queryref; 
+
+<!-- Newly separated analysis section includes entities:
+commandlinetools, projection, reliability -->
+  &analysis;
+
+  &guis;
+  &othertools;
+
+  <!-- N.B. The following sections are Appendices, so each of the included files should have an outer container of <appendix> rather than <section> -->
+  &faq;
+  &howtousemetadata;
+  &comparison;
+  &pubsandinfo;
+
+<!-- too out of date / incomplete
+     &futurework; 
+     &metadataappendix;
+     &configappendix;
+-->
+
+</article>

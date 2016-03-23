@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+
+	<mapID target="img.top" url="shared/images/help_topic.gif" />
+	<mapID target="img.chapter" url="shared/images/super_co.gif" />
+	<mapID target="img.topic" url="shared/images/icon_legend.gif" />
+	<mapID target="img.openchapter" url="shared/images/hierarchy_co.gif" />
+
+	<mapID target="top"      url="videolabeler/html/Overview.html" />
+	
+	<mapID target="tutorial" url="videolabeler/html/tutorial.html" />
+	<mapID target="guide.top" url="videolabeler/html/guide-top.html" />
+	<mapID target="guide.startapp" url="videolabeler/html/guide-startapp.html" />
+	<mapID target="guide.make" url="videolabeler/html/guide-make.html" />
+	<mapID target="guide.view" url="videolabeler/html/guide-view.html" />
+	<mapID target="guide.video" url="videolabeler/html/guide-video.html" />
+	<mapID target="guide.save" url="videolabeler/html/guide-save.html" />
+
+    <!-- shared material -->
+	<mapID target="contact"  url="shared/html/Contact.html" />
+	<mapID target="acknowledgements"  url="shared/html/Acknowledgements.html" />
+
+</map>

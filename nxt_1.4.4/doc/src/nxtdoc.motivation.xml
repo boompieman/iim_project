@@ -1,0 +1,63 @@
+<appendix id="motivation">
+	<title>Motivation</title>
+	
+	<para>
+		Users of multimedia language data face two problems at the moment: they can't share data because 
+		different tools use different data formats, and they can't mark up data with annotations 
+		that have complex structures, or combine two simple-structured annotations on the same data, 
+		because the data representations employed by the tools at best allow for trees.
+	</para>
+	<para>
+		<ulink url="images/data-example.jpg">This picture</ulink> gives a quite simple constructed example of the 
+		richness of structure needed for multimedia annotation. The HCRC Map Task Corpus  and the 
+		Switchboard Corpus, available from <ulink url="http://www.talkbank.org">TalkBank</ulink>, are examples of non-multimedia corpora which have 
+		run into the analogous difficulty about representation of structure, but for speech and language 
+		annotation without video. Such heavily annotated corpora do not exist yet for multimedia data 
+		because of the lack of tools, but are needed for work in, e.g., animation and human-computer interfaces.
+	</para>
+	<para>
+		End users of a data set want tools that they can just start up and run for displaying, annotating, 
+		and analysing data. This creates a basic tension. Where the annotations are simple in structure, 
+		it is possible to write general-purpose tools that have reasonable data displays and interfaces 
+		(such as <ulink url="http://medien.informatik.fh-fulda.de/tasxforce"><application>TASX</application></ulink>, 
+		<ulink url="http://www.dfki.de/nite"><application>Anvil</application></ulink> or 
+		<ulink url="http://www.noldus.com"><application>The Observer</application></ulink>). 
+		These tools are fine when the structure of the annotation needed fits the model they have in mind. 
+		However, the more exotic the structure needed, or the more annotations given on the same data, 
+		the less likely that a pre-defined general interface will fit user needs. This is why in 
+		speech and language annotation, most corpus projects ensure that they keep around a developer 
+		who has technical skills and can dedicate time to making one-off tools for each task that 
+		needs to be done with their specific data set.
+	</para>
+	<para>
+		The NITE XML Toolkit is aimed at the developer and will allow him or her to build the more specialized 
+		displays, interfaces, and analyses that are required by end users when working with highly 
+		structured or cross-annotated data. We are not alone in taking this approach; <link linkend="comparison">this page</link> discusses 
+		the differences between NXT and the most comparable efforts elsewhere.
+	</para>
+	<para>
+		The NITE XML Toolkit was developed to provide:
+	</para>
+	<para>
+		<itemizedlist mark="bullet">
+			<listitem><para>an abstract data model which is rich enough to allow even a structurally complex 
+				set of multi-media annotations to be mapped into it</para></listitem>
+			<listitem><para><link linkend="nql">a query language</link> designed to exploit fully the properties that can be 
+				expressed in the data model - <ulink url="http://www.ims.uni-stuttgart.de/projekte/nite">SEE ON-LINE DEMO</ulink></para></listitem>
+			<listitem><para>a canonical data storage format using stand-off XML</para></listitem>
+			<listitem><para>a <link linkend="howtousemetadata">metadata</link> format for describing the structure of a data set (i.e., the file arrangement 
+				plus the structures of the individual files) that enables the data to be used by applications written using NXT</para></listitem>
+			<listitem><para>Java classes for loading data in the storage format into the model, for accessing and manipulating 
+				the data, and for serializing from the model to the storage format</para></listitem>
+			<listitem><para>Java classes for evaluating a query on loaded data</para></listitem>
+			<listitem><para>Java classes, based on Swing but adding properties such as synchronization with a media player, 
+				that can be used to build data displays and interfaces</para></listitem>
+			<listitem><para>two simple interfaces that will work on any corpus, one of 
+				which will run a query and display the results, and the other of which will display the entire data set</para></listitem>
+			<listitem><para>a set of sample data extracts from a range of corpora, and tailored interfaces for 
+				displaying and annotating them, both as demonstrations and as code that can be cannibalized</para></listitem>
+			<listitem><para>command line utilities for, e.g., counting query matches, adding new annotations that 
+				index query matches, showing matches in a textual format</para></listitem>
+		</itemizedlist>
+	</para>
+</appendix> 

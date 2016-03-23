@@ -1,0 +1,213 @@
+/*ltg background-color: #C5DDDE*/
+
+body {margin-left: 8%;
+      margin-right: 8%;
+      text-align:justify;
+      font-family: verdana,arial,sans-serif;
+      font-size:10pt
+      } 
+   
+p.remark {background-color: red;}
+
+acronym.acronym {}
+
+a:link {color: #4369aa}
+
+a:visited {color: gray}
+
+a:active {color: red}
+
+a:hover {color: red}
+
+b {}
+
+code {}
+
+code.classname {}
+
+code.code {}
+
+code.command {}
+
+code.filename {}
+
+code.function {}
+
+code.literal {}
+
+code.sgmltag-attribute {}
+
+code.sgmltag-element {}
+
+code.sgmltag-attvalue {}
+
+code.sgmltag-namespace {}
+
+code.varname {}
+
+col {}
+
+colgroup {}
+
+dd {}
+
+div {}
+
+div.appendix {}
+
+div.article {}
+
+div.author {font-size: 10pt;
+					 font-weight: normal;
+					 margin-top:-15px;
+					 text-align:center}
+
+div.authorgroup {}
+
+div.caution {}
+
+div.cmdsynopsis {}
+
+div.itemizedlist {}
+
+div.mediaobject {}
+
+div.note {}
+
+div.orderedlist {}
+
+div.revhistory {}
+
+div.section {}
+
+div.table {}
+
+div.table-contents {}
+
+div.tip {}
+
+div.titlepage {}
+
+div.toc {}
+
+div.variablelist {background-color: #C5DDDE}
+
+dl {}
+
+dt {}
+
+em {}
+
+em.firstterm {font-style: italics;
+              font-weight: bold;
+              font-size: 9pt}
+
+em.parameter {}
+
+em.replaceable {}
+
+h2 {}
+
+h2.title {}
+
+h3.author {}
+
+h3.title {}
+
+h4.title {font-size: 10pt}
+
+h5.title {font-size: 10pt}
+
+h6.title {font-size: 10pt}
+
+head {}
+
+i {}
+
+img {border-width: 0px}
+
+li {}
+
+ol {}
+
+p {}
+
+p.remark {}
+
+p.title {margin-bottom: 2px}
+
+p.title b{}
+
+pre.programlisting {}
+
+pre.screen {}
+
+pre.synopsis {line-height: 140%}
+
+span.appendix {}
+
+span.application {}
+
+span.bold {}
+
+span.emphasis {}
+
+span.firstname {font-size: 10pt;
+					 font-weight: normal}
+
+span.guibutton {}
+
+span.guilabel {}
+
+span.guimenu {}
+
+span.guimenuitem {}
+
+span.interface {}
+
+span.orgname {}
+
+span.package {}
+
+span.property {}
+
+span.remark {background-color:red}
+
+span.section {}
+
+span.surname {font-size: 10pt;
+					 font-weight: normal}
+
+span.term {background-color: #E0E0E0;
+           border: 1px solid #E0E0E0}
+
+span.type {}
+
+strong {}
+
+table {border-collapse: collapse}
+
+tbody {}
+
+td {font-size: 10pt;
+    padding-left: 10px;
+    padding-right: 10px}
+
+div.navheader table tr th {text-align:center}
+
+th {text-align: left;
+    font-size:11pt;
+    padding-left: 10px;
+    padding-right: 10px}
+
+thead {}
+
+title {}
+
+tr {}
+
+tr.qandadiv td h4 {padding-top: 20px}
+
+ul {}
+
+

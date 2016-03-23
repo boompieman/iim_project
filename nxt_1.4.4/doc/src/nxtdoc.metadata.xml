@@ -1,0 +1,1190 @@
+<section id="metadata">
+    <title id="metadata.title">Metadata</title>
+
+    <para>
+Because NXT does not prescribe any particular data representation, in
+order to load a corpus it requires <code>metadata</code> declaring
+what observations, codings, signals, layers, codes,
+and so on come with a particular
+corpus, and where to find them on disk.  This metadata is expressed
+in a single file, which is also in XML format.  
+<!--
+An annotated example of a metadata file can be found in 
+<xref linkend="metadataappendix" endterm="metadataappendix.title"/>; in addition, -->
+Each of the example data set extracts comes with
+example metadata that can be used as a model.
+The DTD and schema for NXT
+metadata can be found in the <filename class="directory">lib/dtd</filename>  and <filename class="directory">lib/schema</filename>
+directories of the NXT
+distribution, respectively.
+    </para>
+
+
+<remark> the schema for NXT metadata isn't actually in lib/schema in the NXT distribution, but we say it is. </remark>
+<remark> TEMP Throughout doc, add external-pointer where child and pointer are talked about </remark>
+
+<section id="metadata_preliminaries"><title>Preliminaries</title>
+
+<para/>
+
+<remark> TEMP The code tag isn't defined anywhere on this page, I think - and I also think it occurs in more than one place, so presumably it's common and belongs here, under preliminaries.
+</remark>
+
+<section id="metadata_attribute_definitions"><title>Attribute definitions</title>
+<para> 
+A number of sections of the metadata (<sgmltag class="element"><![CDATA[<code>]]></sgmltag>, 
+	<sgmltag class="element"><![CDATA[<ontology>]]></sgmltag>, <sgmltag class="element"><![CDATA[<object-set>]]></sgmltag>)
+rely on the same basic mechanism for defining attributes.  Attributes
+can have three different types:  <firstterm>string</firstterm>,
+meaning free text;
+<firstterm>number</firstterm>, where any kind of numeric value is permitted; 
+or <firstterm>enumerated</firstterm>, where only values listed in the
+enclosed <sgmltag class="element">value</sgmltag> elements are permitted. They are defined
+using an <sgmltag class="element"><![CDATA[<attribute>]]></sgmltag> tag where 
+the
+<sgmltag class="attribute">name</sgmltag> attribute gives the name of the attribute and
+the <sgmltag class="attribute">value-type</sgmltag> attribute, the type.  For enumerated attributes,
+the attribute declaration must also include the enumerated values
+within <sgmltag class="element"><![CDATA[<value>]]></sgmltag> tags.  For instance,
+
+<programlisting><![CDATA[
+<attribute name="affiliation" value-type="string"/>
+]]></programlisting>
+
+defined an attribute named "affiliation" that can have any string value, 
+whereas 
+
+<programlisting><![CDATA[
+<attribute name="gender" value-type="enumerated">
+	<value>male</value>
+	<value>female</value>
+</attribute>
+]]></programlisting>
+
+defines an attribute named "gender" that can have two possible values,
+"male" and "female".
+
+</para>
+
+<remark> Do we want to say anything about the treatment of numerical attributes, since people find that tricky at times - 
+	is it just tricky in query (in which case mention it there, or also elsewhere? </remark>
+
+</section>
+
+</section>
+
+<section id="top-level-corpus-description"><title id="top-level-corpus-description.title">Top-level corpus description</title>
+
+
+<para>The root element of a metadata file is <sgmltag class="element">corpus</sgmltag> and here's
+an example of what it looks like:</para>
+<programlisting><![CDATA[
+<corpus description="Map Task Corpus" id="maptask" 
+	links="ltxml1" type="standoff" resource_file="resource.xml">
+	...
+</corpus>
+]]></programlisting>
+
+<para>The important attributes of the <sgmltag class="element">corpus</sgmltag> element are
+<sgmltag class="attribute">links</sgmltag> and <sgmltag class="attribute">type</sgmltag>. The <sgmltag class="attribute">type</sgmltag>
+attribute should have the value <sgmltag class="attvalue">standoff</sgmltag>.  The previous
+use of <sgmltag class="attvalue">simple</sgmltag> corpora is deprecated.  The
+<sgmltag class="attribute">links</sgmltag> attribute defines the syntax of the standoff links
+between the files. It can be one of: <sgmltag class="attvalue">ltxml1</sgmltag> or
+<sgmltag class="attvalue">xpointer</sgmltag>. See <xref linkend="links"/> for an explanation
+of these two link styles. The <sgmltag class="attribute">resource</sgmltag> attribute is
+optional: if it is present it specifies a resource file which will be
+parsed by NXT (from versions 1.4.1 onwards). Resource files provide a
+more flexible way to manage a large NXT corpus, particularly where
+many annotators and automatic processes could provide competing
+annotations for the same things. See <xref linkend="resources"/> for
+an explanation of resource files and their format.
+</para>
+
+</section>
+
+<section id="reserved-els-and-atts" xreflabel="Reserved Elements and Attributes"><title>Reserved Elements and Attributes (optional)</title>
+
+
+<para>There are a number of elements and attributes that are special, or
+<code>reserved</code>, in NXT because they do not (or do not just)
+hold data but are used in NXT processing, for instance, in order to
+identify the start and end times of some timed annotation.
+The <sgmltag class="element"><![CDATA[<reserved-elements>]]></sgmltag> and
+<sgmltag class="element"><![CDATA[<reserved-attributes>]]></sgmltag> sections of the metadata-file
+can be used to override their default values.  They contain as children
+declarations for each element or 
+attribute separately; each child declaration uses
+a different element name (see table), with the <sgmltag class="attribute">name</sgmltag>
+attribute specifying the name to use for that element or attribute
+in the NXT corpus being described.
+If the element in the metadata for declaring the name to use for
+a particular element or attribute is missing, 
+then NXT will use the default value for that attribute.  The
+<sgmltag class="element"><![CDATA[<reserved-attributes>]]></sgmltag> and
+<sgmltag class="element"><![CDATA[<reserved-attributes>]]></sgmltag> sections of the metadata-file
+can be omitted entirely if no declarations are required for the
+corpus being described.
+</para>
+
+<caution>
+<para>
+At present, off-line data validation
+can not fully handle alternative names (see <xref linkend="validation"
+endterm="validation.title"/>).
+</para>
+</caution>
+
+<section id="reserved-atts" xreflabel="Reserved Attributes">
+   <title>Reserved Attributes (optional)</title>
+
+
+<para> The following table shows each of the reserved attributes along with
+the name of the element in the metadata file used to declare its name
+and the default value.
+</para>
+
+
+<table>
+   <title>Reserved Attributes</title>
+   <tgroup cols="3">
+      <thead> 
+         <row>
+            <entry>attribute</entry>
+            <entry>metadata tag name</entry>
+            <entry>default value</entry>
+	 </row>
+      </thead>
+      <tbody>
+	<row>
+	   <entry>Root / stream element name</entry>
+  	   <entry>stream</entry>
+	   <entry>nite:root</entry>
+	</row>
+	<row>
+	   <entry>Element identifier</entry>
+	   <entry>identifier</entry>
+           <entry>nite:id</entry>
+        </row>
+	<row>
+	   <entry>Element start time</entry>
+           <entry>starttime</entry>
+           <entry>nite:start</entry>
+	</row>
+	<row>
+	   <entry>Element end time</entry>
+	   <entry>endtime</entry>
+	   <entry>nite:end</entry>
+	</row>
+	<row>
+	  <entry>Agent </entry>
+	  <entry>agentname</entry>
+	  <entry>agent</entry>
+	</row>
+	<row>
+	  <entry>Observation </entry>
+	  <entry>observationname</entry>
+	  <entry> - </entry>
+	</row>
+	<row>
+	  <entry>Comment </entry>
+	  <entry>commentname</entry>
+	  <entry>comment</entry>
+	</row>
+	<row>
+	  <entry>Key Stroke </entry>
+	  <entry>keystroke</entry>
+	  <entry>keystroke</entry>
+	</row>
+	<row>
+	  <entry>Resource </entry>
+	  <entry>resourcename</entry>
+	  <entry> - </entry>
+	</row>
+      </tbody>
+   </tgroup>
+</table>
+
+<para>
+For instance, a metadata declaration that changes just the names
+of the id, start, and end time attributes might look like this:
+</para>
+
+<programlisting><![CDATA[
+<reserved-attributes>
+	<identifier name="identifier"/>
+	<starttime name="starttime"/>
+	<endtime name="endtime"/>
+</reserved-attributes>
+]]></programlisting>
+
+
+<para>
+They are used in NXT processing as follows.
+</para>
+
+<variablelist>
+   <title>Reserved Attribute Meanings</title>
+   <varlistentry>
+      <term>Stream</term>
+      <listitem>
+        <para>The <sgmltag class="attribute">stream</sgmltag> attribute occurs at the root
+              elements of all XML data files in a corpus apart from 
+              ontology files and corpus resources, and gives a unique
+              identifier for the XML document in the file.  This 
+              attribute does not form
+              part of the data represented in the NITE Object Model, but
+              is required for serialization.
+        </para>
+      </listitem>
+   </varlistentry>
+   <varlistentry>
+      <term>Identifier</term>
+      <listitem>
+	<para>Identifiers are required on all elements in an NXT corpus,
+              and are used by NXT to resolve out-of-file links when loading
+              and to maintain the correspondence between the data and the
+              display in GUI tools.
+	</para>
+      </listitem>
+   </varlistentry>
+   <varlistentry>
+      <term>Start and End Times</term>
+      <listitem>
+	<para> Start and end times may appear on time-aligned elements. 
+               They give the offset from the beginning of a signal (or set
+               of synchronized signals) in seconds.  
+	</para>
+      </listitem>
+   </varlistentry>
+   <varlistentry>
+      <term>Agent and Observation</term>
+      <listitem>
+	<para>These reserved attributes describe not attributes that
+	should occur in the XML data files, but attributes that can be 
+	added automatically as data is loaded, for access in the NITE
+	Object Model.  Normally, corpora do not explictly represent the
+	name of the observation which an annotation describes, or the
+	name of the agent if it is an annotation for an individual, since
+	this information is represented by where in the set of XML files
+	the data is stored.  It would take a great deal of space to stick
+	this information on every data element, but it is useful to have
+	it in the NOM, for instance, so that queries can filter results
+	based on it.  The <sgmltag class="attribute">agentname</sgmltag> and <sgmltag class="attribute">observationname</sgmltag> declarations
+	specify the names to use for these attributes in the NOM.  The
+	attributes will be added at load time to every element that doesn't
+	already have an attribute with the same name.
+	</para>
+      </listitem>
+   </varlistentry>
+   <varlistentry>
+      <term>Comment</term>
+      <listitem>
+	<para> The <sgmltag class="attribute">comment</sgmltag> attribute gives space to store an arbitrary
+	string with any data element in the corpus.  It is typically
+	used for temporary information to do with data management or
+	to represent the cause of uncertainty about an annotation.
+	</para>
+      </listitem>
+   </varlistentry>
+   <varlistentry>
+      <term>Keystroke</term>
+      <listitem>
+	<para>
+	  Any element can have an associated
+	  <sgmltag class="attribute">keystroke</sgmltag>. This is normally used to represent keyboard shortcuts for
+	  elements in an ontology, though it can be used for other purposes. The
+	  value is simply a string, and what application programs do with the
+	string (if anything) is up to them.
+	</para>
+      </listitem>
+   </varlistentry>
+   <varlistentry>
+      <term>Resource</term>
+      <listitem>
+	<para>
+	  If the metadata refers to a <sgmltag class="attribute">resource</sgmltag> file, this attribute
+	  contains the ID of the resource this element is associated
+	  with, if any.
+	</para>
+      </listitem>
+   </varlistentry>
+</variablelist>
+
+<remark> keystroke isn't very well thought out - we'd rather have keystrokes on element types, not elements,
+	 except for the use in ontologies that you mention.  We might consider changing this feature.  </remark>
+
+</section>
+
+
+<section id="reserved-eles" xreflabel="Reserved Elements"><title>Reserved Elements (optional)</title>
+
+<para> The following table shows each of the reserved elements along with
+the name of the element in the metadata file used to declare its name
+and the default value.
+</para>
+
+<table>
+  <title>Reserved Elements</title>
+  <tgroup cols="3">
+     <thead>
+      <row>
+	<entry>element</entry>
+	<entry>metadata tag name</entry>
+	<entry>default value</entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+	<entry>Pointer</entry>
+	<entry>pointername</entry>
+      <entry>nite:pointer</entry></row>
+      <row>
+	<entry>Child </entry>
+	<entry>child</entry>
+	<entry>nite:child</entry>
+      </row>
+      <row>
+	<entry>Stream element</entry>
+	<entry>stream</entry>
+	<entry>nite:root</entry>
+      </row>
+     </tbody>
+  </tgroup>
+</table>
+
+<para>
+For instance, a metadata declaration covering just the names of pointer elements
+might look like this:
+</para>
+
+<programlisting><![CDATA[
+<reserved-elements>
+	<pointername name="mypointer"/>
+</reserved-elements>
+]]></programlisting>
+
+</section>
+
+
+<section id="metadata_example_reserved_atts">
+   <title>Example</title>
+
+<para>
+Changing the reserved element and attribute names from the default
+affects the representation that NXT expects within the individual
+XML data files.  For instance, suppose we include the following
+in the metadata file:
+</para>
+
+<programlisting><![CDATA[
+<reserved-attributes>
+	<stream name="stream"/>
+	<identifier name="identifier"/>
+	<starttime name="starttime"/>
+	<endtime name="endtime"/>
+	<agentname name="who"/>
+	<observationname name="obs"/>
+	<commentname name="mycomment"/>
+	<keystroke name="mykey"/>
+</reserved-attributes>
+<reserved-elements>
+	<pointername name="mypointer"/>
+	<child name="mynamespace:child"/>
+	<stream name="stream"/>
+</reserved-elements>
+]]></programlisting>
+
+<para>
+Further suppose that the metadata file specifies the use of 
+ltxml1-style links and goes
+on to define a coding file containing one time-aligned layer, with
+one code, <sgmltag class="element"><![CDATA[<word]]></sgmltag>, that declares no further attributes
+but can contain syllables as children, and can point to syntactic
+constituents using the "antecedent" role.
+Then the full XML file representing those words might look like 
+this:
+</para>
+
+<programlisting><![CDATA[
+<stream>
+	<word identifier="word_1" starttime="1.3" endtime="1.5"
+		<mypointer role="antecedent" href="obs1.syntax.xml#ante_2"/>
+		<mynamespace:child href="obs1.syllables.xml#syllable_1"/>
+	</word>
+...
+</stream>
+]]></programlisting>
+
+</section>
+</section>
+
+<section id="cvs" xreflabel="CVS Details"><title>CVS Details (optional, beta)</title>
+
+
+<remark>does the CVS stuff work?  is it documented? probably in
+javadoc only? or do we remove this section of the metadata? </remark>
+
+<para>Many projects keep their annotations in a CVS repository.
+Concurrent version control (see <ulink  url="http://www.cvshome.org/"/>)
+allows different people to edit the same
+document collaboratively, maintaining information about who has done what
+to what file when.  One NXT contributor is adding functionality
+to allow NXT GUIs to work directly from a CVS repository rather than
+requiring the annotator to check out data from CVS and then commit changes
+as additional steps.  The <sgmltag class="element">cvsinfo</sgmltag> 
+section of the metadata declares where to
+find the CVS repository for these purposes.
+It has three attributes, all of which are required: 
+<sgmltag class="attribute">protocol</sgmltag> (one of <firstterm><sgmltag class="attvalue">pserver, ext, local, sspi</sgmltag></firstterm>);
+<sgmltag class="attribute">server</sgmltag> (the machine name on which the CVS server is hosted);
+and <sgmltag class="attribute">module</sgmltag> (the top level directory within the CVS repository 
+where the corpus is found).  For instance,
+
+<remark> I don't understand which directory should be named in the cvsinfo tag - the one that contains the metadata?  
+	Or does this facility require all data XML files to be in the same directory, and that's the one to use?</remark>
+
+<programlisting><![CDATA[
+<cvsinfo protocol="pserver" server="cvs.inf.ed.ac.uk" module="/disk/cvs/ami"/>
+]]></programlisting>
+
+
+</para>
+
+
+</section>
+
+<section id="metadata_independent_variables"><title>Independent Variables on Observations   </title>
+<anchor id="observation-vars"/>
+<remark>There is an "Independent Variables on Observations" section here which is commented out</remark>
+<!--
+<para>A corpus is a set of observations all of which conform to the same
+basic format. NXT has allowed a corpus to declare independent variables
+which can be used to divide the corpus into subsets.  Use of this
+facility is now deprecated, but it is described <a href="deprecated-metadata.html">
+here</a>, along with how to do the same thing now.
+</section>
+-->
+</section>
+
+<section id="agents" xreflabel="Agents"><title>Agents  (optional)</title>
+
+
+
+<para>A corpus is a set of observations of language behaviour that
+are all of the same basic genre, all of which conform to the same
+declared data format.  For each corpus, there will be a set number
+of agents, or individuals (whether human or artificial) whose behaviour
+is being observed.  The <sgmltag class="element">agents</sgmltag> section of the metadata
+contains <sgmltag class="element">agent</sgmltag> declarations for each one.  
+Each <sgmltag class="element">agent</sgmltag> declaration must contain a <sgmltag class="attribute">name</sgmltag>
+attribute, which can be any string that does not contain whitespace.  
+The agent name will be used to name data and signal files.
+If the reserved attribute <sgmltag class="attribute">agentname</sgmltag> is declared
+(see <xref linkend="reserved-atts"/>, it 
+will also be available as an attribute on all agent annotations during 
+queries.
+Agent declarations may also contain a <sgmltag class="attribute">description</sgmltag>, which
+can be any 
+string, and is intended to be a short, human-readable description.
+Its use is application-specific.
+</para>
+
+<para>
+Note that this strategy for naming agents gives uniformity throughout the
+corpus; every observation in a corpus will use the same agent names.
+That is, the name of an agent expresses its role in the language interaction
+being observed.  Typical agent names are e.g.
+<sgmltag class="attvalue">system</sgmltag> and <sgmltag class="attvalue">user</sgmltag> for human-computer dialogue.
+For corpora without discernible roles, the labelling is often arbitrary,
+using letters to designate individuals, or based
+on seating. NXT deliberately places 
+personal information about the individuals that fill the agent
+roles for specific observations in corpus resources, not the metadata,
+so that it is accessible from the query language.
+</para>
+
+<para>Usually, it is obvious how many agents to use for a corpus; e.g., two
+for dialogue, five for five-person discussion.  However, there are a few
+non-obvious cases.  
+</para>
+<para>
+For corpora of discussions where the size varies but
+everything else is the same, in order to treat all observations in the
+same metadata file, you must declare the largest number
+of agents required by any observation so that one metadata file can be
+used throughout.  In this case, it will be impossible to tell whether
+an agent speaks no words because they were absent or because they were
+silent without encoding this information in a corpus resource.
+</para>
+<para>
+For monologue
+and written text, it is possible either to declare the corpus as having
+one agent or as having no agents, treating every annotation as a property of the
+interaction.  The only difference is in how the data files will be named.
+</para>
+
+<section id="metadata_example_agents"><title>Example</title>
+
+<para>This example, used by the Map Task Corpus, declares two agents,
+the route giver and the route follower.
+</para>
+
+<programlisting><![CDATA[
+<agents>
+	<agent name="g" description="giver"/>
+	<agent name="f" description="follower"/>
+</agents>
+]]></programlisting>
+
+</section>
+</section>
+
+
+<section id="signals" xreflabel="Signals"><title>Signals  (optional)</title>
+
+
+<para>Most (but not all) corpora come with either a single signal for
+each observation, or a set of signals that together record the
+observation from different angles.  In a corpus, the usual aim is to
+capture all observations with the same recording set-up, resulting in
+the same set of recordings for all of them.  
+This section of the
+metadata declares what signals to expect for the observations in the
+corpus and where they reside on disk.  There is an explanation of
+how filenames are concatenated from parts in <xref linkend="filenaming" endterm="filenaming.title"/>.
+Filenames are case-sensitive.
+</para>
+
+<para>
+At the top level of this section, the 
+<sgmltag class="element">signals</sgmltag> declaration uses the <sgmltag class="attribute">path</sgmltag> attribute
+to specify the initial part of the path to the 
+directory containing signals. If the path is
+relative, it is calculated relative to the location of the metadata file,
+not to the directory from which the java application is started.  The default
+path is the current directory. The <sgmltag class="element">signals</sgmltag> declaration can
+also declare a <sgmltag class="attribute">pathmodifier</sgmltag>, which concatenates additional
+material to the end of the declared path.  For any given observation,
+the additional material will
+be the result of replacing any instances of the string
+<literal>observation</literal> with the name of that observation.
+This allows the signals for a corpus to be broken down into subdirectories
+for each observation separately.
+</para>
+
+<para>
+Below the <sgmltag class="element">signals</sgmltag> tag, the metadata is divided into two
+sections, <sgmltag class="element">agent-signals</sgmltag> and
+<sgmltag class="element">interaction-signals</sgmltag>, for agent and interaction signals,
+respectively.  
+</para>
+
+<para>Within these sections, each type of signal for a corpus has its
+own <sgmltag class="element">signal</sgmltag> declaration, whch takes an
+<sgmltag class="attribute">extension</sgmltag> giving the file extension; <sgmltag class="attribute">name</sgmltag>,
+which is used as part of the filename and should not contain
+whitespace; <sgmltag class="attribute">format</sgmltag>, which is a
+human-readable description of the file format, and <sgmltag class="attribute">type</sgmltag>,
+which should be <sgmltag class="attvalue">audio</sgmltag> or <sgmltag class="attvalue">video</sgmltag>; and again a
+<sgmltag class="attribute">pathmodifier</sgmltag>, treated in the same way as the pathmodifier
+on the <sgmltag class="element">signals</sgmltag> declaration, and appended to the path
+after it.  Of these attributes, <sgmltag class="attribute">extension</sgmltag> and <sgmltag class="attribute">name</sgmltag> 
+are required, and the rest are optional.  
+</para>
+
+<remark> TEMP if we know what signal format and type are for, we should say so.  I'm guessing about the restrictions 
+	on their values; should check the DTD. </remark>
+
+<remark> TEMP Removed reference to GVM here since it's incomprehensible along with the other documentation and seems out of place - 
+	Note that because there could be
+several video signals associated with the same observation, any GVM (video overlay markup) needs to know which signal it applies to.</remark>
+
+<para>
+Occasionally the recording setup will not be entirely uniform over
+a corpus, with individual signals missing or individual observations 
+having one signal or another from the setup, but not both.  In these
+cases, you must over-declare the set of signals as if the corpus were uniform
+and treat these signals as missing.  The main ramification of this
+in software is that GUIs will 
+give users the choice of playing signals that turn out not to
+be available unless they check for existence first.
+</para>
+
+<section id="metadata_example_signals"><title>Example</title>
+<para>Assume that there is an observation named
+<literal>o1</literal> and agents <literal>g</literal> and 
+<literal>f</literal>.  Then this declaration:
+</para>
+
+<programlisting><![CDATA[
+<signals path="../signals/">
+    <agent-signals>
+       <signal extension="au" format="mono au" 
+               name="audio" type="audio"/>
+    </agent-signals>
+    <interaction-signals>
+       <signal extension="avi" format="stereo avi"
+              name="interaction-video" type="video"/>
+    </interaction-signals>
+</signals>
+]]></programlisting>
+
+<para>
+will cause NXT to expect to find the following media files at the following
+paths:
+</para>
+
+<para>
+<simplelist type="vert">
+<member><filename>../signals/o1.g.audio.au</filename></member>
+<member><filename>../signals/o1.f.audio.au</filename></member>
+<member><filename>../signals/o1.interaction-video.avi</filename></member>
+</simplelist>
+</para>
+<para>
+If we were to add the pathmodifier <sgmltag class="attvalue">observation</sgmltag>
+to the <sgmltag class="element">signals</sgmltag> tag, NXT would look for the signals
+at, e.g., <filename>../signals/o1/o1.interaction-video.avi</filename>.
+If we then also added the pathmodifier <sgmltag class="attvalue">video</sgmltag>
+for the interaction-video, leaving the other signal with no
+additional pathmodifier, i.e. declaring as
+</para>
+
+<programlisting><![CDATA[
+<signals path="../signals/" pathmodifier="observation">
+    <agent-signals>
+        <signal extension="au" format="mono au" 
+              name="audio" type="audio"/>
+    </agent-signals>
+    <interaction-signals>
+        <signal extension="avi" format="stereo avi"
+              name="interaction-video" type="video" 
+              pathmodifier="video"/>
+    </interaction-signals>
+</signals>
+]]></programlisting>
+
+
+<para>NXT would look for the signals as follows.</para>
+
+<para>
+<simplelist type="vert">
+<member><filename>../signals/o1/o1.g.audio.au</filename></member>
+<member><filename>../signals/o1/o1.f.audio.au</filename></member>
+<member><filename>../signals/o1/video/o1.interaction-video.avi</filename></member>
+</simplelist>
+</para>
+
+</section>
+</section>
+
+
+<section id="corpusresources" xreflabel="Corpus Resources"><title>Corpus Resources  (optional)</title>
+
+
+<para>A corpus resource is a set of elements that are globally relevant
+in some way to an entire corpus. They are not as strictly specified as
+ontologies or object sets (below). They will probably eventually
+replace the use of those things. Typically these will be files that
+come from the original application and can be used almost without
+alteration. You may specify the exact hierarchical breakdown of such a
+file, but typically there will just be one recursive layer (pointing
+to itself) that specifies all the codes permissible. Here is an
+example where the resource describes participants in a meeting corpus:
+
+<programlisting><![CDATA[
+<corpus-resources path=".">
+	<corpus-resource-file name="speakers" description="meeting speakers">
+	<structural-layer name="speaker-layer" 
+		recursive-draws-children-from="speaker-layer">
+	<code name="speaker">
+		<attribute name="id" value-type="string"/>
+		<attribute name="gender" value-type="enumerated">
+			<value>male</value>
+		<value>female</value>
+		</attribute>
+	</code>
+	<code name="language">
+		<attribute name="name" value-type="string"/>
+		<attribute name="region" value-type="string"/>
+	</code>
+	<code name="age" text-content="true"/>
+	</structural-layer>
+	</corpus-resource-file>
+</corpus-resources>
+]]></programlisting>
+</para>
+
+
+<para>The <sgmltag class="attribute">path</sgmltag> attribute on the <sgmltag class="element">corpus resources</sgmltag>
+element tells NITE where to look for resources for this corpus.  A
+corpus resource has a <sgmltag class="attribute">name</sgmltag> attribute which is unique in the
+metadata file. Combined with the <sgmltag class="attribute">name</sgmltag> attribute of an individual
+resource, we get the filename. The <sgmltag class="attribute">name</sgmltag> attribute can also be used to
+refer to this object set from a <xref linkend="codings"/> layer.</para>
+
+<para>The contents of an individual corpus resource are defined in exactly the
+same manner as <xref linkend="codings"/> layers within codings.</para>
+ 
+</section>
+
+
+<section id="ontologies" xreflabel="Ontologies"><title>Ontologies  (optional)</title>
+
+
+<para>An ontology is a tree of elements that makes use of the
+parent/child structure to specify specializations of a data type.  In
+the tree, the root is an element naming some simple data type that is
+used by some annotations. In an ontology, if one type is a child of
+another, that means that the former is a specialization of the latter.
+We have defined ontologies to make it simpler to assign a basic type
+to an annotation in the first instance, later refining the
+type. Here's an example of an ontology definition:
+
+<programlisting><![CDATA[
+<ontologies path="../xml/MockCorpus">
+	<ontology description="gesture ontology" name="gtypes"  
+	  element-name="gtype" attribute-name="type"/>
+</ontologies>
+]]></programlisting>
+
+The <sgmltag class="attribute">path</sgmltag> attribute on the <sgmltag class="element">ontologies</sgmltag> element
+tells NITE where to look for ontologies for this corpus.  An ontology
+has a <sgmltag class="attribute">name</sgmltag> attribute which is unique in the metadata file and
+is used so that the ontology can be pointed into (e.g. by a coding
+layer - see below). It also has an attribute <sgmltag class="attribute">element-name</sgmltag>:
+ontologies are a hierarchy elements with a single element name: this
+defines the element name. Thirdly, there is an attribute
+<sgmltag class="attribute">attribute-name</sgmltag>. This names the <firstterm>privileged attribute</firstterm>
+on the elements in the ontology: the attributes that define the type
+names. 
+</para>
+
+<para>The above definition in the metadata could lead to these contents
+of the file <firstterm>gtypes.xml</firstterm> - a simple gesture-type hierarchy.
+
+<programlisting><![CDATA[
+<gtype nite:id="g_1" type="gesture" xmlns:nite="http://nite.sourceforge.net/">
+   <gtype nite:id="g_2" type="discursive">
+	  <gtype nite:id="g_3" type="baton-like"/>
+	  <gtype nite:id="g_4" type="ideographic"/>
+   </gtype>
+   <gtype nite:id="g_5" type="topographic">
+	  <gtype nite:id="g_6" type="deictic"/>
+	  <gtype nite:id="g_7" type="physiographic">
+		 <gtype nite:id="g_8" type="iconographic"/>
+		 <gtype nite:id="g_9" type="kinetographic"/>
+		</gtype>
+	</gtype>
+</gtype>
+]]></programlisting>
+
+An ontology can use any number of additional, un-privileged
+attributes, as long as they are declared in the metadata for
+the ontology using an <sgmltag class="element"><![CDATA[<attribute>]]></sgmltag> tag.
+For example, to extend
+the ontology above with a new attribute, foo, with possible values
+bar and baz, the declaration would be as follows:
+
+<programlisting><![CDATA[
+<ontology description="gesture ontology" name="gtypes"  
+	element-name="gtype" attribute-name="type">
+	<attribute  name="foo" type="enumerated">
+		<value>bar</value>
+		<value>baz</value>
+	</attribute>
+</ontology>
+]]></programlisting>
+</para>
+
+</section>
+
+ 
+
+<section id="object-sets" xreflabel="object sets"><title>Object Sets  (optional)</title>
+
+
+<para>An object is an element that represents something in the universe
+to which an annotation might wish to point. An object might be used,
+for instance, to represent the referent of a referring expression or
+the lexical entry corresponding to a word token spoken by one of the
+agents. When an element is used to represent an object, it will have a
+data type and may have features, but no timing or children. An object
+set is a set of objects of the same or related data types. Object sets
+have no inherent order. Here is a possible definition of an object set
+- imagine we want to collect a set of things that are referred to in a
+corpus like telephone numbers and town names:
+
+<programlisting><![CDATA[
+<object-sets path="/home/jonathan/objects/">
+	<object-set-file name="real-world-entities" description="">
+  <code name="telephone-number">
+		<attribute name="number" value-type="string"/>
+  </code>
+  <code name="town">
+	  <attribute name="name" value-type="string"/>
+  </code>
+	</object-set-file>
+</object-sets>
+]]></programlisting>
+
+</para>
+
+
+<para>The <sgmltag class="attribute">path</sgmltag> attribute on the <sgmltag class="element">object-sets</sgmltag> element
+tells NITE where to look for object sets on disk for this
+corpus. Combined with the <sgmltag class="attribute">name</sgmltag> attribute of an individual
+object set we get the filename. The <sgmltag class="attribute">name</sgmltag> attribute is also
+used to refer to this object set from a coding layer (see below).</para>
+
+<para>The <sgmltag class="element">code</sgmltag> elements describe the element names that
+can appear in the object set, and each of these can have an arbitrary
+number of attributes. The above spec describes an object set in file
+<firstterm>/home/jonathan/objects/real-world-entities.xml</firstterm>
+which could contain:
+
+<programlisting><![CDATA[
+<nite:root nite:id="root_1">
+	<town nite:id="town3" name="Durham"/>
+	<telephone-number nite:id="num1" number="0141 651 71023"/>
+	<town nite:id="town4" name="Edinburgh"/>
+	<town nite:id="town1" name="Oslo"/>
+</nite:root>
+]]></programlisting>
+
+where the contents are unordered and can occur any number of times.
+</para>
+
+</section>
+
+
+<section id="codings" xreflabel="codings"><title id="codings.title">Codings and Layers</title>
+
+<para>Here we define the <firstterm>annotations</firstterm> we can
+make on the data in the corpus. Annotations are specified using
+codings and layers, and we start with an example.
+<programlisting id="codings-example" xreflabel="codings example"><![CDATA[
+<codings path="/home/jonathan/MockCorpus">
+    <interaction-codings>
+        <coding-file name="prosody" path="/home/MockCorpus/prosody">
+            <structural-layer name="prosody-layer" 
+                              draws-children-from="words-layer">
+                <code name="accent">
+                    <attribute name="tobi" value-type="string"/>
+                </code>
+            </structural-layer>
+        </coding-file>
+        <coding-file name="words">
+            <time-aligned-layer name="words-layer">
+                <code name="word" text-content="true">
+                    <attribute name="orth" value-type="string"/>
+                    <attribute name="pos" value-type="enumerated">
+                        <value>CC</value>
+                        <value>CD</value>
+                        <value>DT</value>
+                    </attribute>
+                    <pointer number="1" role="ANTECEDENT" 
+                             target="phrase-layer"/>
+                </code>
+            </time-aligned-layer>
+        </coding-file>
+    </interaction-codings>
+</codings>
+]]></programlisting>
+
+First of all, the <sgmltag class="element">codings</sgmltag> element has a <sgmltag class="attribute">path</sgmltag>
+attribute which (as usual) specifies the directory in which codings
+will be loaded from and saved to by default. Note that any
+<sgmltag class="element">coding-file</sgmltag> can override this default by specifying its own
+<sgmltag class="attribute">path</sgmltag> attribute (from release 1.3.0 on). Codings are divided into
+<sgmltag class="element">agent-codings</sgmltag> and <sgmltag class="element">interaction-codings</sgmltag> in exactly the
+way that signals are (we show only interaction
+codings here). Each <sgmltag class="element">coding file</sgmltag> will represent one entity on
+disk per observation (and per agent in the case of agent codings).
+</para>
+
+<para>The second observation is that codings are divided into
+layers. Layers contain <sgmltag class="element">code</sgmltag> elements which define the valid
+elements in a layer. The syntax and semantics of these <sgmltag class="element">code</sgmltag>
+elements is exactly as described for <xref linkend="object-sets"/>.</para>
+
+<para><emphasis>From 25/04/2006</emphasis> Layers can point to each other using the
+<sgmltag class="attribute">draws-children-from</sgmltag> attribute and the name of another
+layer. If your build is older, use the now-deprecated
+<sgmltag class="attribute">points-to</sgmltag> attribute.
+</para>
+
+<para>
+For recursive layers like syntax, use the attribute
+<sgmltag class="attribute">recursive="true"</sgmltag> on the layer to mean that elements in the layer
+can point to themselves. 
+</para>
+
+<para>
+The attribute <sgmltag class="attribute">recursive-draws-children-from=<replaceable>layer-name</replaceable></sgmltag>
+means that elements in the layer can recurse but they must "bottom
+out" by pointing to an element in the named layer. With builds pre
+25/04/2006, use the now-deprecated <sgmltag class="attribute">recursive-points-to</sgmltag> attribute.
+</para>
+
+<para>Layers are further described by their four types which are all
+described in detail in <xref linkend="layer"/>.
+
+<remark> REMOVE FROM THIS METADATA DESCRIPTION THE LAYER DEFINITIONS, WHICH ARE EARLIER IN THE DOCUMENT. </remark>
+<variablelist><title>Layer types</title>
+<varlistentry>
+   <term>Time-aligned layer</term>
+   <listitem><para>elements are directly time-stamped to
+signal.</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term>Structural layer</term>
+   <listitem><para>elements can inherit times from any
+time-aligned layer they dominate. Times are not serialized with these
+elements by default.
+Structural layers can
+be prevented from inheriting times from their children. This is
+important as it is now permitted that parents can have temporally
+overlapping children so long as the times are not inherited. In order
+to make use fof this, use the attribute <sgmltag class="attribute">inherits-time="false"</sgmltag>
+on the <sgmltag class="attribute">structural-layer</sgmltag> element. Allowing parents to inherit
+time when their children can overlap temporally may result in
+unexpected results from the search engine, particularly where
+precedence operators are used.
+</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term>Featural layer</term>
+   <listitem><para>Elements can have no time stamps and cannot dominate any other elements - they can only use <firstterm>pointers</firstterm>.
+</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term>External reference layer</term>
+   <listitem><para>
+An external reference layer is one which contains a set of standard
+NITE elements each of has a standard <sgmltag class="element">nite:pointer</sgmltag> to an NXT object,
+and an external pointer to some part of a data structure not
+represented in NXT format. The idea is that when an application
+program encounters such an external element, it can start up an
+external program with some appropriate arguments, and highlight the
+appropriate element in its own data structure.
+</para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+
+<para>On disk, the above metadata fragment could describe the file
+<filename>/home/jonathan/MockCorpus/o1.prosody.xml</filename> for observation
+<firstterm>o1</firstterm>:
+
+<programlisting><![CDATA[
+<nite:root nite:id="root1">
+	<accent nite:id="acc1" tobi="high">
+		<nite:child href="o1.words.xml#w_6"/>
+		<nite:child href="o1.words.xml#w_7"/>
+	</accent>   
+	<accent nite:id="acc1" tobi="low">
+		<nite:child href="o1.words.xml#w_19"/>
+		<nite:child href="o1.words.xml#w_20"/>
+	</accent>   
+</nite:root>
+]]></programlisting>
+</para>
+
+<para><emphasis>A note on effective content models:</emphasis> the DTD content model equivalent of this layer definition
+<programlisting><![CDATA[
+<structural-layer name="prosody-layer" draws-children-from="words-layer">
+	<code name="high"/>
+	<code name="low"/>
+</structural-layer>
+]]></programlisting>
+
+Would be <sgmltag class="attvalue">(high|low)*</sgmltag>. However, if a <sgmltag class="element">code</sgmltag> has the
+attribute <sgmltag class="attribute">text-content</sgmltag> set to the value <sgmltag class="attvalue">true</sgmltag> (as for
+the element <sgmltag class="element">word</sgmltag> <link linkend="codings-example">above</link>) the content model for this element is
+overridden and it can contain only text. This is the only way to allow
+textual content in your corpus.  Mixed content is not allowed
+anywhere.
+</para>
+
+
+<para>A metadata fragment looks like this:
+
+<programlisting><![CDATA[
+<coding-file name="external" path="external">
+	<external-reference-layer element-name="prop"
+		   external-pointer-role="owl_pointer" content-type="text/owl"
+		layer-type="featural" name="prop-layer" program="protege">
+		<pointer number="1" role="da" target="words-layer"/>
+		<argument default="owl_file_1.owl" name="owl_file"/>
+		<argument default="arg_value" name="further_arg"/>
+	</external-reference-layer>
+</coding-file>
+]]></programlisting>
+
+The corresponding data looks like this:
+
+<programlisting><![CDATA[
+<propara>
+   <nite:external_pointer role="owl_pointer"  href="owlid42"/>
+   <nite:child href="IS1008a.A.words.xml#id(IS1008a.A.words0)"/>
+</propara>
+]]></programlisting>
+</para>
+
+<para>In the metadata fragment, you can choose to explicitly name the
+program that is called using the <sgmltag class="attribute">program</sgmltag> attribute, or you
+can specify the content-type of the external file using a
+<sgmltag class="attribute">content-type</sgmltag> attribute (not shown in the metadata
+fragment). Both are treated as String values and not interpreted
+directly by NXT.</para>
+
+</section>
+
+
+<!-- TEMP
+<remark>There sections on styles and views here which are commented out</remark>
+<!- TEMP commented out metadata section on styles - is this correct? ->
+<!-
+
+<section id="metadata_styles"><title>Styles (optional)</title>
+<anchor id="styles"/>
+
+<para>Styles are the files that allow either NIE (NITE interface engine)
+of OTAB (observable track annotation board) to produce an appropriate
+display. In the case of NIE, these files are stylesheets and in the
+case of OTAB they are specification files. Styles may be grouped into
+views (see <xlink linkend="views"/>). An example of a definition of some
+styles:
+
+<programlisting>
+&lt;styles path="/home/styles/">
+	&lt;style application="nie" description="basic syntax coder"
+		extension=".xsl" name="maptask-editor" type="editor"/>
+	&lt;style application="otab" description="annotation board"
+		extension=".xml" name="maptask-annotation-board" type="editor"/>
+&lt;/styles>
+</programlisting>
+
+As with many other elements in the metadata file, the
+<sgmltag class="">styles</sgmltag> element has a <sgmltag class="">path</sgmltag> attribute whose value is
+the directory in which style files for this corpus exist. The
+<sgmltag class="">name</sgmltag> of the individual <sgmltag class="">style</sgmltag>s act as the filename as
+well as allowing them to be referred to from a <emphasis>view</emphasis>. So in this example, we will expect to have a
+stylesheet in the file <firstterm>/home/styles/maptask-editor.xsl</firstterm> which
+is a basic syntax coder. The <sgmltag class="">type</sgmltag> attribute describes whether
+the style is an <sgmltag class="">editor</sgmltag> or just a <sgmltag class="">display</sgmltag>.
+</para>
+
+</section>
+->
+-->
+ 
+
+<!-- TEMP commented out metadata section on views - is this correct? ->
+<!- 
+<section id="metadata_views"><title>Views</title>
+<anchor id="views"/>
+
+<para>Views are combinations of displays that combine to produce an
+editing or display environment for a particular purpose. Views can
+comprise zero or one NIE displays, zero or one OTAB displays, and any
+number of video and audio windows. Here's an example combining a
+styled display and an audio window:
+
+<programlisting>
+&lt;views>
+	&lt;view description="basic transcription" type="editor">
+		&lt;styled-window nameref="maptask-editor"/>
+		&lt;audio-window nameref="audio" sound="yes"/>
+	&lt;/view>
+&lt;/views>
+</programlisting>
+</para>
+</section>
+-->
+  
+<section id="programs" xreflabel="Callable Programs"><title>Callable Programs (optional)</title>
+
+
+<para>To help with housekeeping it's useful to know what programs have
+been written for the corpus and how to call them. This also allows
+NXT's top level interface list the programs and run them. Each
+<sgmltag class="element">callable-program</sgmltag> contains a list of required arguments. for example, a
+program described thus:
+
+<programlisting><![CDATA[
+<callable-programs>
+    <callable-program name="SwitchboardAnimacy" description="animacy checker">
+        <required-argument name="corpus" type="corpus"/>
+        <required-argument name="prefix" default=""/>
+        <required-argument name="observation" type="observation"/>
+    </callable-program>
+</callable-programs>
+]]></programlisting>
+
+Would be called <code>java SwitchboardAnimacy -corpus
+<replaceable>metadata-path</replaceable> -prefix -observation <replaceable>obs-name</replaceable></code>. The
+<sgmltag class="attribute">type</sgmltag> attribute can take one of two values: <sgmltag class="attvalue">corpus</sgmltag>
+meaning that the expected argument is the metadata filename and
+<sgmltag class="attvalue">observation</sgmltag> meaning the argument is an observation
+name. Arguments can also have default values. Note also that the
+argument name or the default values can be empty strings.
+</para>
+
+</section>
+  
+
+<section id="observations" xreflabel="Observations"><title>Observations</title>
+
+
+<para>Each observation in a corpus must have a unique name
+which is used in filenames. This is declared in a list of observations
+using the <sgmltag class="attribute">name</sgmltag> attribute, for instance, like this:
+
+<programlisting><![CDATA[
+<observations>
+	<observation name="q4nc4"/>
+	<observation name="q3nc8"/>
+</observations>
+]]></programlisting>
+</para>
+<para>
+NXT currently includes the option of declaring two additional
+types of information for each observation:  its categorization
+according to the observation variables that divide
+the corpus into subsets, and some very limited data management
+information about the state of coding for the observation.  
+We expect in future to rethink our approach to data management
+which will probaby mean removing this facility from the metadata.
+</para>
+<para>It has been pointed out that one might expect observations to have
+information mapping from agent (roles) to personal information about
+the individuals filling them in that observation (age, dialect, etc.).
+We don't propose a specific set of kinds of information one might wish
+to retain, because in our experience different projects have different
+needs (but see, for instance, the ISLE/IMDI metadata initiative).
+We also don't provide a specific way of storing it.  This is
+partly because some of the information that projects retain falls
+under data protection and some of it doesn't, so there are issues
+about how it should be designed.  At the moment, the best one can do
+is define a set of <property>variables</property> that together give the
+information one is looking for.  We intend further improvements that
+will allow the corpus designer to specify a structure for the information
+and will allow 
+private information to be kept in a separate file that is linked to
+from the metadata.  Currently, the query language doesn't give access
+to the metadata about an observation, which means that it
+is only useful for deciding programmatically which observations to
+load as a filter on the entire corpus set, not for any finer-grained
+filtering.  This also is something we hope to look at.  Meanwhile,
+given these shortcomings, sometimes the best option is 
+to store any detailed information in a separate file of one's
+own design and build variables that link agent roles to individuals in
+the separate file by idref.
+</para>
+
+</section>
+ 
+</section>

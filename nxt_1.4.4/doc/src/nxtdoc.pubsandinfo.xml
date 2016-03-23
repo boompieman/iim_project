@@ -1,0 +1,317 @@
+<appendix id="pubsandinfo">
+	<title>Information and Further Reading</title>
+	<remark>make sure this links to the right version and change update info below</remark>
+<para>	Updated printable documentation: March 07</para>
+<para><ulink url="http://www.ltg.ed.ac.uk/NITE/nxtdoc.top.total.pdf">Download v.0.2</ulink></para>
+	<formalpara>
+		<title>Notes on version 0.2</title>
+                <para>
+		In October 2006, we decided to move over NXT documentation from being completely web-based to being 
+		written in DocBook so that we can generate HTML, JavaDoc, and PDF at will. We are rewriting much 
+		of the documentation at the same time. Versions of the documentation numbered before v1.0 are 
+		incomplete, although the outline gives some idea of our intentions for it. In this version, 
+		version 0.2, not all of the information has been checked for accuracy yet. The most likely 
+		difficulties concern the following areas: corpus resources, ontologies, and object sets; validation; 
+		incomplete description of data set concepts. In addition, not all the formatting works, and the 
+		query reference manual has not been fully converted over to DocBook, so it is incomplete and hard 
+		to read in this version.
+                </para>
+	</formalpara>
+
+&funding;
+
+<!-- JK - links don't work and these are already appendices.
+<section id="pubs_motivation">
+	<title>Motivation, History and Funding for NXT</title>
+	<itemizedlist>
+		<listitem><para>
+			<link linkend="motivation">Why NXT is needed</link>
+		</para></listitem>
+		<listitem><para>
+			<link linkend="comparison">Comparison to other tools</link>
+		</para></listitem>
+		<listitem><para>
+			<link linkend="encoding">Relationship to the Text Encoding Initiative</link>
+		</para></listitem>
+		<listitem><para>
+			<link linkend="funding">How NXT came about and continues to be funded.</link>
+		</para></listitem>
+	</itemizedlist>
+</section>
+-->
+	<section id="pubs_tech">
+		<title>Technical Documents</title>
+		<para>These are project internal documents that the NXT partners have agreed to make web-accessible.</para>
+		<itemizedlist mark="bullet">
+			<listitem><para>
+				<ulink url="http://www.ltg.ed.ac.uk/NITE/documents/NiteObjectModel.v2.1.pdf">Formal specification</ulink>
+				  of the NITE Object Model, the abstract data model used by the NITE XML Toolkit.
+			</para></listitem>
+			<listitem><para>
+				<ulink url="http://www.ltg.ed.ac.uk/NITE/documents/search-manual.pdf">End user documentation</ulink> of NiteQL  , 
+				the query language that operates over data conforming to the NITE Object Model.
+			</para></listitem>
+			<listitem><para>
+				<ulink url="http://www.ltg.ed.ac.uk/NITE/documents/NiteQL.v2.1.pdf">Formal specification</ulink>  of NiteQL, 
+				the query language that operates over data conforming to the NITE Object Model.
+			</para></listitem>
+			<listitem><para>
+				<ulink url="http://www.ltg.ed.ac.uk/NITE/metadata/meta.html">Metadata information</ulink> describing the
+				 metadata format required by the NITE Object Model, 
+				and how to produce one for your data.
+			</para></listitem>
+			<listitem><para>
+				<ulink url="http://www.ltg.ed.ac.uk/NITE/documents/userguide2.pdf">A document</ulink> introducing our display 
+				object library and describing how to use display 
+				objects as building blocks for data display from stylesheets (pdf format)
+			</para></listitem>
+		</itemizedlist>
+	</section>
+	<section id="pubs_programmers">
+		<title>Documentation for Programmers</title>
+    <para>Bug reports and feature requests are kept on <ulink url="http://sourceforge.net/projects/nite/">Sourceforge</ulink>. The sample programs that come with NXT provide commented example code.</para>
+                <para>
+		However, there is a space here for a general overview of the programmers' API provided by NXT, but currently 
+		there's only the Javadoc that comes with the NXT dowload. We will generally provide <ulink url="http://www.ltg.ed.ac.uk/NITE/nxt/apidoc/">
+		Javadoc</ulink> from the latest CVS build which will not necessarily tally with the NXT version you downloaded, 
+		so don't rely on it.</para>
+	</section>
+	<section id="pubs_academic">
+		<title>Academic publications</title>
+                <para>
+		Because we're academics, it helps us if you cite one of our papers when making use of NXT. Please be aware 
+		that there were other software products to arise out of the NITE project, and be sure to credit the correct one.</para>
+	</section>
+
+		<bibliography>
+			<bibliodiv><title>Papers about the NITE XML Toolkit or development concerns</title>
+				<bibliomixed>
+					<authorgroup>
+						<author><surname>Carletta</surname><firstname>J.</firstname></author>
+						<author><surname>Evert</surname><firstname>S.</firstname></author>
+						<author><surname>Heid</surname><firstname>U.</firstname></author>
+						<author><surname>Kilgour</surname><firstname>J.</firstname></author>
+					</authorgroup>
+					<pubdate>(in press)</pubdate>
+						<title><ulink url="http://www.ltg.ed.ac.uk/NITE/papers/NXT-LREJ.web-version.ps">The NITE XML Toolkit: 
+							data model and query</ulink></title>.
+					<edition>Language Resources and Evaluation Journal</edition>
+				</bibliomixed>
+				<bibliomixed>
+					<authorgroup>
+						<author><surname>Carletta</surname><firstname>J.</firstname></author>
+						<author><surname>Evert</surname><firstname>S.</firstname></author>
+						<author><surname>Heid</surname><firstname>U.</firstname></author>
+						<author><surname>Kilgour</surname><firstname>J.</firstname></author>
+						<author><surname>Robertson</surname><firstname>J.</firstname></author> 
+						<author><surname>Voormann</surname><firstname>H.</firstname></author>
+					</authorgroup>
+					<pubdate>(2003)</pubdate>
+					<title><ulink url="http://www.ltg.ed.ac.uk/NITE/papers/NITE-BRMIC.resubmission.htm">The NITE XML Toolkit: 
+						flexible annotation for multi-modal language data</ulink></title>.
+					<edition>Behavior Research Methods, Instruments, and Computers, special issue on Measuring Behavior</edition>,
+					<seriesvolnums>35(3)</seriesvolnums>, <pagenums>353-363</pagenums>.
+				</bibliomixed>
+				<bibliomixed>
+					<authorgroup>
+						<author><surname>Carletta</surname><firstname>J.</firstname></author>
+						<author><surname>Kilgour</surname><firstname>J.</firstname></author>
+						<author><surname>O'Donnell</surname><firstname>T.</firstname></author>
+						<author><surname>Evert</surname><firstname>S.</firstname></author> 
+						<author><surname>Voormann</surname><firstname>H.</firstname></author>						
+					</authorgroup>
+					<pubdate>(2003)</pubdate>
+					<title><ulink url="http://homepages.inf.ed.ac.uk/jeanc/nlpxml2003.final.pdf">The NITE Object 
+						Model Library for Handling Structured Linguistic Annotation on Multimodal Data Sets</ulink></title>.
+				</bibliomixed>
+				<bibliomixed>
+					<authorgroup>
+						<author><surname>Mayo</surname><firstname>N.</firstname></author>						
+						<author><surname>Kilgour</surname><firstname>J.</firstname></author>
+						<author><surname>Carletta</surname><firstname>J.</firstname></author>					
+					</authorgroup>
+					<pubdate>(2006)</pubdate>
+					<title><ulink url="http://www.ltg.ed.ac.uk/NITE/papers/nql-xquery.nlpxml06.final.pdf">Towards 
+						an alternative implementation of NXT's query language via XQuery</ulink></title>.
+					EACL Workshop on Multi-dimensional Markup in Natural Language Processing, Trento, Italy, April 4th.
+				</bibliomixed>
+				<bibliomixed>
+					<authorgroup>
+						<author><surname>Reidsma</surname><firstname>D.</firstname></author>						
+						<author><surname>Jovanovic</surname><firstname>H.</firstname></author>
+						<author><surname>Hofs</surname><firstname>D.</firstname></author>					
+					</authorgroup>
+					<pubdate>(2005)</pubdate>
+					<title><ulink url="http://www.ub.utwente.nl/webdocs/ctit/1/0000011a.pdf">Designing 
+						annotation tools based on properties of annotation problems</ulink></title>.
+					<edition>Measuring Behavior 2005</edition> , 5th International Conference on Methods and Techniques in Behavioral 
+					Research, <date>30 August - 2 September 2005</date>, Wageningen, The Netherlands.
+				</bibliomixed>
+			</bibliodiv>
+			<bibliodiv>
+				<title>Research papers that mention NXT in use (more than in passing)</title>
+				<bibliomixed>
+					<authorgroup>
+						<author><surname>Blaylock</surname><firstname>N.</firstname></author>						
+						<author><surname>Swain</surname><firstname>B.</firstname></author>
+						<author><surname>Allen</surname><firstname>J.</firstname></author>
+					</authorgroup>
+					<pubdate>(2009)</pubdate>
+					<ulink url="http://www.aclweb.org/anthology/N/N09/N09-2012.pdf"><title>TESLA: A Tool for Annotating Geospatial Language Corpora</title></ulink>. In Proceedings of the North American Chapter of the Association for Computational Linguistics - Human Language Technologies (NAACL HLT) 2009, 
+					Toronto, Canada, <date>May 2009</date>.
+				</bibliomixed>
+				<bibliomixed>
+					<authorgroup>
+						<author><surname>Calhoun</surname><firstname>S.</firstname></author>						
+						<author><surname>Nissim</surname><firstname>M.</firstname></author>
+						<author><surname>Steedman</surname><firstname>M.</firstname></author>
+						<author><surname>Brenier</surname><firstname>J.</firstname></author>						
+					</authorgroup>
+					<pubdate>(2005)</pubdate>
+					<title><ulink url="http://www.cstr.ed.ac.uk/downloads/publications/2005/pieinsky05.pdf">A framework 
+						for annotating information structure in discourse</ulink></title>. In
+					<edition>Frontiers in Corpus Annotation II: Pie in the Sky</edition>, ACL2005 Conference Workshop, 
+					Ann Arbor, Michigan, <date>June 2005</date>.
+				</bibliomixed>
+				<bibliomixed>
+					<bibliomset relation="chapter">
+					<authorgroup>
+						<author><surname>Carletta</surname><firstname>J.C.</firstname></author>						
+						<author><surname>Kilgour</surname><firstname>J.</firstname></author>				
+					</authorgroup>
+					<pubdate>(2005)</pubdate>
+					<title><ulink url="http://www.ltg.ed.ac.uk/NITE/papers/ICSI-NXT.revised.web.ps">The NITE 
+						XML Toolkit Meets the ICSI Meeting Corpus: Import, Annotation, and Browsing.</ulink></title>. In
+					<edition>MLMI'04: Proceedings of the Workshop on Machine Learning for Multimodal Interaction.</edition>, 
+					</bibliomset>
+					<bibliomset relation="book">
+					<editor><firstname>Samy</firstname> <surname>Bengio</surname></editor> and 
+					<editor><firstname>Herve</firstname> <surname>Bourlard</surname></editor> eds.
+					<title>Springer-Verlag Lecture Notes in Computer Science Volume 3361</title>.
+					<isbn>ISBN: 3-540-24509-X</isbn>. This is an updated version of a workshop paper.
+					</bibliomset>
+				</bibliomixed>
+				<bibliomixed>
+					<authorgroup>
+						<author><surname>Carletta</surname><firstname>J.</firstname></author>						
+						<author><surname>Dingare</surname><firstname>S.</firstname></author>
+						<author><surname>Nissim</surname><firstname>M.</firstname></author> 
+						<author><surname>Nikitina</surname><firstname>T.</firstname></author>						
+					</authorgroup>
+					<pubdate>(2004)</pubdate>
+					<title><ulink url="http://www.ltg.ed.ac.uk/NITE/papers/paraphrase-NXT.LREC.final.ps">Using 
+						the NITE XML Toolkit on the Switchboard Corpus to study syntactic choice: a case study</ulink></title>. In
+					<edition>Fourth Language Resources and Evaluation Conference</edition>, Lisbon, Portugal, <date>May</date>.
+				</bibliomixed>
+				<bibliomixed>
+					<authorgroup>
+						<author><surname>Gut</surname><firstname>U.</firstname></author>						
+						<author><surname>Milde</surname><firstname>J-T.</firstname></author>
+						<author><surname>Voormann</surname><firstname>H.</firstname></author>
+						<author><surname>Heid</surname><firstname>U.</firstname></author>						
+					</authorgroup>
+					<pubdate>(2004)</pubdate>
+					<title><ulink url="http://www.isca-speech.org/archive/sp2004/sp04_569.pdf">Querying 
+						annotated speech corpora</ulink></title>. In
+					<edition>Speech Prosody (International Conference)</edition>, Nara, Japan, <date>March 23-26</date>,
+					ed. by <editor><firstname>Bernard</firstname> <surname>Bel</surname></editor> and 
+					<editor><firstname>Isabelle</firstname> <surname>Marlien</surname></editor>, ISCA, <pagenums>569-572</pagenums>.
+				</bibliomixed>
+				<bibliomixed>
+					<authorgroup>
+						<author><surname>Heid</surname><firstname>U.</firstname></author>
+						<author><surname>Voormann</surname><firstname>H.</firstname></author>											
+						<author><surname>Milde</surname><firstname>J-T.</firstname></author>
+						<author><surname>Gut</surname><firstname>U.</firstname></author>	
+						<author><surname>Erk</surname><firstname>K.</firstname></author>
+						<author><surname>Pado</surname><firstname>S.</firstname></author>							
+					</authorgroup>
+					<pubdate>(2004)</pubdate>
+					<title><ulink url="http://www.ltg.ed.ac.uk/NITE/papers/lrec04nxtsearch.pdf">Querying 
+						both time-aligned and hierarchical corpora with NXT Search</ulink></title>. In
+					<edition>Fourth Language Resources and Evaluation Conference</edition>, Lisbon, Portugal, <date>May</date>.
+				</bibliomixed>
+				<bibliomixed>
+					<authorgroup>
+						<author><surname>Isard</surname><firstname>A.</firstname></author>
+						<author><surname>Brockmann</surname><firstname>C.</firstname></author>
+						<author><surname>Oberlander</surname><firstname>J.</firstname></author>							
+					</authorgroup>
+					<pubdate>(2005)</pubdate>
+					<title><ulink url="http://www.ltg.ed.ac.uk/~amyi/papers/re-creating-dialogues.pdf">Re-Creating 
+						Dialogues from a Corpus</ulink></title>. In
+					<edition>Proceedings of the Corpus Linguistics 2005 Workshop on Using Corpora for Natural Language Generation</edition>, 
+					<date>July 2005</date> Birmingham, U.K.
+				</bibliomixed>
+			</bibliodiv>
+			<bibliodiv>
+				<title>Pre-NITE paper motivating the concept</title>
+				<bibliomixed>
+					<bibliomset relation="chapter">
+					<authorgroup>
+						<author><surname>Carletta</surname><firstname>J.</firstname></author>
+						<author><surname>McKelvie</surname><firstname>D.</firstname></author>
+						<author><surname>Isard</surname><firstname>A.</firstname></author>
+						<author><surname>Mengel</surname><firstname>A.</firstname></author> 
+						<author><surname>Klein</surname><firstname>M.</firstname></author>
+					</authorgroup>
+					<pubdate>(2005)</pubdate>
+					<title><ulink url="http://homepages.inf.ed.ac.uk/jeanc/readings-in-corpling.final.webformat.pdf">A generic 
+						approach to software support for linguistic annotation using XML</ulink></title>. 
+					</bibliomset> 
+					<bibliomset relation="book">
+						<editor><firstname>G.</firstname> <surname>Sampson</surname></editor>
+						<editor><firstname>D.</firstname> <surname>McCarthy</surname></editor>
+						<title>Corpus Linguistics: Readings in a Widening Discipline</title>
+						<publisher><publishername>Continuum International</publishername><address>London and NY</address></publisher>
+						<isbn>ISBN: 082648803X</isbn>
+					</bibliomset>
+<!--
+			<note><para>[Strictly speaking, this is a book
+of reprints. This particular paper is based on a previous draft from 2000 that had not
+been published but was kicking around the web.]</para></note>
+-->
+				</bibliomixed>
+			</bibliodiv>
+
+			<bibliodiv>
+				<title>Paper about the NITE project in general</title>
+				<bibliomixed>
+					<authorgroup>
+						<author><surname>Soria</surname><firstname>C.</firstname></author>
+						<author><surname>Bernsen</surname><firstname>N. O.</firstname></author>
+						<author><surname>Cadee</surname><firstname>N.</firstname></author> 
+						<author><surname>Carletta</surname><firstname>J.</firstname></author>
+						<author><surname>Dybkjaer</surname><firstname>L.</firstname></author> 
+						<author><surname>Evert</surname><firstname>S.</firstname></author>	
+						<author><surname>Heid</surname><firstname>U.</firstname></author>	
+						<author><surname>Isard</surname><firstname>A.</firstname></author>	
+						<author><surname>Kolodnytsky</surname><firstname>M.</firstname></author>	
+						<author><surname>Lauer</surname><firstname>C.</firstname></author>	
+						<author><surname>Lezius</surname><firstname>W.</firstname></author>	
+						<author><surname>Noldus</surname><firstname>L.</firstname></author>	
+						<author><surname>Pirrelli</surname><firstname>V.</firstname></author>	
+						<author><surname>Reithinger</surname><firstname>N.</firstname></author>
+					</authorgroup>
+					<pubdate>(2002)</pubdate>
+					<title><ulink url="http://homepages.inf.ed.ac.uk/jeanc/nite-lrec2002.ps">Advanced 
+						tools for the study of natural interactivity</ulink></title>
+					<edition>Third International Conference on Language Resources and Evaluation (LREC 2002)</edition>
+					<address><city>Las Palmas</city><country>Spain</country></address>
+                                        <date>May</date>
+<!--
+                                        <ulink url="http://homepages.inf.ed.ac.uk/jeanc/nite-lrec2002.pdf">PDF here</ulink>
+-->
+				</bibliomixed>
+			</bibliodiv>
+		</bibliography>
+</appendix> 
+
+
+
+
+
+
+
+
+

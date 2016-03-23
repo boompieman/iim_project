@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!DOCTYPE toc
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+
+<toc version="1.0">
+<tocitem text="Continuous Video Labeler Help" image="img.top">
+
+   <tocitem text="Overview" image="img.topic" target="top"/>
+
+	<tocitem text="Getting Started" image="img.topic" target="tutorial"/>
+
+	<tocitem text="User's Guide" image="img.openchapter" target="guide.top">
+		<tocitem text="Starting the Continuous Video Labeling Tool" image="img.topic" target="guide.startapp"/>
+		<tocitem text="Making annotations" image="img.topic" target="guide.make"/>
+		<tocitem text="Viewing annotations" image="img.topic" target="guide.view"/>
+		<tocitem text="Playing a video" image="img.topic" target="guide.video"/>
+		<tocitem text="Saving and closing annotations" image="img.topic" target="guide.save"/>
+	</tocitem>
+
+   <tocitem text="Acknowledgements" image="img.topic" target="acknowledgements"/>
+   <tocitem text="Contact" image="img.topic" target="contact"/>
+</tocitem>
+</toc>

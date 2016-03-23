@@ -1,0 +1,84 @@
+<appendix id="getinvolved"><title>Contact / Contribute</title>
+
+<para>
+	NXT has been developed through the efforts of many people and over a reasonably long period. 
+	It's certainly not a single-person effort. You can see a list of developers at the NXT Sourceforge site, 
+	and that certainly isn't the whole story. The main contact person is currently Jonathan Kilgour: <address><affiliation><orgname>Human Communication Research Centre, University of Edinburgh</orgname></affiliation><building>Informatics Forum</building><street>10 Crichton Street</street><city>Edinburgh</city> <postcode>EH8 9AB</postcode> <country>UK</country> </address>
+</para>
+<para>Email: <email>jonathan@inf.ed.ac.uk</email></para>
+
+<para>
+	If you would like to contribute code or ideas, please use the email address above, or make your 
+	contribution directly at the <ulink url="https://sourceforge.net/projects/nite/">sourceforge site</ulink>: there are bug-reporting 
+	and feature request areas there that we look at regularly.
+</para>
+
+	
+<section>
+	<title>Student projects</title>
+<para>
+	There are many kinds of student projects that could be designed around NXT: tests of under-utilized 
+	functionality, improvements, and explorations of the relationships to developing standards 
+	and other software products. We welcome student involvement, and under the right circumstances 
+	can sometimes even act as adjunct (but long distance!) supervisors for student work. 
+</para>
+<para>
+	We hope that over time, we will be able to fulfill the requests we've had to list specific 
+	projects along with indications of what kinds of students they require. In the meantime, here 
+	are some headline areas for places where we'd like to see student work:
+</para>
+	
+<itemizedlist mark="bullet">
+	<listitem><para>
+		Create test suites for the query language processor and/or NOM (object model) implementation.
+	</para></listitem>
+	<listitem><para>
+		Improvements to the <classname>GenericDisplay</classname> that works for any corpus in NXT format - 
+		can you make the windows lay out nicely (especially, can you use tabbed panes to make it possible 
+		to flick back and forth between different codings, and choose how many windows to have open)? 
+		Hyperlink related elements on screen? Work out a configuration that specifies what counts as transcription 
+		to make the textual view better? Work out a way to show information overlaid on top of orthography 
+		rather than in a separate window?
+	</para></listitem>
+	<listitem><para>
+		Create a display which can be used to show query results for phenomenon that isolate parts of an 
+		orthographic transcription in their left-and-right context using a <acronym>KWIC</acronym> ("key word in context") 
+		style display. This would be relatively easy, and would be a nice generic addition for people interested what 
+		happens locally in different parts of the data.
+	</para></listitem>
+	<listitem><para>
+		Create a web demo of an NXT format corpus that allows prospective users to run a GUI remotely and 
+		get a feeling for what NXT can do without downloading it.
+	</para></listitem>
+	<listitem><para>
+		Write a program that will take an NXT metadata file and generate a picture that conveys the 
+		structural relationships expressed in it. Some users draw such pictures by hand as a memory 
+		aid, but automatic generation would be a good way of checking that everything is declared as intended.
+	</para></listitem>
+	<listitem><para>
+		Explore the relationship between NXT's query language and XQuery. Now that XQuery implementations exist, 
+		should we be using it? Some users are quite attached to NQL but find XQuery scarier. 
+		Can we translate NQL queries into XQuery and does this have any advantages (like speed, or 
+		reduced maintenance)? How would this work given NXT's standoff XML? We've done some preliminary 
+		work in this area, but our exploration is far from complete.
+	</para></listitem>
+	<listitem><para>
+		Some users want to run XSLT stylesheets, but using NQL queries instead of XPath, presumably 
+		on the metadata as a base. This could be done either using extension functions to call 
+		NXT's loading facility and query engine or by translating a subset of the allowable NQL 
+		queries into XPath and then running it. Try it. What's the best control structure, given that 
+		NXT data isn't a tree (so, for instance, is it still reasonable to default to default to 
+		children in apply-templates)? What about the fact that NQL returns <replaceable>n</replaceable>-tuples and, for complex 
+		queries, trees - is the best approach to restrict to simple queries, or to assume selection of 
+		the first named variable, or to do something fancier? 
+	</para></listitem>
+</itemizedlist>
+	
+<para>
+	And, of course, the feature requests and bug reports on Sourceforge could be a fruitful source of inspiration 
+	for students. As time goes on, we'll try to be more specific, but meanwhile, if you're interested, get 
+	<ulink url="mailto:jonathan@inf.ed.ac.uk">in touch</ulink>.
+</para>
+</section>
+
+</appendix> 

@@ -1,0 +1,128 @@
+/*
+ * navigate.css
+ *
+ * Using the CSS style http://www.informatik.fh-wiesbaden.de/~werntges/home_t/proj/wysiwyg-dbk01.html 
+ * this simply adds some stuff for navigation. See the COPYING and
+ * CREDITS files in this directory for details about the Wysiwyg DocBook
+ * style.
+ * 
+ * JK 5/6/9
+ */
+
+
+@import "driver.css";
+
+book>title {
+ position: relative;
+ top: -20px;
+ width: auto;
+ height: auto;
+ font-family: Courier, monospace;
+ font-size: 72px;
+ font-weight: bold;
+ background: #aaa;
+}
+
+article {
+ padding: 1em;
+ margin-left: 20%;
+ font-family: Tahoma, sans-serif;
+ font-size: 12px;
+ border:1px dotted #555;
+}
+
+appendix {
+ font-family: Tahoma, sans-serif;
+ font-size: 12px;
+}
+
+bibliography {
+ font-family: Tahoma, sans-serif;
+ font-size: 12px;
+}
+
+sidebar[id="navigation"] {
+ float: left;
+ width: 18%;
+ background: #ddd;
+ padding: 5px;
+ border: 1px solid #000;
+ font-family: Ariel, sans-serif;
+ font-size: 12px;
+ font-variant: small-caps;
+}
+
+sidebar[id="staticlinks"] {
+ position: absolute;
+ border: 0px;
+ top: 60px;
+ left: 0px;
+ width: auto;
+ padding: 0px;
+ font-family: Ariel, sans-serif;
+ font-size: 14px;
+ font-variant: small-caps;
+}
+
+sidebar[id="staticlinks"] ulink {
+ background: #aaa;
+ border: 1px solid #000;
+ text-decoration: none;
+ padding: .1em;
+}
+
+sidebar[id="staticlinks"] a {
+ background: #aaa;
+ border: 1px solid #000;
+ text-decoration: none;
+ padding: .1em;
+}
+
+sidebar itemizedlist {
+ text-align: left;
+ list-style-type: square;
+ line-height:1.2em 
+}
+
+sidebar ulink[current~="yes"] {
+ color: #772;
+}
+sidebar a[current~="yes"] {
+ color: #772;
+}
+
+sidebar ulink[current~="yes"]:hover {
+ color: #772;
+}
+
+sidebar a[current~="yes"]:hover {
+ color: #772;
+}
+
+sidebar ulink {
+ text-align: right;
+ margin-top: 20px;
+ color: black;
+}
+
+sidebar a {
+ text-align: right;
+ margin-top: 20px;
+ color: black;
+}
+
+sidebar ulink:hover {
+ text-align: right;
+ color: #772;
+}
+
+sidebar a:hover {
+ text-align: right;
+ color: #772;
+}
+
+/* don't render remarks */
+remark {
+ display: none;
+}
+

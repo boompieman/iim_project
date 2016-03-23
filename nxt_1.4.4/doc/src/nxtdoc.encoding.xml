@@ -1,0 +1,155 @@
+<section id="encoding">
+	<title>Relationship to the Text Encoding Initiative</title>
+
+<para>The TEI is not a tool like the others on this list, but we have
+been asked about the relationship between NXT and the <ulink
+url="http://www.tei-c.org/">Text Encoding Initiative</ulink>,
+	and in particular, whether it is possible to produce an annotation for spoken dialogue compliant with the TEI standards 
+	using NXT GUIs. (Although NXT does get used on text, we have not considered the relationship 
+	between NXT and the TEI on textual materials yet, but we expect there to be fewer issues 
+	that arise for them.) These are our thoughts on the issue so far. We have made some reference to the 
+	P5 documentation in writing them, although we are also relying partly on memory and have not thoroughly 
+	checked our work, so it is not definitive. Corrections are welcome. Note also that the TEI states that 
+	their guidelines are under revision in this area.
+</para>
+	<section id="encoding_TEI">
+		<title>Summary of Answer</title>
+		<para>
+			If one has TEI-compliance in mind from the start, then it should be possible to design the NXT 
+			storage format for the data set so that it only requires a simple transform to be TEI-compliant, 
+			and for some data sets it may be possible to make it TEI-compliant as is. However, designing 
+			the NXT data representation for maximum TEI-compliance loses the main benefits of using NXT. 
+			If the data has crossing hierachies of annotation, using a TEI-compliant representation 
+			means losing the search facility that handles these nicely. If the data represents 
+			temporal relationships, using a TEI-compliant representation means losing the ability 
+			of NXT browsers to highlight the current annotations as a signal plays. In addition, 
+			the configurable interfaces for dialogue acts and named entities currently constrain the 
+			NXT data representation in ways that violate TEI recommendations, which means that data 
+			sets which aim for TEI-compliance would either need to write their own tailored GUIs 
+			for everything or contribute (fairly modest) changes to them. If one wants to make use 
+			of NXT's best properties, then it would be better to develop a data path for getting 
+			between the NXT and TEI-compliant data formats than to build TEI-compliance into the NXT format. 
+			If one doesn't need NXT's facilities for crossing hierachies or timing, then there may be a simpler 
+			framework upon which annotation tools can be built.
+		</para>
+	</section>
+	<section id="encoding_data">
+		<title>Data without crossing hierarchies or timing</title>
+		<para>
+			The TEI recommends particular tag names for orthographic transcription element. These are not a 
+			problem for NXT, which has no constraints on tag naming - it just requires the tags to be formally 
+			defined in the NXT "metadata" using the TEI's set. The TEI recommends the use of markup within 
+			one XML tree as the orthography for the representation of dialogue acts, named entities, 
+			turns, and the like. For instance, dialogue acts are represented in the TEI as <code><![CDATA[<seg>]]></code>'s and 
+			named entities as <code><![CDATA[<rs>]]></code>'s (or similar non-segmenting spans of transcription elements, 
+			such as <code><![CDATA[<persName>]]></code>). One hierarchy of <code><![CDATA[<seg>]]></code>'s over the transcription 
+			can be represented in NXT, again by authoring the metadata to match, but the metadata will 
+			not be particularly useful for data validation because it will simply have the semantics that all 
+			<code><![CDATA[<seg>]]></code>'s draw from the transcription elements as children; if there is internal 
+			structure among the segments, NXT will not by itself enforce or check that. Similarly, <code><![CDATA[<rs>]]></code>
+			 and similar tags can be used, but technically they violate NXT's data model unless hey are either 
+			defined within the orthographic transcription tag set (with recursive descent through that set of tags). 
+			This is because strictly speaking, NXT requires "layers" of annotation to span the layers 
+			beneath them (in this case, the layer of transcription elements). However, this is a 
+			only a weak data model violation, and NXT copes with it by allowing tags to contain either 
+			the element types declared as their children or skip directly to the ones declared as their 
+			children's children. If one's data does not have crossing hierarchies or a relationship to signal, 
+			this suggests that TEI-compliance is either possible or very close. There may be a problem with the 
+			representation of links. The TEI practice for relating data elements uses <sgmltag>IDREF</sgmltag>
+			 or <sgmltag>IDREFS</sgmltag> or in-file links. Some NXT data sets use string matching on attribute 
+			values which is similar to using <sgmltag>IDREF</sgmltag>s, but there is nothing in the attribute 
+			declarations which lets NXT validate that relationship. NXT currently writes in-file links using a 
+			syntax that (redundantly) contains the filename, although this could be changed without much difficulty. 
+			There may also be differences in what's expected at file roots. NXT doesn't require a particular 
+			tag name at the root (although it does currently warn if an unexpected one is used), but it 
+			doesn't expect headers and bodies in the same file, and the metadata declaration won't allow 
+			different content models for two tags at the same depth from the root in the same file, 
+			weakening the data validation where they are stored together (since then the content model 
+			must specify a disjunction of the possible types at that depth). Every NXT element must have 
+			an <sgmltag class="attribute">id</sgmltag>, which may be a burden for some data sets.
+		</para>
+	</section>
+	<section id="encoding_crossing">
+		<title>Crossing hierarchies</title>
+		<para>
+			The main difference between NXT's representation and that of the TEI is whether or not 
+			overlapping (crossing) hierarchies pointing down to the same elements are expected. 
+			NXT is designed specifically for cases where they are; the TEI contains mechanisms 
+			for dealing with crossing hierarchies, but because this is not their primary concern, 
+			the mechanisms are more cumbersome. NXT's data representation is based on the idea of 
+			multi-rooted trees; in the data model, individual nodes can have one set of children, 
+			but multiple parents from different upward trees. A typical use of for this representation 
+			in the annotation of spoken dialogue (which makes up NXT's largest user group) is 
+			to have time-aligned orthographic transcription at the bottom, and then 
+			separate hierarchies for, say, named entities, dialogue acts, prosodic phrases, turns, or 
+			whatever that use the words as children. The data is serialized into XML by divided the
+			 multi-rooted tree into convenient trees where the XML structure mirrors the data structure 
+			and representing the remaining connections between nodes using stand-off links in XLink 
+			format. NXT also allows arbitrary additional links to be represented on top of the multi-rooted 
+			tree, again using XLinks, but ones that have a different semantics within NXT. 
+			The TEI representation for a data set with crossing hierarchies would choose one 
+			hierarchy as the primary one, mirror that in the XML structure, and use milestone 
+			tags for the other hierarchies. This keeps everything in one file. For extreme cases, 
+			one could use the TEI's recommended form for representing graphs, which gives a list 
+			of nodes and links where the XML structure does not mirror any part of the graph. Either 
+			of these styles of representation can be defined in NXT's "metadata" describing the set 
+			of tags, and as long as everything fits into one XML tree they can be kept in one file, 
+			but the NXT data validation won't be particularly useful then, and there are no existing 
+			GUIs or search facilities that will help in creating or using this data, which means 
+			building new ones using the GUI library.
+		</para>
+	</section>
+		<section id="encoding_timing">
+		<title>Timing data</title>
+		<para>
+		The other main difference between NXT and the TEI is in the representation of timing relationships. 
+			The TEI gives a choice of mechanisms, ranging from the coarse statement that an element 
+			is overlapped via <sgmltag class="attribute">trans="overlap"</sgmltag>, through the use of 
+			<sgmltag class="element"><![CDATA[<anchor>]]></sgmltag> tags that link to overlapping events, 
+			to the representation of complete timelines that give time points which then can be 
+			used to indicate the start and end times for an element. Any of these representations 
+			can be defined in NXT's data storage format, but none of them will get the timing data 
+			recognized as time in NXT, which disables one of the most useful features of NXT browsers 
+			(the ability to play signals and show which annotations are current as they play). 
+			NXT's format for timing information is closest to the last one, but is not 
+			TEI-compliant; where annotations of a particular type for different speakers ("agents") 
+			can overlap temporally, NXT requires them to be stored in separate files. This is in 
+			aid of the temporal semantics inherent in NXT's data model which allows timings to percolate up 
+			trees. This requirement can only be circumventing by failing to declare the attributes as times.			
+		</para>
+		</section>
+	<section id="encoding_standardised_guis">
+		<title>Standardized GUIs</title>
+		<para>
+			NXT comes with some configurable tools for annotating dialogue acts and named 
+			entities. These currently rely on an NXT data representation in which the 
+			dialogue act and named entity tags point into an external ontology of act or 
+			entity types, rather than allowing the type to be expressed as an attribute value. 
+			That means that if a data set is represented to be as TEI-compliant as possible in 
+			the NXT format itself, these tools cannot be used. We are considering making it 
+			possible to configure the tools to use an enumerated attribute, but we don't 
+			have an immediate need for the result so the work hasn't been scheduled yet. 
+			If there is more than one type of <sgmltag class="element"><![CDATA[<seg>]]></sgmltag> in the data, 
+			this will cause problems for setting up the tool because the NXT metadata will 
+			have no way of specifying which types go together into one set to be annotated 
+			together (so, for instance, making dialogue act annotation different from some other 
+			segmentation and classification task).
+		</para>
+	</section>
+	<section id="encoding_other">
+		<title>Other frameworks</title>
+		<para>
+			The difficulties in mapping between the TEI and NXT arise from the fact that NXT 
+			is designed for data that is rather esoteric for the TEI. If one doesn't need 
+			crossing hierachies or relationships to signal, there may be other annotation 
+			frameworks that are closer to TEI-compliance in their native data formats. 
+			We have never considered other frameworks in this light. 
+			<ulink url="http://www.eml-research.de/english/research/nlp/download/index.php"><application>MMAX2</application></ulink> uses 
+			multiple file stand-off, so probably isn't any closer. Other key words to search on are 
+			<ulink url="http://agtk.sourceforge.net/"><application>AGTK</application></ulink>, 
+			<ulink url="http://callisto.mitre.org/"><application>CALLISTO</application></ulink>, 
+			<ulink url="http://www.nist.gov/speech/atlas/"><application>ATLAS</application></ulink>, and 
+			<ulink url="http://wordfreak.sourceforge.net/"><application>WordFreak</application></ulink>.
+		</para>
+	</section>
+</section> 

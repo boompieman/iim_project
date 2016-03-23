@@ -1,0 +1,20 @@
+/*
+ * Copyright (c) 2004-2006 Pixware. 
+ *
+ * This file is part of the XMLmind XML Editor project.
+ * For conditions of distribution and use, see the accompanying legal.txt file.
+ *
+ * Display image as ``thumbnails''.
+ */
+
+/* First selector is used to override what is specified in image.imp */
+mediaobject imagedata,
+imagedata {
+    display: inline;
+}
+
+graphic,
+inlinegraphic,
+imagedata {
+    content: image(attr(fileref), -400, -100, smooth);
+}

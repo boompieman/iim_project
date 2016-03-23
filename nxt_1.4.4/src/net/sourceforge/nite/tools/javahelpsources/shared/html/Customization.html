@@ -1,0 +1,60 @@
+<html>
+<body>
+    <h1>Customization</h1>
+    The AMI annotation tools can be customized through a settings file, so you can adapt the tools
+    to a different corpus. The file is called nxtConfig.xml, and should be somewhere on your classpath.
+    If you change it, you should restart the tool so it starts with the appropriate settings.
+    The settings for the dialogue act and named entity coder are contained in the &lt;DACoderConfig&gt;
+    element. Though the default configuration file contains well-documented example settings, the possible
+    settings are repeated below:
+    
+    <h3>GUI Settings</h3>
+    GUI settings pertain to superficial things such as whether you want to see the logwindow.
+    Currently the guisettingselement supports the following attributes:
+    <ul>
+    <li><b><code>id</code></b>: The ID of these GUI settings. This ID is used in the metadatafile entries.
+    <li><b><code>gloss</code></b>: A description of these settings (e.g. "the preferred settings for Michael")
+    <li><b><code>showapwindow</code></b>: if true, the annotation windows for adjacency pairs are visible
+    <li><b><code>showlogwindow</code></b>: if true, the log feedback window is visible
+    </ul>
+    
+    <h3>Corpus Settings</h3>
+    Corpus settings describe aspects of the corpus that are needed for proper operation of the dialogue act coder, 
+    such as the names of the different relevant layers and ontologies.
+    Currently the corpussettingselement supports the following attributes in the DACoderConfig root:
+    <ul>
+    <li><b><code>id</code></b>: The ID of these corpus settings. This ID is used in the metadatafile entries.
+    <li><b><code>gloss</code></b>: A description of these settings (e.g. "the settings for the official AMI corpus")
+            
+    <li><b><code>segmentationelementname</code></b>: Element name of the segmentation elements that pre-segments the transcription layer. Used for the initial display of the text.
+    <li><b><code>transcriptionlayername</code></b>: LAYER name of the transcription layer
+    <li><b><code>transcriptionattribute</code></b>: Name of the attribute in which text of transcription is stored. Leave out if text not stored in attribute.
+    <li><b><code>transcriptiondelegateclassname</code></b>: full class name of TranscriptionToTextDelegate. Leave out is no delegate is used
+
+    <li><b><code>daelementname</code></b>: element name of dialogue act instances
+    <li><b><code>daontology</code></b>: ontology name of dialogue acts
+    <li><b><code>daroot</code></b>: nite-id of dialogue act root
+    <li><b><code>datyperole</code></b>: role name of the pointer from a dialogue act to its type
+
+    <li><b><code>apelementname</code></b>: element name of adjacency pair instances
+    <li><b><code>apontology</code></b>: ontology name of adjacency pairs
+    <li><b><code>aproot</code></b>: nite-id of adjacency pair root
+    <li><b><code>defaultaptype</code></b>: nite-id of default adjacency pair type
+
+    <li><b><code>neelementname</code></b>: element name of named entity instances
+    <li><b><code>neontology</code></b>: ontology name of named entities
+    <li><b><code>neroot</code></b>: nite-id of named entities root
+    <li><b><code>nenameattribute</code></b>: attribute name of the attribute that contains the name of the named entity
+    <li><b><code>netyperole</code></b>: role name of the pointer from a named entity to its type
+    <li><b><code>abbrevattribute</code></b>: name of the attribute which contains an abbreviated code for the named entity for in-text display
+    </ul>
+    
+    <h3>Connecting a metadatafile to the settings</h3>
+    For every corpus that you want to open in the Dialogue act coder or Named Entity coder you should add a
+    <code>metadatafile</code> entry:
+    <br><code>
+    &lt;metadatafile file="<i>full path to metadata filename</i>" corpussettings="<i>ID of the correct corpussettings element</i>"   guisettings="<i>ID of the correct guisettings element</i>"/&gt;
+    </code><br>
+    This ensures that the annotation tools are able to find the correct settings for every corpus.
+</body>
+</html>

@@ -1,0 +1,95 @@
+<html>
+<body>
+This package supports displaying <i>transcriptions</i> of observations, including any annotations 
+that have been created on top of the transcriptions. The main elements of functionality in the 
+package are:
+<ul>
+<li><b>Display transcriptions</b>: Most NXT corpora have a layer that contains the transcriptions 
+of speech of the participants. The {@link net.sourceforge.nite.gui.transcriptionviewer.NTranscriptionView 
+NTranscriptionView} class can be parametrized to display these transcriptions in several ways, possibly 
+based on existing segmentations of the transcription.
+<li><b>Display annotations defined on the transcriptions</b>: NXT corpora usually contain several 
+annotation layers that are directly related to the speech transcriptions, e.g. dialogue acts, 
+named entities or referents. The NTranscriptionView class can display these annotations within 
+the text, using configurable {@link net.sourceforge.nite.gui.transcriptionviewer.DisplayStrategy 
+DisplayStrategy} implementations.
+<li><b>Support for selection of transcription fragments and/or annotation elements</b>: A number 
+of selection strategies have been implemented (speech, annotations, or both; multiple agents or 
+single agents; single words or phrases; with or without going across segment boundaries, etc). 
+</ul>
+The best way to start using this package is to read the documentation of {@link net.sourceforge.nite.gui.transcriptionviewer.NTranscriptionView NTranscriptionView}. 
+A table with a complete overview of the classes in this packages can be found below.
+<p>
+<h2>Table of overview</h2>
+<b>This table is not yet properly completed. Somebody please write this one, using the (more complete) documentations of
+NTranscriptionView, DisplayStrategy, TransToAnnoMap, TranscriptionDisplayDelegate!!!</b>
+<table>
+    <tr>
+        <td colspan="2">
+        {@link net.sourceforge.nite.gui.transcriptionviewer.NTranscriptionView NTranscriptionView}
+        </td>
+        <td>
+        Main class of this package. A descendant of JTextPane/NTextArea that can be parametrized to 
+        display speech transcriptions and annotations defined on these transcriptions.
+        </td>
+    </tr>
+    <tr>
+        <td width="40">
+        </td>
+        <td>
+        Which transcription elements should be displayed?
+        </td>
+        <td>
+        setTranscriptionLayer<br>
+        setSegmentationElementName<br>
+        setdisplaySegments<br>
+        </td>
+    </tr>
+    <tr>
+        <td width="40">
+        </td>
+        <td>
+        How to display the speech elements? (text, attribute, or anything else)
+        </td>
+        <td>
+        setTranscriptionDisplayDelegate<br>Display of transscription elements
+    default: use text content
+    otherwise: use implementation of delegate
+    (list delegate classes for this)
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+        {@link net.sourceforge.nite.gui.transcriptionviewer.DisplayStrategy DisplayStrategy}
+        </td>
+        <td>
+        A delegate interface. Implementations of this interface are used to determine how a particular type of annotation element defined on the transcriptions should be displayed.
+        </td>
+    </tr>
+    <tr>
+        <td width="40">
+        </td>
+        <td>
+        {@link net.sourceforge.nite.gui.transcriptionviewer.TextStyleDisplayStrategy TextStyleDisplayStrategy}
+        </td>
+        <td>
+        This display strategy visualizes annotation elements of a certain type by changing the text style (italic, bold, etc) of all speech text related to the annotation element.
+        </td>
+    </tr>
+    <tr>
+        <td width="40">
+        </td>
+        <td>
+        {@link net.sourceforge.nite.gui.transcriptionviewer.StringInsertDisplayStrategy StringInsertDisplayStrategy}
+        </td>
+        <td>
+        This display strategy visualizes annotation elements of a certain type by inserting cusomizable text before and/or after the speech text related to that annotation element.
+        </td>
+    </tr>
+</table>
+
+    
+<hr>
+This package has been developed at the University of Twente.
+</body>
+</html>

@@ -1,0 +1,1261 @@
+<section id="nql" xreflabel="The NXT Query Language">    
+<title>The NXT Query Language (NQL)</title>
+    
+<mediaobject>      
+<imageobject>        
+<imagedata fileref="images/nite_nxt_search.jpg"/>      
+</imageobject>
+    
+</mediaobject>
+    
+<para><package>NXT</package> has its own query language: the <package>NXT Query Language</package>, or 
+	<package>NQL,</package>. In this section, we describe <package>NQL</package>, list its operators, and 
+	give example queries.
+</para>
+    
+<section id="query_structure">
+<title>General structure of a simple query
+</title>
+      
+<para><package>NQL</package> queries describe n-tuples of nodes,
+	possibly constrained by type, and a set of conditions that
+	expresses further constraints, for instance, on the attributes
+	that a node contains or how two nodes relate to each other. If
+	an n-tuple of nodes with the required types satisfies the
+	conditions expressed in the query, it is said to be a
+	<type>match</type>.
+</para>
+      
+<para>Syntactically, a query consists of two parts separated by a
+	colon (<literal>:</literal>). The first part declares the
+	variables for the query, and the second part expresses the
+	conditions.
+</para>      
+
+      
+<table rowsep="1" frame="all" colsep="1">        
+<title>Example showing general query structure
+</title>        
+<tgroup cols="2">        
+<tbody>        
+	<row>          
+		<entry>            
+			<programlisting>($a)($b word): $a ^ $b</programlisting>
+		</entry>
+        <entry>This query matched pairs (2-tuples) of nodes in which the first, bound to <code>$a</code>, 
+			can be any type and the second, bound to <code>$b</code> must be of type word, and 
+			where the first dominates the second.  In this example <code>($a)($b word)</code> is the declaration 
+			part and the dominance relation <code>$a ^ $b</code> is the only condition.
+		</entry>        
+	</row>      
+</tbody>     
+</tgroup>      
+</table>
+      
+<para>Formal definition:
+</para>
+          
+<synopsis>
+<emphasis role="bold"><varname>query</varname></emphasis>:=
+<replaceable>declarations</replaceable><literal> :
+</literal><replaceable>match_condition</replaceable>
+</synopsis>
+
+      
+<section id="query_declaration">      
+<title>Declaration part</title>
+      
+<para>
+	The declaration part of the query must contain a variable declaration for every variable mentioned in the conditions.
+Each variable declaration is enclosed in parentheses. The components of a variable declaration are separated by 
+whitespace. The first component is an optional quantifier; the possible quantifiers are 
+<literal>forall</literal> and <literal>exists</literal>, which have their usual logical meanings.
+	The second component is the name of the variable. A variable name is a <literal>$</literal> character followed by an
+	arbitrary number of letters and digits, which can include underscore ( <literal>_</literal> ) and language-specific 
+	characters. The final component is an optional type restriction. This is either a simple string expressing the 
+	type of a node in the NOM or a disjunction of these types separated using the pipe symbol (<literal>|</literal>).
+</para>
+
+<table rowsep="1" frame="all" colsep="1">        
+<title>Example declaration parts</title>        
+<tgroup cols="2">         
+<tbody>        
+<row>          
+	<entry>
+		<programlisting>($a)</programlisting>         
+	</entry>          
+	<entry>      
+		The query matches singletons (1-tuples) in which <code>$a</code> is be bound to nodes of any 
+		type for which the conditions are true.         
+		<tip><para>An empty type definition may slow down query processing drastically.</para></tip>          
+	</entry>
+</row>       
+<row>          
+	<entry>            
+		<programlisting>($a word)($b sentence)</programlisting>
+    </entry>          
+	<entry>            
+		The query matches pairs (2-tuples) in which <code>$a</code> is bound to nodes of type 
+		<type>word</type> and <code>$b</code> is bound to nodes of type 
+		<type>sentence</type> for which the conditions are true.
+    </entry>        
+</row>        
+<row>          
+	<entry>            
+		<programlisting>($a word)($b word)</programlisting>         
+	</entry>          
+	<entry>            
+		The query matches pairs (2-tuples) in which <code>$a</code> is bound to nodes of type <type>word</type>
+		and <code>$b</code> is bound to nodes of type <type>word</type> for which the conditions are true.
+		<caution>        
+			<para>In a pair, both variables might be bound to the same node.</para>
+		</caution>
+    </entry>        
+</row>        
+<row>          
+	<entry>            
+		<programlisting>($a word | phrase | sentence)</programlisting>        
+	</entry>          
+	<entry>            
+		The query matches singletons (1-tuples) in which <code>$a</code> is bound to nodes of type <type>word</type>, 
+		<type>phrase</type>, or <type>sentence</type> for which the conditions are true.
+	</entry>        
+</row>        
+<row>          
+	<entry>            
+		<programlisting>($b sentence)(forall $a word)</programlisting>         
+	</entry>          
+	<entry>            
+		The query matches singletons (1-tuples) in which <code>$b</code> is bound to any node that has type            
+		<type>sentence</type> for which the conditions are true for every possible way of binding <code>$a</code>
+		to individual nodes that have type <type>word</type>.	    
+	</entry>        
+</row>       
+</tbody>       
+</tgroup>      
+</table>
+
+<para>Formal definition:
+</para>      
+
+<synopsis>
+	<emphasis role="bold"><varname>declarations</varname></emphasis>     :=  <replaceable>declarations var_declaration</replaceable>
+	<emphasis role="bold"><varname>declarations</varname></emphasis>     :=  <replaceable>var_declaration</replaceable>
+	<emphasis role="bold"><varname>var_declaration</varname></emphasis>  :=  <literal>(</literal> <replaceable>variable</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>var_declaration</varname></emphasis>  :=  <literal>(</literal> <replaceable>variable typedeclaration</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>typedeclaration</varname></emphasis>  :=  <replaceable>types</replaceable>
+	<emphasis role="bold"><varname>typedeclaration</varname></emphasis>  :=  <replaceable>type</replaceable>
+	<emphasis role="bold"><varname>types</varname></emphasis>            :=  <replaceable>types</replaceable> <literal>|</literal> <replaceable>type</replaceable>
+</synopsis>
+      
+<remark>Grammar for forall/exists missing.  We want to use some rule system with optionality or this 
+	is going to take forever - check what docbook supports?
+</remark>
+      
+</section>
+	
+    
+<section id="nql_condition_part" xreflabel="Condition Part">
+
+<title id="condition.part.title">Condition part</title>
+      
+<para>The condition part is a Boolean expression over property tests,      
+	structural relations, and temporal relations. Parentheses are only      
+	needed if a lower precedence relation should be executed first. The      
+	strongest binding operator is negation ( <literal>!</literal> ). 
+	The operators are listed in the order of their precedence below:
+</para>
+
+      
+<orderedlist>        
+	<listitem><para>       
+		Negation: <literal>not</literal> or <literal>!</literal>
+	</para></listitem>
+        
+	<listitem><para>          
+		Conjunction: <literal>and</literal> or <literal><![CDATA[&]]></literal> or <literal><![CDATA[&&]]></literal>
+	</para></listitem>
+        
+	<listitem><para>          
+		Disjunction: <literal>or</literal> or <literal>|</literal> or <literal>||</literal>
+	</para></listitem>
+        
+	<listitem><para>          
+		Implication: <literal>-<![CDATA[>]]></literal>
+	</para></listitem>      
+</orderedlist>
+      
+<para>For convenience, there are a number of syntactic literals for each operator. 
+	The different forms for the same operator are completely synomynous. 
+	The implication operator <literal><![CDATA[->]]></literal> is the weakest binding operator and, 
+	again, is provided for convenience; <code>$a <![CDATA[->]]> $b</code> is logically equivalent to 
+	<code>!a | b</code>.      
+</para>
+      
+<para>Formal definition:
+</para>
+      
+<synopsis>
+	<emphasis role="bold"><varname>match_condition</varname></emphasis>    := 
+	<emphasis role="bold"><varname>match_condition</varname></emphasis>    := <literal>(</literal> <replaceable>match_condition</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>match_condition</varname></emphasis>    := <literal>!</literal> <replaceable>match_condition</replaceable>
+	<emphasis role="bold"><varname>var_declaration</varname></emphasis>    := <replaceable>match_condition</replaceable> <literal><![CDATA[&]]></literal> <replaceable>match_condition</replaceable>
+	<emphasis role="bold"><varname>var_declaration</varname></emphasis>    := <replaceable>match_condition</replaceable> <literal>|</literal> <replaceable>match_condition</replaceable>
+	<emphasis role="bold"><varname>var_declaration</varname></emphasis>    := <replaceable>match_condition</replaceable> <literal><![CDATA[->]]></literal> <replaceable>match_condition</replaceable>
+	<emphasis role="bold"><varname>var_declaration</varname></emphasis>    := <replaceable>property_test</replaceable>
+	<emphasis role="bold"><varname>var_declaration</varname></emphasis>    := <replaceable>structural_relation</replaceable>
+	<emphasis role="bold"><varname>var_declaration</varname></emphasis>    := <replaceable>time_relation</replaceable>
+</synopsis>
+      
+<tip><para>    
+The condition part may be empty, in which case the query always evaluates to true.
+</para></tip>
+ 
+</section>     
+
+</section>
+    
+
+<section id="query_property_tests">        
+<title>Property tests</title>
+        
+<para>A property test either tests for the existence of some property or compares the values of two properties. 
+</para>
+        
+       
+<section id="query_property_expressions">
+<title>Simple and functional property expressions</title>
+          
+<para>A property may be an attribute value, a constant, or the  result of a function applied to an element. 
+</para>
+          
+<para>The query language contains a number of functions that take  elements and return some property of the element. 
+	These functions have to do with properties that are special in <package>NXT</package>: timing, 
+	identification, and textual content. Function names can be given in upper or lower case, and the operators 
+	<literal>=</literal> and <literal>==</literal> are synonymous. Where the data storage format for a corpus stores 
+	these properties as XML attributes, they can also be queried using the form <replaceable>variable</replaceable>
+    <literal>@</literal><replaceable>attribute</replaceable>. The functional form is preferred because it is the same across all data 
+    sets and leaves the user in no doubt that these are the attributes holding the special properties. 
+</para>
+          
+<para>The functions are as follows:
+</para>
+          
+<table rowsep="1" frame="all" colsep="1">           
+<title>Query functions</title>        
+<tgroup cols="2">         
+<tbody>            
+<row>              
+	<entry>                
+		<programlisting>TEXT($w)</programlisting>
+	</entry>
+    <entry>                
+		Returns the text contained by the element matched by <code>$w</code>.
+	</entry>
+</row>            
+<row>              
+	<entry>                
+		<programlisting>ID($w)</programlisting>
+    </entry>
+    <entry>                
+		Returns the unique identifier of the element matched by <code>$w</code>.
+	</entry>
+</row>            
+<row>              
+	<entry>                
+		<programlisting>TIMED($w)</programlisting>
+    </entry>              
+	<entry>                
+		Returns true if the element matched by <code>$w</code> has start and end times, and false otherwise.
+	</entry>            
+</row>            
+<row>              
+	<entry>                
+		<programlisting>START($w)</programlisting>              
+	</entry>
+    <entry>                
+		Returns the start time of the element matched by <code>$w</code>. 
+    </entry>
+</row>            
+<row>              
+	<entry>                
+	<programlisting>END($a)</programlisting>              
+	</entry>              
+	<entry>                
+		Returns the end time of the element matched by <code>$w</code>. 
+    </entry>            
+</row>            
+<row>              
+	<entry>                
+		<programlisting>DURATION($a)</programlisting>              
+	</entry>              
+	<entry>                
+		Returns the duration of the element matched by <code>$w</code> (that is, the end time minus the start time).          
+	</entry>
+</row>            
+<row>              
+	<entry>                
+		<programlisting>CENTER($a)</programlisting>              
+	</entry>              
+	<entry>                
+		Returns the temporal center of the element matched by <code>$w</code> (that is, the end time minus the start time, divided by 2). 
+	</entry>            
+</row>          
+</tbody>          
+</tgroup>          
+</table>
+          
+<para>Formal definition:</para>
+          
+<synopsis>
+	<emphasis role="bold"><varname>property</varname></emphasis>    := <literal>"</literal> <replaceable>number_or_string</replaceable> <literal>"</literal> 
+	<emphasis role="bold"><varname>property</varname></emphasis>    := <replaceable>variable</replaceable> <literal>@</literal> <replaceable>attribute</replaceable>
+	<emphasis role="bold"><varname>property</varname></emphasis>    := <literal>TEXT(</literal> <replaceable> variable</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>property</varname></emphasis>    := <literal>ID(</literal><replaceable> variable</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>property</varname></emphasis>    := <literal>TIMED(</literal><replaceable> variable</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>property</varname></emphasis>    := <literal>START(</literal><replaceable> variable</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>property</varname></emphasis>    := <literal>END(</literal><replaceable> variable</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>property</varname></emphasis>    := <literal>DURATION(</literal><replaceable> variable</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>property</varname></emphasis>    := <literal>CENTER(</literal><replaceable> variable</replaceable> <literal>)</literal>
+</synopsis>
+          
+<note><para>          
+Numbers and string values must be placed in quotes. Placing a number in quotes does not mean it will be treated as a string.            
+	Either single or double quotes can be used, but if you are passing            
+	a query as an argument at the command line, your choice must be            
+	compatible with your choice of quotes for the shell.
+</para></note>
+          
+      
+</section>
+
+       
+<section id="query_property_existence">
+<title>Property existence tests</title>
+          
+<para>Property existence tests check for the existence of some property.</para>
+          
+<table rowsep="1" frame="all" colsep="1">           
+<title>Node property tests</title>        
+<tgroup cols="2">         
+<tbody>            
+<row>              
+	<entry>                
+		<programlisting>$w@pos</programlisting>
+	</entry>
+    <entry>                
+		True if and only if the element matched by <code>$a</code> has a pos attribute. 
+	</entry>            
+</row>            
+<row>              
+	<entry>                
+		<programlisting>TIMED($a)</programlisting>
+	</entry>
+    <entry>                
+		True if and only if the element matched by <code>$a</code> is timed, either because it has both start and 
+		end times or because it inherits them from their  children.
+	</entry>
+</row>            
+<row>              
+	<entry>                
+		<programlisting>START($a)</programlisting>
+	</entry>              
+	<entry>                
+		True if and only if the element matched by <code>$a</code> has a start time, either in its own right or 
+		by inheritance from its children.
+    </entry>            
+</row>            
+<row>              
+	<entry>                
+		<programlisting>END($a)</programlisting>
+	</entry>              
+	<entry>                
+		True if and only if the element matched by <code>$a</code> has an end time, either in its own right or by  
+		inheritance from its children.
+	</entry>            
+</row>            
+<row>              
+	<entry>                
+		<programlisting>TEXT($a)</programlisting>
+	</entry>              
+	<entry>                
+		True if and only if the element matched by <code>$a</code> contains text. 
+	</entry>            
+</row>          
+</tbody>          
+</tgroup>          
+</table>
+          
+<para>It is actually possible to test for the existence of any property, but the other possible existence tests are not useful; 
+	<sgmltag class="attribute">ids</sgmltag>, <sgmltag class="attribute">string</sgmltag>, and <sgmltag class="attribute">numbers</sgmltag> always 
+	exist, and <sgmltag class="attribute">duration</sgmltag> and <sgmltag class="attribute">center</sgmltag> properties exist for elements 
+	that are timed.
+</para>
+          
+<para>Formal definition:
+</para>
+          
+<synopsis>
+	<emphasis role="bold"><varname>property_test</varname></emphasis>    := <replaceable>variable</replaceable> <literal>@</literal> <replaceable>attribute</replaceable>
+	<emphasis role="bold"><varname>property_test</varname></emphasis>    := <literal>TIMED(</literal><replaceable> variable</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>property_test</varname></emphasis>    := <literal>START(</literal><replaceable> variable</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>property_test</varname></emphasis>    := <literal>END(</literal><replaceable> variable</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>property_test</varname></emphasis>    := <literal>TEXT(</literal><replaceable> variable</replaceable> <literal>)</literal>
+</synopsis>
+        
+</section>
+        
+<section id="query_string_comparisons">
+<title>
+String and number comparisons using<literal>==</literal>, <literal>!=</literal>, <literal><![CDATA[<=]]></literal>, <literal><![CDATA[<]]></literal>, 
+<literal><![CDATA[>]]></literal>, and <literal><![CDATA[>=]]></literal>
+</title>
+          
+<para>The next set of property tests compare the equality and order of two values. Property expressions are weakly typed. The value 
+resulting from an expression will be interpreted as a floating-point 
+number when possible. If it cannot be converted into a number or if
+the value is compared to a pattern given by a regular expression, 
+the value will be treated as a string. A number is always unequal to 
+a string. Strings are themselves alphabetically ordered, and are 
+case-sensitive. Strings starting with upper case letters are less 
+than strings with upper case letters. As a result, <code>"2" == "2.0"</code> is true, while 
+<code>"Two" == "two"</code> is false.
+</para>
+          
+<table rowsep="1" frame="all" colsep="1">           
+<title>Equality and order tests</title>
+           
+<tgroup cols="2">           
+<tbody>            
+            <row>
+              <entry>
+                <programlisting>($x): $x@cat=="NP"</programlisting>
+              </entry>
+
+              <entry>
+                Matches elements with a category attribute containing
+                the string value "NP".
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <programlisting>($x)($y): $x@cat==$y@cat</programlisting>
+              </entry>
+
+              <entry>
+                Matches pairs of elements with the same cat attribute
+                (including the pair where <code>$x</code> and <code>$y</code>
+                are bound to the same element). 
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <programlisting><![CDATA[($x)($y): $x@cat==$y@cat & $x!= $y]]></programlisting>
+              </entry>
+
+              <entry>
+                Matches pairs of elements with the same <sgmltag class="attribute">cat</sgmltag> attribute
+                (excluding the pair where <code>$x</code> and <code>$y</code>
+                are bound to the same element).
+              </entry>
+            </row>
+</tbody>          
+</tgroup>          
+</table>
+          
+<tip><para>            
+<code>=</code> and <code>==</code> are synonymous.          
+</para></tip>
+          
+<para>Formal definition:</para>
+          
+<synopsis>
+	<emphasis role="bold"><varname>property_test</varname></emphasis>    := <replaceable>property</replaceable>  <literal>==</literal>  <replaceable>property</replaceable>
+	<emphasis role="bold"><varname>property_test</varname></emphasis>    := <replaceable>property</replaceable>  <literal>!=</literal>  <replaceable>property</replaceable>
+	<emphasis role="bold"><varname>property_test</varname></emphasis>    := <replaceable>property</replaceable>  <literal>&lt;</literal>  <replaceable>property</replaceable>
+	<emphasis role="bold"><varname>property_test</varname></emphasis>    := <replaceable>property</replaceable>  <literal>&gt;</literal>  <replaceable>property</replaceable>
+	<emphasis role="bold"><varname>property_test</varname></emphasis>    := <replaceable>property</replaceable>  <literal>&lt;=</literal>  <replaceable>property</replaceable>
+	<emphasis role="bold"><varname>property_test</varname></emphasis>    := <replaceable>property</replaceable>  <literal>&gt;=</literal>  <replaceable>property</replaceable>
+</synopsis>
+        
+</section>
+        
+<section id="query_regexp_comparisons">
+<title>Regular expression comparisons</title>
+          
+<para>The final set of property tests compare string values against 
+regular expressions. Regular expressions are enclosed by slashes (<literal>/</literal>). <package>NXT</package>'s regular expression 
+	implementation uses Java regular expressions underneath, so it is not possible to give a definitive syntax for the patterns here, 
+	instead, see the <ulink url="http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/Pattern.html">
+	Java 1.5 Regular Expression Documentation
+</ulink> or equivalent documentation for your Java version. 
+</para>
+          
+<table rowsep="1" frame="all" colsep="1">           
+<title>Regular expression examples</title>           
+<tgroup cols="2">           
+<tbody>            
+            <row>
+              <entry>
+                <programlisting>($a): text($a) ~ /th.*/</programlisting>
+              </entry>
+
+              <entry>
+                Words starting with <literal>th</literal>. Dot
+                (<literal>.</literal>) means any single character, and
+                <literal>*</literal> means 0 or more repetitions of whatever
+                it follows.
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <programlisting>($a): text($a) ~ /[dD](as|er)/</programlisting>
+              </entry>
+
+              <entry>
+                The words <literal>das</literal> and
+                <literal>der</literal>, whether capitalized or not. 
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <programlisting>($a): text($a) ~ /.+([0-9A-Z])+.*/</programlisting>
+              </entry>
+
+              <entry>
+                Words which contain at least one uppercase letter or
+                number at a non-initial position. The plus
+                (<literal>+</literal>) means 1 or more repetitions of whatever
+                it follows, and the square brackets
+                (<literal>[]</literal>)specify a character class. 
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <programlisting>($a): text($a) ~ /\.*/</programlisting>
+              </entry>
+
+              <entry>
+                A possibly empty sequence of dots, where in contrast
+                <code>/.*/ </code>matches every word (assuming it contains
+                text). The backslash (<literal>\</literal>) means the dot
+                (<literal>.</literal>) is interpreted literally.
+              </entry>
+            </row>
+</tbody>          
+</tgroup>          
+</table>
+          
+<note><para>            
+Your regular expression must match the entire string, not some substring contained in it. <code>/x/</code> in <package>NQL</package> notation 
+	means <code>/^x$/</code> in the <package>Perl</package> notation.
+</para></note>
+          
+<para>Formal definition:</para>
+          
+<para>
+<synopsis>
+	<emphasis role="bold"><varname>property_test</varname></emphasis>    := <replaceable>property</replaceable> <literal>~ /</literal> <replaceable>pattern</replaceable> <literal>/</literal> 
+	<emphasis role="bold"><varname>property_test</varname></emphasis>    := <replaceable>property</replaceable> <literal>!~ /</literal> <replaceable>pattern</replaceable> <literal>/</literal> 
+</synopsis>
+
+</para>
+        
+</section>
+      
+</section>
+      
+    
+<section id="query_comments">      
+<title>Comments</title>
+      
+      <para>Comments are allowed in the form of line comments and block
+      comments. <emphasis>Line comments</emphasis> start with the
+      symbol <literal>//</literal> and include the remainder of the current
+      line. <emphasis>Block comments</emphasis> begin with
+      <literal>/*</literal> and end with <literal>*/</literal>, and may extend
+      over multiple lines.</para>
+      
+<table rowsep="1" frame="all" colsep="1">           
+<title>Comment examples</title>        
+<tgroup cols="2">        
+<tbody>        
+        <row>
+          <entry>
+            <programlisting>($a) // all elements</programlisting>
+          </entry>
+
+          <entry>line comment: <emphasis>all elements</emphasis></entry>
+        </row>
+
+        <row>
+          <entry>
+            <programlisting><![CDATA[($a)($b word): /*$a@pos="NN" & */ $a ^ $b]]></programlisting>
+          </entry>
+
+          <entry>
+            only <code>($a)($b word): $a ^ $b</code> will be
+            processed
+          </entry>
+        </row>      
+</tbody>      
+</tgroup>      
+</table>
+    
+</section>
+
+ 
+<section id="query_structural_relations">
+<title> Structural relations</title>
+      
+
+<section id="query_identity">
+<title>Identity</title>
+      
+<para>The simplest structural relation asserts the identity or non-identity 
+of two elements. Since the default evaluation strategy allows different variables to be bound to the same element, the 
+<literal>!=</literal> operator is sometimes necessary to exclude unwanted results. The      
+<literal>==</literal> operator is less useful and was mainly added for the sake of symmetry.      
+</para>
+<para>
+<synopsis>
+	<emphasis role="bold"><varname>structural_relation</varname></emphasis>    :=    <replaceable>variable</replaceable> <literal>==</literal> <replaceable>variable</replaceable>
+	<emphasis role="bold"><varname>structural_relation</varname></emphasis>    :=    <replaceable>variable</replaceable> <literal>=!</literal> <replaceable>variable</replaceable>
+</synopsis>
+
+</para>     
+
+</section>
+
+
+<section id="query_dominance">
+
+<title>Dominance</title>
+
+
+      
+<para>The basic structural relation is the dominance relation <literal>^</literal>. To describe that an element <replaceable>a</replaceable>
+ dominates an element <replaceable>b</replaceable> the dominance operator <literal>^</literal> is be used. In other words 
+<replaceable>a</replaceable> is an ancestor of <replaceable>b</replaceable>.      
+</para>
+	
+<synopsis>
+	<emphasis role="bold"><varname>structural_relation</varname></emphasis>    :=   <replaceable>variable</replaceable> <literal>^</literal> <replaceable>variable</replaceable>
+	<emphasis role="bold"><varname>structural_relation</varname></emphasis>    :=   <replaceable>variable</replaceable> <literal>^</literal> <replaceable>distance variable</replaceable>
+</synopsis>
+
+      
+<note><para>
+The expression <replaceable>a</replaceable><literal>^</literal><replaceable>a</replaceable>
+ is always true! Use the non-identity operator to exclude these special case.
+</para></note>
+     
+
+</section>
+
+<section id="query_precedence">
+
+<title>Precedence</title>
+
+<para>
+Two elements are in a precedence relation if they have a common ancestor element, which can be a normal element or 
+the root element of a layer. An element <code>$x</code> precedes another element <code>$y</code> if some ancestor of      
+<code>$x</code> (or <code>$x</code> itself) is a preceding sibling of some ancesor of <code>$y</code> (or <code>$y</code> itself).      
+ </para>
+
+<synopsis>
+	<emphasis role="bold"><varname>structural_relation</varname></emphasis>    :=    <replaceable>variable</replaceable> <literal>&lt;&gt;</literal> <replaceable>variable</replaceable>
+</synopsis>
+      
+
+<note>
+<para>
+The expression 
+<replaceable>a</replaceable><literal>&lt;&gt;</literal><replaceable>a</replaceable> is always false!
+</para></note>
+
+      
+<para>Some examples:
+</para>
+      
+<table rowsep="1" frame="all" colsep="1">
+<title>Structural relations examples</title>
+<tgroup cols="2">
+<tbody>        
+<row>          
+	<entry>
+		<programlisting><![CDATA[($a)($b): $a ^ $b & $a != $b]]></programlisting>
+	</entry>
+          
+	<entry>all combinations of two different elements in a dominance relation
+	</entry>        
+</row>        
+<row>          
+	<entry>
+		<programlisting>($s syntax)($w word): $s ^1 $w</programlisting>
+	</entry>          
+	<entry>all combinations of syntax and word elements, where the syntax element dominates directly the word element
+	</entry>        
+</row>        
+<row>          
+	<entry>
+	<programlisting>($a)($b): $a ^0 $b</programlisting>
+	</entry>          
+	<entry>equal to <code>$a == $b</code>
+	</entry>        
+</row>        
+<row>          
+	<entry>
+		<programlisting>($a)($b): $a ^-2 $b</programlisting>
+	</entry>          
+	<entry>equal to <code>$b ^2 $a</code>
+	</entry>        
+</row>        
+<row>          
+	<entry>
+		<programlisting><![CDATA[($a word)($b word): $a <> $b]]></programlisting>
+	</entry>          
+	<entry>two words, <code>$a</code> precedes <code>$b</code>
+	</entry>        
+</row>
+</tbody>
+</tgroup>         
+</table>
+    
+</section>
+</section>
+	 
+<section id="query_temporal_relations">
+<title> Temporal relations</title>
+      
+<table rowsep="1" frame="all" colsep="1">
+<title>Temporal relations examples</title>
+<tgroup cols="3">
+<thead>    
+<row>          
+	<entry>Op., short</entry>          
+	<entry>Operator, lexical</entry>
+	<entry>Definition</entry>        
+</row>
+</thead>   
+<tbody>       
+<row>          
+	<entry>
+		<code>%</code>
+	</entry>          
+	<entry>
+		<programlisting>overlaps.left</programlisting>
+	</entry>          
+	<entry>
+		<programlisting><![CDATA[(start($a) <= start($b)) and
+(end($a) > start($b)) and
+(end($a) <= end($b))]]></programlisting>
+	</entry>  
+</row>     
+<row>          
+	<entry>
+		<code>[[</code>
+	</entry>          
+	<entry>
+		<programlisting>left.aligned.with</programlisting>
+	</entry>          
+	<entry>
+		<programlisting>start($a) == start($b)</programlisting>
+	</entry>        
+</row>       
+<row>          
+	<entry>
+		<code>]]</code>
+	</entry>          
+	<entry>
+		<programlisting>right.aligned.with</programlisting>
+	</entry>          
+	<entry>
+		<programlisting>end($a) == end($b)</programlisting>
+	</entry>        
+</row>       
+<row>          
+	<entry>
+		<code>@</code>
+	</entry>          
+	<entry>
+		<programlisting>includes inclusion</programlisting>
+	</entry>          
+	<entry>
+		<programlisting><![CDATA[(start($a) <= start($b)) and
+(end($a) >= end($b))]]></programlisting>
+	</entry>
+</row>        
+<row>          
+	<entry>
+		<code>[]</code>
+	</entry>          
+	<entry>
+		<programlisting>same.extent.as</programlisting>
+	</entry>          
+	<entry>
+		<programlisting>(start($a) == start($b)) and
+(end($a) == end($b))</programlisting>
+	</entry>  
+</row>    
+<row>          
+	<entry>
+		<code>#</code>
+	</entry>          
+	<entry>
+		<programlisting>overlaps.with</programlisting>
+	</entry>          
+	<entry>
+		<programlisting><![CDATA[(end($a) > start($b)) and
+(end($b) > start($a))]]></programlisting>
+	</entry>
+</row>        
+<row>          
+	<entry>
+		<code>][</code>
+	</entry>          
+	<entry>
+		<programlisting>contact.with</programlisting>
+	</entry>          
+	<entry>
+		<programlisting>end($a) == start($b)</programlisting>
+	</entry>        
+</row>        
+<row>          
+	<entry>
+		<code>&lt;&lt;</code>
+	</entry>          
+	<entry>
+		<programlisting>precedes</programlisting>
+	</entry>          
+	<entry>
+		<programlisting><![CDATA[end($a) <= start($b)]]></programlisting>
+	</entry>        
+</row>        
+<row>          
+	<entry>
+	</entry>
+          
+	<entry>
+		<programlisting>starts.earlier.than</programlisting>
+	</entry>          
+	<entry>
+		<programlisting><![CDATA[start($a) <= start($b)]]></programlisting>
+	</entry>        
+</row>        
+<row>          
+	<entry>
+	</entry>          
+	<entry>
+		<programlisting>starts.later.than</programlisting>
+	</entry>          
+	<entry>
+		<programlisting><![CDATA[start($a) >= start($b)]]></programlisting>
+	</entry>        
+</row>        
+<row>          
+	<entry>
+	</entry>          
+	<entry>
+		<programlisting>ends.earlier.than</programlisting>
+	</entry>          
+	<entry>
+		<programlisting><![CDATA[end($a) <= end($b)]]></programlisting>
+	</entry>        
+</row>        
+<row>          
+	<entry>
+	</entry>          
+	<entry>
+		<programlisting>ends.later.than</programlisting>
+	</entry>          
+	<entry>
+		<programlisting><![CDATA[end($a) >= end($b)]]></programlisting>
+	</entry>        
+</row>
+</tbody>
+</tgroup>      
+</table>
+   
+</section>
+
+<section id="nql_quantifier">
+<title id="nql.quantifier.title">Quantifier</title>
+      
+<para>To express complex structural relations in some cases auxiliary
+elements are required, which should not be part of the query result.
+Sometimes it is sufficient that one such element satisfies the match
+condition, sometimes all auxiliary elements must match.
+</para>
+
+<para> The mathematical solution to this problem are the existential and      
+	universal quantifiers. In <package>NQL</package> variables can be existential quantified      
+	or universal quantified. In both cases      
+	elments which are bound to a quantified variable are not part of the      
+	result.
+</para>
+      
+<para>The formal definition of <xref linkend="nql_condition_part" endterm="condition.part.title"/>
+ is now extended with quantifiers:      
+</para>
+	
+<para>
+<synopsis>
+	<emphasis role="bold"><varname>var_declaration</varname></emphasis>     :=  <literal>( exists</literal> <replaceable>variable</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>var_declaration</varname></emphasis>     :=  <literal>( exists</literal> <replaceable>variable typedefinition</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>var_declaration</varname></emphasis>     :=  <literal>( forall</literal> <replaceable>variable</replaceable> <literal>)</literal>
+	<emphasis role="bold"><varname>var_declaration</varname></emphasis>     :=  <literal>( forall</literal> <replaceable>variable typedefinition</replaceable> <literal>)</literal>
+</synopsis>
+        
+</para>
+
+
+      
+<para>In queries with quantifiers the implication operator <literal><![CDATA[->]]></literal>
+ could be useful (see <xref linkend="nql_condition_part" endterm="condition.part.title"/>).
+</para>
+      
+<para>Some examples:      
+<table rowsep="1" frame="all" colsep="1"><title>Quantifier Examples</title>
+<tgroup cols="2">
+<tbody>        
+<row>          
+	<entry>
+		<programlisting>($a)(exists $b): $a ^1 $b</programlisting>
+	</entry>          
+	<entry>elements with children
+	</entry>        
+</row>        
+<row>          
+	<entry>
+		<programlisting>($root)(forall $null): !$null ^1 $root</programlisting>
+	</entry>          
+	<entry>root elements
+	</entry>        
+</row>
+</tbody>
+</tgroup>      
+</table>
+
+</para>
+    
+</section>
+
+<section id="queryresults">
+<title id="queryresults.title">Query results</title>
+      
+<para>The result of a query is a list of <replaceable>n</replaceable>-tuples of elements (or, 
+more precisely, variable bindings) satisfying the match condition, where      
+<replaceable>n</replaceable> is the number of variables declared without quantifiers (cf.      
+<xref linkend="nql_quantifier" endterm="nql.quantifier.title"/>). 
+	The query result is returned in the form of an XML document (or, abstractely, a new tree structure adjoined      
+	to the corpus). Each query match corresponds to a <replaceable>match</replaceable>
+ element, with pointers representing variable bindings and the variable name given by the pointer's role.
+</para>
+
+<para>An example result for a query involving variables <replaceable>$w</replaceable> and 
+<replaceable>$p</replaceable> is:   
+</para>  
+<para>   
+	
+<programlisting>  <![CDATA[
+<matchlist size="2">      
+	<match n="1">          
+		<nite:pointer role="w" xlink:href="..."/>          
+		<nite:pointer role="p" xlink:href="..."/>      
+	</match>      
+	<match n="2">          
+		<nite:pointer role="w" xlink:href="..."/>          
+		<nite:pointer role="p" xlink:href="..."/>      
+	</match>  
+</matchlist>
+]]></programlisting>
+	
+ </para>     
+	
+
+<note><para>
+The matches are not ordered. The ordering of the results of two      
+	similar but not identical queries can be very different.
+</para></note>
+
+    
+</section>
+
+
+<section id="query_complex">
+<title>Complex queries</title>
+      
+<para>A complex query consists of a sequence of simple queries seperated by      
+<literal>::</literal> markers.
+</para>
+
+<para>
+<synopsis>
+	<emphasis role="bold"><varname>complex_query</varname></emphasis>     :=  <replaceable>complex_query</replaceable> <literal>::</literal> <replaceable>query</replaceable>
+	<emphasis role="bold"><varname>complex_query</varname></emphasis>     :=  <replaceable>query</replaceable>
+</synopsis>  
+</para>
+	    
+      
+<para>For a complex query, the leftmost query is evaluated first. Each query      
+	in the sequence operates on the result of the previous query. This means      
+	that for every match, the following query is evaluated with the variable      
+	bindings of the previous queries. The fixed variable bindings may be used      
+	anywhere in the ensuing queries. This evaluation strategy produces a      
+	hierarchically structured query result, where each match of the leftmost      
+	simple query includes a matchlist for the second query, etc.
+</para>
+
+<para> In the example     
+<programlisting>($w word): $w@orth ~ /S.*/ :: ($p phone): $w ^ $p</programlisting>
+the query result has the following structure:      
+</para>
+
+<programlisting>  <![CDATA[
+<matchlist size="2">      
+	<match n="1">          
+		<nite:pointer role="w" xlink:href="..."/>          
+		<matchlist type="sub" size="2">              
+			<match n="1">                  
+				<nite:pointer role="p" xlink:href="..."/>              
+			</match>              
+			<match n="2">                  
+				<nite:pointer role="p" xlink:href="..."/>              
+			</match>          
+		</matchlist>      
+	</match>      
+	<match n="2">          
+		<nite:pointer role="w" xlink:href="..."/>          
+		<matchlist type="sub" size="1">              
+			<match n="1">                  
+				<nite:pointer role="p" xlink:href="..."/>              
+			</match>          
+		</matchlist>      
+	</match>  
+</matchlist>
+]]></programlisting>
+  
+
+<note><para>
+There are no empty submatches. If for a variable binding the following  
+	single query has no matches, the variable binding will be removed from the  
+	result. So the number of matches for a complex query is less than or equal to  
+	the number of matches for the first part.
+</para></note>
+
+</section>
+
+
+<section id="query_known_issues">
+<title>Known Problems</title>
+<remark>IS THIS SECTION TO BE KEPT?</remark>
+<para>At Feb 05, there are a number of known problems with the current querylanguage implementation.</para>
+
+
+<section id="query_multiple_obs">
+<title> Multiple observations and timings</title>
+
+<para>There is a bug when querying over multiple observations - the implementation considers 
+	times in different observations to be comparable, so that it's possible to get the result that 
+	an element in one observation is before some element in another.  This is easy to get around: 
+	query on one observation at a time, or declare the reserved attribute for observation names for 
+	your corpus and add a test for the same observation as an extra query term - e.g.<code>($f@obs = $g@obs)</code>, 
+	if the attribute declared is <property>obs</property>. </para>
+</section>
+
+<section id="query_issues_forall">
+<title>Search GUI and forall</title>
+
+<para>The search GUI (whether called stand-alone or from a search menu) can't display results if 
+	some subquery in a complex query only has query matches that are bound with <literal>forall</literal> - e.g. 
+<code>($f foo):($f@att="val")::(forall $g bar):!($g ^ $f)</code>
+</para>
+
+</section>
+
+<section id="query_issues_immediate_precendence">
+<title>Immediate Precedence</title>
+
+<para>The immediate precedence operator is missing.  Immediate
+precedence is equivalent to
+<code><![CDATA[($f foo)($g foo)(forall $h foo): ($f<<$g) &amp;&amp; (($h=$f) || ($h=$g) || ($h<<$f) || ($g<<$h))]]>
+</code>
+</para>
+
+<para>but, of course, this is cumbersome and can be too slow and memory-intensive for practical purposes, 
+	depending on the data set. Some common uses of the operator are covered by the <function>NGramCalc</function>
+	 utility.Another work-around 
+	is to create one XML tree from the NXT data thatrepresents the information required and query it using XPath.  
+	Export to <application>LPath</application> and <application>tgrep2</application> would also be reasonable and 
+	are not difficult to implement. If you need to match on 
+	regular expressions of XML elements in order to add markup, (so, for instance, saying "find syntactic constituents 
+	with one determiner, followed by one or more adjectives, followed by one noun, and wrap a new tag around them"), but 
+	you can always use something like <application>fsgmatch</application> (from the <orgname>LTG</orgname>; new release,
+	currently in beta, is called <application>lxtransduce</application>) and 
+	then modify the metadata to match.  Remember, the data is just XML, amenable to all of the usual XML processing 
+	techniques.
+	</para>
+</section>
+
+<section id="query_issues_arithmetic">
+<title>Arithmetic
+</title>
+
+<para>The arithmetic operators are missing.</para> 
+<para>At present, users who need them add new attributes to theirdata set and then carry on as normal. 
+	For instance, a researcher looking at how often <replaceable>bar</replaceable> elements start in the 10 seconds after 
+	<replaceable>foo</replaceable> 
+	elements end might add an <property>"adjusted start"</property> attribute to <replaceable>bar</replaceable> elements 
+	that take 10 secondsoff their official start 
+	times, and then use the query
+<code>
+	<![CDATA[($f foo)($b bar):(START($b) > END($f)) && ($b@adjustedstart < END($foo))]]>
+</code>
+</para>
+
+<para>
+<ulink url="fuzzy.xsl">
+This stylesheet</ulink>, run on a specific individual coding in the context of the <acronym>MONITOR</acronym> project, 
+	is an example of how this can be done.  
+	It just copies everything, adding new attributes to feedback gaze codes.   We used this general technique on the  
+	Switchboard data to get lengths for syntactic constituents, and on the Monitor data to 
+	get durations.</para>
+<para>This method is inconvenient, particularly for the sort of exploratory study that wishes to consider several 
+	different time relationships. We don't think it is worth adding special loading routines that addtemporary 
+	attributes for adjusted start and end times, but we could include some utilities for command line searching 
+	based on adjustments passed in on the command line.  For instance, 
+<code>java CountWithTimeOffset -q '($t turn)($f feedback):($t # $f)' -t feedback -d 50</code>
+could mean to count overlaps after feedback elements have been displaced 50 seconds forward.   
+	We are considering whether this would be useful enough to supply.
+	</para>
+</section>
+
+
+<section id="query_issues_namespacing">
+<title> Inability to handle namespacing</title>
+	<para>
+At present (Apr 05) the query language parser fails to handle namespacing properly, so any elements and attributes 
+	that are namespaced will be difficult to work with.  For the timing and id attributes, where the
+	default names are in the <sgmltag class="namespace">nite:</sgmltag> namespace, this doesn'tmatter, since they are exposed 
+	to query via e.g. 
+<code>START($x)</code>, but namespacing other tags and attributes would make working with them difficult until this is fixed.
+		</para>
+</section>
+
+<section id="query_speed_and_memory">
+<title> Speed and Memory Use</title>
+	<para>
+<application>NXT</application>'s query engine is slow and uses a great deal of memory.  
+	For instance, some of our more complicated syntactic querieson the Switchboard corpus take 10 seconds per dialogue, 
+	or over an hour and a half for the entire corpus.  </para>
+<para>This is partly a consequence of what it does - the query languageis solving a harder problem than 
+	languages that operate on trees and/or are limited in their use of left and right context. 
+	It istrue that the current implementation is not fully optimized, but this is not something we 
+	intend to look at in the immediate future. Our first choice strategy for addressing this problem 
+	is to look at mapping NQL queries to XQuery for implementation, and addition of the missing operators, 
+	that way.  Meanwhile, most of <application>NXT</application>'s users are not actually engaged in real-time 
+	processing, and find that if they develop queries on a few observations using a GUI, they can then afford to run 
+	the queries at the command line in batch.  The more they are interested in sparse phenomena, the less suitable 
+	this strategy is.  For some query-based analyses, it is also useful to consider direct implementation using the 
+	NOM API, since the programmer can optimize for the analysis being performed.</para>
+<para>Meanwhile, an hour and a half is OK for batch mode, but some of our queries areso common that we 
+	really want easy access to the results.  We can get this by indexing.   
+	Using indices rather than the more complex syntactic queries makes querying roughly ten times faster.  
+	This will be even faster if one then selects not to load the syntax at all, which is possible if one 
+	doesn't need it for other parts of the subsequent query.  
+	You can choose not to load any part of the data by commenting out the 
+<sgmltag class="element"><![CDATA[<coding-file>]]></sgmltag>
+ tag for it in your local copy of the metadata file, or after <package>NXT 1.3.0</package>, by enabling lazy loading 
+	in your applications.</para>
+<para>It's faster to use string equality than regular expression matching in the query language, and keep in mind 
+	the regular expressions have to match the entire string they are compared against, not just a substring of it.</para>
+<para>The very desperate can write special purpose applications to evaluate their queries, 
+	which is faster especially for queries involving quantification.  
+	For instance,one user has adapted <function>CountQueryResults</function> to run part of the query he wants,
+	but instead of returning the results, then checks the equivalent of hisforall conditions using navigation in the NOM.
+	</para>
+</section>
+</section>
+	
+<section id="query_helpful_hints">
+<title>Helpful hints</title>
+
+<para>We recommend refining queries using <code>display.bat/.sh</code> on a single dialogue (probably 
+	spot-checking on a couple more, since observations vary), and running actual counts using the 
+	command line utilities. Build up queries term by term - the syntax error messages aren't always very easy 
+	to understand. Missing dollar signs, quotation marks, and parentheses are the worst culprits.  
+	Get around the bookmark problems and the lack of parenthesis and quote matching in the <interface>searchGUI</interface>
+	 by typing the query into something else that's handier (such as <application>emacs</application>) 
+	and pasting what you've written into the query window.  
+	You canand should include comments in queries if they are at all complicated. 
+	Queries have to be expressed on one line to run them at the command line, but you shouldn't try 
+	to author them this way - instead, postprocess a query developed in this more verbose style by taking out
+	<remark>UNFINISHED SENTENCE</remark></para>
+<para>Analysis of query results can be expedited by thinking carefully aboutthe battery of tools that are 
+	available: <function>knit</function>, <package>LT-XML</package>, stylesheets, <package>xmlperl</package>, 
+	shell script loops, and so on.  One interesting possibility is importing the query results into the data set, 
+	which would be a fancier, hierarchically structured form of indexing.  At May 2004, the metadata 
+<sgmltag class="element"><![CDATA[<coding-file>]]></sgmltag>
+ declaration required to do this would be a little different for every query result, 
+	but we intend minor syntactic changes in both the query result XML and what <function>knit</function> produces 
+	to make this declaration static.
+</para>
+
+</section>
+
+
+<section id="query_related_doc">
+<title>Related documentation</title>
+
+<para>The main documentation is the
+<ulink url="http://www.ltg.ed.ac.uk/NITE/documents/search-manual.pdf">query language reference manual
+</ulink>. Virtually the same information can be found on the helpmenu of the search window (if you don't find it there, 
+	it's an installation problem).  An older document with more contextual information can be found 
+<ulink url="http://www.ltg.ed.ac.uk/NITE/documents/NiteQL.v2.1.pdf"> here</ulink>.</para>
+<para>At September 2006, we plan a revised version of the manual. The current version fails to give details 
+	about the operator for finding out whether two elements are linked via a pointer with a role.
+	<code><![CDATA[($a <"foo" $b)]]></code> is true if <code>$a</code> points to <code>$b</code> using the 
+	<replaceable>"foo"</replaceable> role; the role name can be omitted, but if it is specified it can only be 
+	given as a textual string, not as a regular expression.  The current version also fails to make clear 
+	that the regular expression examples given are only a subset of the possibilities.  
+	The exact regular expression syntax depends on your version of Java, since it is implemented using the 
+	<package>java.util.regex</package> package.  <package>Java 1.5</package> regular expression documentation can be found
+<ulink url="http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/Pattern.html">here
+</ulink>
+.</para>
+<para>Here are some worked examples for the <ulink url="../data-set-doc/swbd-queries.txt">Switchboard data sample
+</ulink>
+ and the <ulink url="../data-set-doc/monitor-exercise.txt">Monitor data sample</ulink>.
+</para>
+	<para>
+	Computer scientists and people familiar with first order predicate calculus have tended to be happy 
+	with the reference manual plus the examples; other people need more (so, for instance, don't know what 
+	implication is or what <code>forall</code> is likely to mean) and we're still thinking about what we 
+	might be able to provide for them.</para>
+<para>At Nov 2004, there are a few things described in the query documentation that haven't been implemented yet 
+	(and aren't on the workplan for immediate development). This includes arithmetic operators and temporal fuzziness.
+	We thought this included versions of <literal>^</literal> and 
+<literal><![CDATA[<>]]></literal> limited by distance, but users report that these (or some of these?)
+	work.  Also, some versions of the query documentation show <literal>;</literal> instead of <literal>:</literal> as 
+	the separator between bindings and match conditions.  The only major bug we've run into (at Nov 2004) is that 
+	temporal operators will perform comparisons across observations, even though time in different observations is 
+	meant to be independent. After <package>NXT-1.2.6</package>, 05 May 04, one can in the metadata declare a reserved attribute to use 
+	for the observation name that will be 
+	added automatically for every element, providing a work-around.
+</para>
+
+<para>There's 
+<ulink url="http://www.ims.uni-stuttgart.de/projekte/nite/">a nifty visual demo</ulink>
+that runs on a toy corpus and might be useful for deciding whether this stuff is useful in the first place.
+</para>
+</section>
+
+</section>
+
+

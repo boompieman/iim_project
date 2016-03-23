@@ -1,0 +1,108 @@
+<section id="databuilds">
+  <title>Data Builds</title>
+<para>
+This section explains how to use the <code><application>Build</application></code> utility of NXT
+to produce packaged-up versions of your corpus in a way that other
+users can unpack and use. You can specify which annotations and
+observations are included, and an appropriate metadata file will be
+produced to go along with the data you select.</para>
+
+
+<para>To specify a data build for an NXT corpus you need to follow
+these steps:</para>
+
+<orderedlist>
+<listitem><para>Write a build specification file conforming to the simple
+DTD file in your distribution (see
+<filename>lib/dtd/build.dtd</filename>)</para></listitem>
+<listitem><para>With NXT and its various lib jar files on your <code>CLASSPATH</code>, run 
+<programlisting>java net.sourceforge.nite.util.Build <replaceable>yourfile</replaceable></programlisting>
+This creates an <filename class="extension">ant</filename> file to actually do the build. You will also be
+told what command to issue...</para></listitem>
+<listitem><para>Run <code>ant -f <replaceable>your_antfile</replaceable></code> to produce a data file
+(you'll be told what the data file is called).</para></listitem>
+</orderedlist>
+
+<section id="databuilds_explanation">
+<title>Examples and explanation of format</title>
+
+<para>First, here's a valid build specification. The resulting ant
+file extracts a set of words and abstractive summaries from all
+observations matching the regular expression <literal>Bed00*</literal>. We take the
+standard words from the corpus, but for the abstractive summary, we
+decide we want to use the files from the annotator
+<literal>sashby</literal>.</para>
+
+<programlisting><![CDATA[
+<build metadata="Data/ICSI/NXT-format/Main/ICSI-metadata.xml" 
+      description="ICSI extract" name="jonICSI" 
+      type="gold" corpus_resources="off" ontologies="on" object_sets="off">
+   <extras dir="/home/jonathan/configuration" includes="*.html" dir="config"/>
+   <coding-file name="words"/>
+   <coding-file name="abssumm" annotator="sashby"/>
+   <observation name="Bed00*"/>
+</build>
+]]></programlisting>
+
+<para>There are two types of build: <code>gold</code> and
+<code>multi-coder</code>. The first of these is for builds where we
+want only one set of XML files for each coding and for that set to be
+treated as the <emphasis>gold-standard</emphasis>. Note that in the
+example above we actually chose a specific annotator's abstractive
+summary: in the resultant build, that annotator's abstractive
+summaries will replace any existing 'gold-standard' abstractive
+summaries. Multi-coder builds result in corpora which may have
+<emphasis>gold-standard</emphasis> codings, but can also have all the
+different annotators' data included. There's an example below.
+</para>
+
+<para>Output of any of the corpus-wide information can be toggled on
+or off, using attributes of the same name:
+<sgmltag class="attribute">corpus_resources</sgmltag>; <sgmltag class="attribute">ontologies</sgmltag>;
+<sgmltag class="attribute">object_sets</sgmltag>. They are all output by default.  Arbitrary
+<emphasis>extras</emphasis> can also be included in the build. These
+are essentially specs that are passed straight through to ant.</para>
+
+<programlisting><![CDATA[
+<build metadata="Data/ICSI/NXT-format/Main/ICSI-metadata.xml" 
+	  description="ICSI multi-coder extract" name="jonICSImulti" 
+	  type="multi_coder">
+   <coding-file name="words"/>
+   <coding-file name="abssumm"/>
+   <coding-file name="extsumm" resource="autoextract1"/>
+   <observation name="Bmr*"/>
+</build>
+]]></programlisting>
+
+<para>
+This requests the words and abstractive summary codings as before, but
+for a different set of observations. This time we'll end up with the
+gold-standard words (since that's all there is in our corpus), but the
+entire tree of abstractive summaries including any 'gold-standard'
+files plus subdirectories of all the annotators' abstractive
+summaries. Note that if an annotator is named in multi-coder mode,
+only that annotator's data is included but it is not raised to the
+gold-standard location. Finally (from NXT release 1.4.2; CVS date
+14/09/2007), note the extra <sgmltag class="element">coding-file</sgmltag> <sgmltag class="attvalue">extsumm</sgmltag> which has
+an associated <sgmltag class="attribute">resource</sgmltag> attribute. This attribute will
+have an efect on the build if there's a resource file referred to in
+the metadata file and it contains a resource for extractive summaries
+called <sgmltag class="attvalue">autoextract1</sgmltag>. In that case, the resource file will
+be included in the build, and the selected resource is the one used
+for extractive summaries. You can have multiple instances of the same
+coding-file to include multiple competing resources.
+</para>
+
+<para>
+One extra element allowed is a <sgmltag class="element">default-annotator</sgmltag> element
+before any of the <sgmltag class="element">coding-file</sgmltag> elements: the <sgmltag class="attribute">name</sgmltag>
+attribute of will be the name of the annotator that is used by default
+(where not overriden by an <sgmltag class="element">annotator</sgmltag> element on a
+<sgmltag class="element">coding-file</sgmltag> element).</para>
+
+<note><para>In any circumstance where a specific annotator's data has been
+requested, but there is none present, the 'gold-standard' data (if
+present) will be used instead.</para></note>
+
+</section>
+</section>

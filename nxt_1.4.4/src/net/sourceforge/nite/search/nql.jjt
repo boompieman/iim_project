@@ -1,0 +1,283 @@
+/**
+ *
+ * NITE-Query-Language V 0.10
+ *
+ * (c) Holger Voormann 2002
+ * holger@voormann.de
+ *
+ */
+
+options {
+   JAVA_UNICODE_ESCAPE=true;
+   //LOOKAHEAD=2;
+   STATIC=false;
+   MULTI=true;
+   NODE_PACKAGE="net.sourceforge.nite.search";
+   NODE_PREFIX="Node";
+}
+
+PARSER_BEGIN(Parser)
+
+package net.sourceforge.nite.search;
+
+class Parser {
+  public static void main(String args[]) {
+    System.out.println("V 0.010");
+    System.out.println("Reading from standard input...");
+    Parser t = new Parser(System.in);
+    try {
+      NodeQuery n = t.Query();
+      n.dump("");
+      System.out.println("Thank you.");
+    } catch (Exception e) {
+      System.out.println("Oops.");
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+    }
+  }
+
+  //testing if variable has its definition
+  private java.util.List knowingVariables = new java.util.ArrayList();
+  private void addVariable(String var, Token token) throws ParseException
+  {
+    if( !knowingVariables.contains(var) ){
+      knowingVariables.add(var);
+    } else {
+      ParseException exception =
+        new ParseException("Double variable declaration: variable name "+var+" already used.");
+      exception.currentToken = token;
+      throw exception;
+    }
+  }
+  private void testVariable(String var, Token token) throws ParseException
+  {
+    if( !knowingVariables.contains(var) ){
+      ParseException exception =
+        new ParseException("Variable declaration for "+var+" is missing.");
+      exception.currentToken = token;
+      throw exception;
+    }
+  }
+
+}
+
+PARSER_END(Parser)
+
+
+SKIP :
+{
+     " "
+  |  "\t"
+  |  "\n"
+  |  "\r"
+  |  <"//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+  |  <"/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/">
+}
+
+TOKEN :
+{
+     < NOT: "!" | "not" | "NOT" >
+  |  < IMPLICATION: "->" | "implicate" | "implicates" | "IMPLICATES" | "IMPLICATES" >
+  |  < AND: "&&" | "&" | "and" | "AND" >
+  |  < OR:  "||" | "|" | "or" | "OR" >
+  |  < EQ:  "==" | "eq" | "EQ" | "=">
+  |  < NE:  "!=" | "ne" | "NE" >
+  |  < GE:  ">=" | "ge" | "GE" >
+  |  < LE:  "<=" | "le" | "LE" >
+  |  < GT:         "gt" | "GT" >   // or POINTER !!!
+  |  < LT:         "lt" | "LT" >   // or PRECEDENCE !!!
+
+  |  < EQREGEXP: "~" >
+  |  < NEREGEXP: "!~" >
+
+  |  < START:    "start"    | "START"      | "Start"    >
+  |  < END:      "end"      | "END"        | "End"      >
+  |  < DURATION: "duration" | "DURATION"   | "Duration" >
+  |  < CENTER:   "center"   | "CENTER"     | "Center"   >
+  |  < ID:       "id"       | "ID"         | "ID"       >
+  |  < TIMED:    "timed"    | "TIMED"      | "Timed"    >
+
+  |  < LEFT:     "l" | "L" | "left"  | "LEFT"  | "Left"  >
+  |  < RIGHT:    "r" | "R" | "right" | "RIGHT" | "Right" >
+
+  |  < DOMINANCE:  "^" >
+  |  < POINTER:    ">" >
+  |  < PRECEDENCE: "<" >
+
+  |  < OVERLAPS_LEFT:      "%"  | "overlaps.left" >
+  |  < LEFT_ALIGNED_WITH:  "[[" | "left.aligned.with" >
+  |  < RIGHT_ALIGNED_WITH: "]]" | "right.aligned.with" >
+  |  < INCLUDES:           "@"  | "includes" >
+  |  < SAME_DURATION_AS:   "[]" | "same.duration.as" >
+  |  < OVERLAPS_WITH:      "#"  | "overlaps.with" >
+  |  < CONTACT_WITH:       "][" | "contact.with" >
+  |  < PRECEDES:           "<<" | "precedes" >
+
+     // quoted value between " or ', e.g.: "abc", 'abc'
+  |  < VALUE:  ( "\"" ( ( ~["\"","\\"]) |
+                        ("\\" ("x" | ~["x"]) )
+                      )* "\"" ) |
+               ( "'" ( ( ~["'","\\"]) |
+                       ("\\" ("x" | ~["x"]) )
+                      )* "'" ) >
+     // regular expression betwen "\", e.g.: /a*b/
+  |  < REGEXP: ( "/" ( ( ~["/","\\"]) |
+                        ("\\" ("x" | ~["x"]) )
+                      )* "/" )>
+
+  |  < EXISTS: "e" | "E" | "exists" | "EXISTS" | "Exists" >
+  |  < FORALL: "a" | "A" | "forall" | "FORALL" | "Forall" | "ForAll" | "forAll" >
+  |  < VARATR: "$" ("$" | (<LETTER>|<DIGIT>)+) "@" ("#" | (<LETTER>|<DIGIT>|".")+) >
+  |  < VAR:    "$" ("$" | (<LETTER>|<DIGIT>)+) >
+  |  < TYPE: ("_" | <LETTER>) (<LETTER> | <DIGIT> | "." | "_" | "-")* >
+  |  < NUMBER: ( <DIGIT> | "-" <DIGIT> | "+" <DIGIT> ) (<DIGIT>)* >
+  |  < #LETTER: [ "\u0024",
+                  "\u0041"-"\u005a",
+                  "\u005f",
+                  "\u0061"-"\u007a",
+                  "\u00c0"-"\u00d6",
+                  "\u00d8"-"\u00f6",
+                  "\u00f8"-"\u00ff",
+                  "\u0100"-"\u1fff",
+                  "\u3040"-"\u318f",
+                  "\u3300"-"\u337f",
+                  "\u3400"-"\u3d2d",
+                  "\u4e00"-"\u9fff",
+                  "\uf900"-"\ufaff" ] >  //< #LETTER: ["_", ":", "a"-"z", "A"-"Z", "À"-"ÿ"] >
+  |  < #DIGIT: ["0"-"9"] >
+}
+
+NodeQuery Query() : {}
+{
+  SimpleQuery() ( "::" SimpleQuery() )* <EOF>
+  {
+    return jjtThis;
+  }
+}
+
+void SimpleQuery() :
+{ boolean isExists = false, isForAll = false; Token t; }
+{
+  ( "("                             { isExists = false; }
+        [ ( <EXISTS>                { isExists = true; } )
+        | ( <FORALL>                { isForAll = true; } )
+        ]
+        t=<VAR>                     { jjtThis.addVar(t.image, isExists, isForAll);
+                                      addVariable(t.image, t); }
+        [ t=<TYPE>                  { jjtThis.addType(t.image); }
+          ( (<OR> | "," ) t=<TYPE>  { jjtThis.addType(t.image); } )*
+        ]
+    ")"
+  )+ [ ":" [ Logical() ] ]
+}
+
+void Logical() :
+{ Token t; boolean negated = false;  NodeCondition c; }
+{
+  [ <NOT>              { negated = true; } ]
+  c=Condition()        { jjtThis.addOrElement(c); }
+                       { if (negated) c.negate(); }
+
+  ( ( t=<OR> | t=<AND> | t=<IMPLICATION> )
+                       { negated = false; }
+    [ <NOT>            { negated = true;  } ]
+    c=Condition()      { if      (t.kind==OR)  jjtThis.addOrElement(c);
+                         else if (t.kind==AND) jjtThis.addAndElement(c);
+                         else                  jjtThis.addImplicationElement(c);
+                         if (negated) c.negate(); }
+  )*
+  { jjtThis.makeDNF(); }
+}
+
+NodeCondition Condition() :
+{ Token t; Token s; Token u; Token v; Token n;}
+{
+  (
+    ( "(" Logical() ")" { jjtThis.isGroup = true; } )
+
+    //timed test
+    | ( <TIMED>    "(" s=<VAR> ")"      { testVariable( jjtThis.setAVar(s.image), s );
+                                          jjtThis.setType(jjtThis.TIMED);
+                                          jjtThis.image = "timed(" + s.image + ")";
+                                        }
+       )
+
+    //attribute tests
+    | ( ( ( s=<VARATR>                    { testVariable( jjtThis.setA( jjtThis.ATTRIBUTE, s.image ), s ); } )
+        | ( s=<VALUE>                     {               jjtThis.setA( jjtThis.VALUE,     s.image );   } )
+        | ( s=<START>    "(" u=<VAR> ")"  { testVariable( jjtThis.setA( jjtThis.START,     u.image ), u ); } )
+        | ( s=<END>      "(" u=<VAR> ")"  { testVariable( jjtThis.setA( jjtThis.END,       u.image ), u ); } )
+        | ( s=<DURATION> "(" u=<VAR> ")"  { testVariable( jjtThis.setA( jjtThis.DURATION,  u.image ), u ); } )
+        | ( s=<CENTER>   "(" u=<VAR> ")"  { testVariable( jjtThis.setA( jjtThis.CENTER,    u.image ), u ); } )
+        | ( s=<ID>       "(" u=<VAR> ")"  { testVariable( jjtThis.setA( jjtThis.ID,        u.image ), u ); } )
+        )
+        { jjtThis.image = s.image; }
+
+        [ ( ( ( <EQ>         { jjtThis.setType(jjtThis.EQ);        jjtThis.image += "=="; } )
+            | ( <NE>         { jjtThis.setType(jjtThis.NE);        jjtThis.image += "!="; } )
+            | ( <GE>         { jjtThis.setType(jjtThis.GE);        jjtThis.image += ">="; } )
+            | ( <LE>         { jjtThis.setType(jjtThis.LE);        jjtThis.image += "<="; } )
+            | ( <GT>         { jjtThis.setType(jjtThis.GT);        jjtThis.image += ">";  } )
+            | ( <POINTER>    { jjtThis.setType(jjtThis.GT);        jjtThis.image += ">";  } )
+            | ( <LT>         { jjtThis.setType(jjtThis.LT);        jjtThis.image += "<";  } )
+            | ( <PRECEDENCE> { jjtThis.setType(jjtThis.LT);        jjtThis.image += "<";  } )
+            )
+
+            ( ( t=<VARATR>                    { testVariable( jjtThis.setB( jjtThis.ATTRIBUTE, t.image ), t ); } )
+            | ( t=<VALUE>                     { jjtThis.setB( jjtThis.VALUE,     t.image ); } )
+            | ( t=<START>    "(" v=<VAR> ")"  { testVariable( jjtThis.setB( jjtThis.START,     v.image ), v ); } )
+            | ( t=<END>      "(" v=<VAR> ")"  { testVariable( jjtThis.setB( jjtThis.END,       v.image ), v ); } )
+            | ( t=<DURATION> "(" v=<VAR> ")"  { testVariable( jjtThis.setB( jjtThis.DURATION,  v.image ), v ); } )
+            | ( t=<CENTER>   "(" v=<VAR> ")"  { testVariable( jjtThis.setB( jjtThis.CENTER,    v.image ), v ); } )
+            | ( t=<ID>       "(" v=<VAR> ")"  { testVariable( jjtThis.setB( jjtThis.ID,        v.image ), v ); } )
+            )
+            { jjtThis.image = t.image; } )
+          | ( <EQREGEXP> t=<REGEXP> { jjtThis.setType(jjtThis.REGEX);    jjtThis.setPattern(t.image); } )
+          | ( <NEREGEXP> t=<REGEXP> { jjtThis.setType(jjtThis.NOTREGEX); jjtThis.setPattern(t.image); } )
+        ]
+      )
+
+    //structural and temporal relations
+    | ( s = <VAR>        { testVariable( jjtThis.setAVar(s.image), s );
+                           jjtThis.image = s.image; }
+        (
+           //equality
+             ( <EQ>                { jjtThis.setType(jjtThis.EQUAL);               jjtThis.image += "=="; } )
+           | ( <NE>                { jjtThis.setType(jjtThis.INEQUAL);             jjtThis.image += "!="; } )
+
+           //strucural relations
+           | ( <DOMINANCE>          { jjtThis.setType(jjtThis.DOMINANCE); jjtThis.image += "^"; }
+               [ n = <NUMBER>       { jjtThis.setType(jjtThis.DOMINANCE_WITH_DISTANCE);
+                                      jjtThis.setDistance(n.image);                jjtThis.image = n.image; } ] )
+
+           | ( <PRECEDENCE><POINTER>{ jjtThis.setType(jjtThis.PRECEDENCE);         jjtThis.image += "<>"; } )
+
+           | ( <POINTER>            { jjtThis.setType(jjtThis.POINTER);            jjtThis.image += ">";  }
+               [ n = <VALUE>        { jjtThis.setType(jjtThis.POINTER_WITH_ROLE);
+                                      jjtThis.setRole(n.image);
+                                      jjtThis.image += ">" + n.image; } ]
+               [ <DOMINANCE>        { jjtThis.setType( jjtThis.getType() == jjtThis.POINTER ?
+                                                         jjtThis.SUBDOM :
+                                                         jjtThis.SUBDOM_WITH_ROLE );
+                                      jjtThis.image += "^"; } ]
+             )
+
+           //temporal relations
+           | ( <OVERLAPS_LEFT>      { jjtThis.setType(jjtThis.OVERLAPS_LEFT);      jjtThis.image += "%";  } )
+           | ( <LEFT_ALIGNED_WITH>  { jjtThis.setType(jjtThis.LEFT_ALIGNED_WITH);  jjtThis.image += "[["; } )
+           | ( <RIGHT_ALIGNED_WITH> { jjtThis.setType(jjtThis.RIGHT_ALIGNED_WITH); jjtThis.image += "]]"; } )
+           | ( <INCLUDES>           { jjtThis.setType(jjtThis.INCLUDES);           jjtThis.image += "@";  } )
+           | ( <SAME_DURATION_AS>   { jjtThis.setType(jjtThis.SAME_DURATION_AS);   jjtThis.image += "[]"; } )
+           | ( <OVERLAPS_WITH>      { jjtThis.setType(jjtThis.OVERLAPS_WITH);      jjtThis.image += "#";  } )
+           | ( <CONTACT_WITH>       { jjtThis.setType(jjtThis.CONTACT_WITH);       jjtThis.image += "]["; } )
+           | ( <PRECEDES>           { jjtThis.setType(jjtThis.PRECEDES);           jjtThis.image += "<<"; } )
+           )
+
+           t = <VAR>        { testVariable( jjtThis.setBVar(t.image), t );
+                              jjtThis.image += t.image; }
+        )
+  )
+  {
+    return jjtThis;
+  }
+}
