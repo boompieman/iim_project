@@ -1,0 +1,151 @@
+Uh so To just.
+start yeah yes okay great. Well welcome to.
+Third meeting conceptual design see the powerpoint presentation I've been running okay on the agenda for this this particular meeting we'll have your three presentations on what you've done since I last meeting after we came up with some general ideas of our design. And do we have to make some key decisions on on our remote control concept and how we're gonna make it what material or use and that sort of thing the meeting will be forty minutes long.
+okay and will well.
+once again have poppy as our first present that.
+yeah alright pronounce which powerpoint thank you.
+should be just sliding okay. So although I can see on my screen okay okay been doing some research into the different components that we could use what's available to us to actually make the remote control first will have to look at how the remote control is actually made and why that happens inside the casing which is well your field. Um this main internal feature is a circuit board which contains all the that electronics and also the contacts with the power source does not necessarily a battery as about to see there are several components of the circuit board that we need to consider where will be getting them from what they'll be made of including the integrated circuit which is also segments the chip which is where all the main information is that contained a diodes transistors resonators resistors and capacitors co authored is all need to be considered is well and all that positioning in the circuit or they'll included.
+like mandatory earlier there are these different options.
+these they're all different options that'll separate apart from the chip yeah which will probably decide whether we buy a simple a regular advanced we can goods that later all the other things the individual components that we'd have to get in separately and work out the most like effective circuit including otherwise and things like that and the LED of course that's the light emitting diode so we could so we've got like flexibility with colours and things that that as well. Okay there are lots of different possibilities for the energy source we could use the basic battery but that brings the like they need to be recharged and the bulk the size of it as well and the not so great to dispose of environmentally because the hand powered dynamo which is the sort of thing that was used for torches fifty years ago a bit out of date kinetic energy is something that's been recently developed what is a hand how dynamo where you manually charge up the power like you just write something awhile sorry just every so why yeah every once in a while I think but it it'd be kind of strange to always be yeah they like going back in time I don't think it would really be with kind of cutting edge technology no rise exec energy is a new idea this used by some watches and other devices where you just shake the device and it gives it power I mean the kinetic energy is transformed into power to make the circuit work. Um all the solar power which we can considering inside a building which is where it's gonna be just might not be quite so right useful but good to look into renewable energy always the like lots of considerations for the case like what sort of shape it would be curved or flat that's got a lot to do with the ergonomics like how it's comfortable and fits in the hand we don't want something that's huge and you can pick up all too small or too slightly. I know I've had a remote control before which you couldn't tell which is the front and the back so I had so many buttons on and the shape was so symmetrical that I'd be pressing like a volume but instead of the on button because you can't really see around yeah we also can choose what materials the we could use metal we could use rubber which might be more ideal for the anti RSI it's like the same sort of rubber this used in stress balls and things like that so it's very like stuff not so stressful on homes would I get back inside we got yeah I don't think that's quite yet today with what we're looking for here yeah titanium is not gonna be possible you know it just it beyond a budget really but would've been maybe for future projects right of a choice for buttons as well we've developed some got some good advances in technology with a research team of found some new multiple to option scroll buttons. I think that was both up for they basically quite a flexible design modern you don't have to use individual buttons you can just slight different down sure we're quite familiar with those on the wiles or computer laptop at home think of the scroll buttons.
+the.
+we would have to have an LCD.
+yeah that's true display and that with really large thing yeah if we have fill yeah we going on that later with that van with the LCD that means we need them really advanced chip yeah and it's unlikely that's gonna be in a budget. Um also got the integrated pushbutton which is what we're most familiar with my straightforward peak and in like incorporate that with the scroll button as well. Because stations like that. And that's so I was just saying for linked into different depends on what type of buttons we have in the inputs simple would go with the pushbutton regular you could link with the scroll button. And the advanced would have to go with a LCD right display my personal preferences I think we could go for the kinetic energy source that are I think that's quite an advanced kind of technologies not been seen before so it could be quite a a novelty factor attractive as well and also energy savings you're producing the energy you don't need an external says battery supply or solar panels you just give it shake yeah sounds brilliant three Reading casing I think we're probably the best if we're going for the anti RSI and like more choice with aesthetics like you could be pretty much any colour we want. Um and gives you yeah more flexibility that I'm probably the regular chip as opposed to simple than we could possibly have the scroll on the push but no LCD so probably can't afford that one yeah and one and.
+with the rubber casing is that it would be rubber encapsulating all of these chips and diodes and delicate technology as like as the exterior this the one thing that's protecting its in it's.
+I think that would there would be an and some more internal casing and the rubber would just be the what's in contact with the human yeah another.
+thing is it might be more difficult if it's a rubber exterior we were talking about putting on interchangeable.
+it's yeah is it I don't see.
+how a like a rubber plate going on top or would stay there because you sort of like a clip on plastic plate it would work that way.
+maybe if the if it was just kind of a more of a rubber coating which is on the case so it's kind of the whole thing would be removable.
+like plastic with rubber.
+yeah like yeah I can't think what.
+well there's there exists there phone that has like a rubber case.
+yeah or like yeah you can get stiff outer casing fat I want and something that's just yeah it's protective as well it's it stops it I mean it would use the impact if it's dropped something yeah wouldn't damage just itself so we all right. So maybe a mixture of both that yeah.
+it's the actual remote would be hard plastic and.
+and then yeah yeah and the it's they're rubber yeah yeah.
+yeah that sounds good is is it.
+possible to put designs onto this type of rubber as far as I know it should be okay let's see yeah yes just one yeah yeah alright I like the.
+kinetic energy source idea yeah I don't know when people will people V.
+remote around a lot but I think that it's worth.
+it Katie kinetic energy source that can like and we could have any kind of style would be as heavy or bulky and yeah yeah just for environmental reasons..
+yeah I guess it's a bit scary "'cause" it hasn't been done.
+yeah as we don't see more research on it or yeah a battery pack like as a backup yeah.
+so so there is a one battery as most remotes use to battery yeah yeah was running off one battery a week.
+yeah some alternative just in case something went wrong.
+could you were saying about solar power maybe not working indoors but a lot of cat.
+that's true I I yeah I think that yeah maybe maybe that could be the backup yeah just a battery or.
+not some light doesn't it yeah the are yeah it's okay but think it it's not you don't.
+read the solar level time can be stored it can be like yeah you can have the solar energy and then we can store the energy visa it just needs to be in like for a certain amount of time Friday like hours a day.
+I think that might be a little impractical or think sometimes.
+that's just so that they're under a cushion.
+yeah that's true and the people don't have to worry about that yeah I suppose it would be really annoying if you get think oh no I've got to charge my remote. But yeah the kinetic thing I think was right about lies it's instant energy you don't have to you know you can shake it a few times or and or just like at work it out when you're gonna yeah yeah society we don't have to like make sure is annoying. And yeah so very cool okay.
+the they never present yeah yeah alright. Thank you. We go it's not a screen why.
+and I wasn't of mine I I don't know I I think I just I just use some mouse.
+oh okay yeah yeah so interface concept first fall explain what they use their hand but I think the peter system which can be seen or other a reader found me there I he use and it's also the command that uses to control its operation and there are two types of user interfaces there's the graphical user which emphasises the use of pictures bright. And appoint device for example of mice sure that's sort of like the scroll thing were talking about oh okay yeah I'm not really sure about the pictures. So maybe that's on an LCD screen maybe it's the button okay yeah.
+yeah yeah I think that's very sometime after the other. Um because command interface require see.
+the type textual commands. And input at a keyboard so the numbers are sort of like a keyboard pressing the numbers for.
+see you what we want for the graphical user you must presentation for the graphics like an ice. I suppose on.
+on on some buttons you have the power would be some kind of symbol you wanted to go onto teletext or I know we're not having that but I mean a similar thing it they have is a nice little picture with the screen with lines across it which yes is that sort of thing like that yeah the symbol on the button but if we having a simplified display anyway you that we yeah we talking about this so much might be more than the numbers..
+one be more command interface So do.
+you think of symbols for like the volume and yeah.
+So it's just rough graphical for the pointing aspect the infrared is like that's considered no I think it today with taxes samples that are on that's on the ball and okay so this is a pointing in mice that doesn't include well like I think come up yeah.
+the time but LCD type things.
+yeah okay but I think we're gonna go with the command interface anyway yeah but that we could incorporate some of the coffee use their point as then just like next in that that maybe what you mean like of I can't think of an example sort of like little pictures smaller than oh yeah like I always thought of fame for them like a little speaker yeah a.
+but you know so it's a keyboard in the shape of it right.
+perhaps yeah okay yeah yeah I like that idea and they come up with that is that the command interface would be the most useful of remote control as it would be less complicated and the controls be more user friendly the remote control would be cheaper design that we have more money in the budget we target design and the interface make much of money if we keep it simple yeah it was.
+the kinetic energy would probably dip into the budget.
+yeah it more yeah right.
+in the technology we we also have to keep in mind or designer well user friendly remote control that a lot of interfaces consist of a clutter buttons that that their functions colours and forms aren't always helpful yeah that's true yeah make.
+the buttons of all the different eye colours for different choices and yeah be a bit yeah and one.
+that all interfaces are different. So that doesn't improve these the other products that we need to come up with something. That's easy to understand and maybe learn from the mistakes of our interface that can be too complicated for people to you does anyone have any questions.
+I think that we should keep all the buttons so one same colour just to keep it give a simplistic okay.
+I think if we go with the design plate thing we'll have to just because of colour clashing and yeah if you wanna say I'm and we might I mean depending on what comes up the design we might have stitches block but.
+the lighting up a set you mean different colours for the lighting or well I thought we had decided that we would if you touch on the buttons they'd all light up and so if they were black it would be possible for.
+them to light up oh I see what you're saying well I guess.
+or white they would glow probably if they're admitted raw.
+oh so you're picturing the light is coming from the back I kinda pictured it as kind of coming from the sides and lighting it up front words oh oh will always come from back okay.
+I just seem like an internal like okay yeah that comes through. So they would have to have to be some parts maybe transparent around right bass or something I will rubber is a more translucent yeah yeah a.
+duck to so they should be obvious that taken care of.
+the phone that I was thinking of as well when you change the of the the the little button that actually you know that much yeah are behind the rock you can change the buttons when you change only yeah know overall yeah okay okay I mean we decide on one colour each face or.
+well if they're raised up buttons yeah so you can feel them. We were talking about it being more a lot more tangible. Um it might be more difficult to do yeah they're they're they're sticking out if it's flat then they gotta like on a cell phone or mobile phone. It's like all very flat and you just have to sort of press down on these tiny little buttons but yeah.
+I think it will be possible I don't think it would make that much difference I mean the the dimensions of it "'cause" if it's just like constructed in the same way as like the front cover mobile phone you can take off the hardcover and then there's the likes of the buttons and then you get the circuit I don't think it matters that the buttons are bigger through the the top casing I'm sure you could work out to fit in the casing without causing too much difficulty okay alright yeah if it's doable.
+we can yeah sounds good to me. Thank you anything cape my turn that yes you're all right I have a shorter report for you today it took a while to get the so.
+you're not like that yeah.
+oh that's a good point okay so the support is about trend watching. Um basically so we can live up to our purpose of having a very fashionable remote control sorry so just so you know my method was mainly web web based research this time around I also spoke with fashion experts in Milan new York and paris. And I looked at the design reports from the previous year here are real remote. I'm just so we can work off of them see how fashions changed. Um so I'll list the three most important aspects that have come across and they they reach more important than the one that comes after the first one is that there should be a fancy look and feel instead of the current functional look and this should be a priority as we've been saying the second most important aspect is that a remotes that the remote control should be technologically innovative. So I think we've done a lot of talking about that just with lighting and the buttons and the faceplates. Um so look several gotta keep on track with that and the third most important aspect is that the remote control should be easy to use. So pretty basic there the recent fashion update. Um according to fashion watchers in Paris and Milan is that fruit and vegetables will be the most important theme for clothes shoes and furniture. Um all something contract I contrast last year the feel of the material is expected to be spongy again we already discussed that with rubber versus hard plastic but so my personal preferences here of course as we all also the personal faceplates in this meeting I'd like sticks that the fruits and vegetable themes I dunno if that's going to work for us it's sounds something that you'd use on kitchen where I don't know if we wanna do it all remotes it could be really options may be for the television that people have in their kitchen. Um but temporary light up idea sounds of linguistics that's.
+and then time.
+get a trendy look with user friendliness yeah yeah it's the fruit and veg bowls.
+is the only area that I find rather jarring.
+everything else we can really we can really.
+do according to plans already given the market but fruits and vegetables seems a very strange idea gotta love well.
+what it it's everywhere. So maybe yeah we have similar purses with all those on them no but I I think I think we stick to TV based you know maybe TV shows or but this or C too.
+oh fit into people's decor though.
+I think we could possibly take a more abstract design like look at the basic shapes of different fruits and vegetables and then just really like strip it down to like really basic shapes I mean we don't have to make something in the shape of the strawberry or it could have the curves of a strawberry every minute or strawberries recently started this yeah like you know really make it quite abstract if that's fits in more with what we doing instead of fruits or vegetables just yeah straightforward is a bit yeah doesn't quite fit in with the trendy well obviously if that's if that's the case late maybe we could go more directly I don't know yeah that initially I do that I think if we just sort of turn it down a bit don't I don't know there was no fruit yeah on.
+our part and one thing I was I remember from our kickoff meeting we talked about our favourite animals yeah maybe be animal based you know because a lot of people have a house cat or or dog. Um that might be getting you know to specific and we should see with the success something to keep in mind Jenny question pretty straightforward.
+yeah alright given that information.
+we need to start making some.
+more specific decisions so.
+need to hook up the powerpoint again.
+have you guys been saving your powerpoint presentation.
+I didn't for the first off I have now is still around right yeah where are we going to.
+see a project documents I think okay.
+try to make this pop up right here we go okay so we have to decide now exactly what we are going to do. So energy we oh oh no I can't write it in when it's in the setting so you know how to take it out of.
+yeah yeah okay.
+so I just as energy we've decided on content.
+great idea yeah okay so that's good oh we don't have a backup what do we do.
+what a backup really been messes area.
+I mean will people just use the battery if there's no there's.
+I think maybe there's like a we could just go for the kinetic energy and be bold innovative "'em" yeah this works. And well hope that it will yeah yeah just like a reason why wouldn't wanna right. So I think we should just like take advantage of like using this it's full potential yeah.
+it can even be of our selling points it could be.
+that only kinetic energy yeah very much really.
+conscious so that we wouldn't lose actually yeah yeah yeah.
+I the next decision is chip on print. I don't exactly know that mean is.
+is whether we went for the simple the regular or the advanced chip but not linked in with what buttons we with gonna have so rightly we're going for more simplistic style right yeah but was so that was without the LCD to that means we yeah need advance so it depends on whether we wanted the scroll buttons or just the pushbuttons I think we we.
+decide on the pushbuttons right yeah so that's the simple yeah would we need a more advanced one for the lighting the interior light.
+system yeah possibly so we gonna be the regular chip that we're going to be so it's okay medium. So right that's called medium or regular regular sorry yeah right unit.
+oh is regular not simple yeah writing yeah if.
+we because of the lighting that we've decided sprinters or okay and cases so this this is is dependent.
+on shape or what it's made of four.
+I think this is just gonna be that very ousted case which we will decide on rubber yeah yeah well I guess plastic and rubber.
+coated in rubbery plastic rubber case with rubber coding and interchangeable.
+oh interchangeable yeah still going for that yeah yeah well.
+okay user interface concept is your attention.
+we decided on the so I I I'm sorry I lost my you know participating so I happened that Scully was called the command interface that oh yeah yeah command interface to manage interface command line interface yeah say command line yeah okay an interface.
+right and supplements what's that all about.
+I think that we haven't really made our decisions about what we're gonna do by the cluster of button functions colours forms and that and like what what are you combat these problems. Um different interfaces or very different and can be confusing because because of the difference the different clusters button we haven't really decided what T.
+what our choices here.
+let's just where where some you keep the buttons what kind of functions for shall we have like we have.
+the numbers of the channels and will have power channel changer and volume and power.
+just just basic yeah don't.
+know if we should go into like adjusting light levels things like that because different televisions or.
+have the yeah tone contrast and things like that.
+that was on one of my presentations about how often do you remember yeah.
+that's minimum well he wasn't there.
+hardly ever used should I bring it up yeah.
+yeah I was televisions will come with the remote.
+yeah and surely that would be like quite specific to individual television so.
+well we know we want numbers is.
+screen settings was use zero point five times an hour. So twice every once every two hours and is concert a one point five relevance right next.
+our home and all that I think my that comes like on the of individual television set itself as an I'm sure has so you don't necessarily need to have it on remote an individual televisions like I don't know if we.
+can make a remote that will be universal to all the different kind. yeah.
+so we just kind of a power a channels volume.
+the other one was audio settings mono stereo pitch I mean I sometimes use that some T V.s will have the option of like living room style movie style yeah and that they said that you zero point eight times an hour which is actually somewhat high one was once an hour.
+relevance oh we have five.
+It's sufficiently alright okay.
+this is fast. Um well that they come up on mine should we have audio only comes about mine usually it would okay but same instantly if we'd important of anything no yeah I don't it's it's a problem with it national.
+appeal I think if we have audio because we don't know how other televisions work. But we know that everyone has this is the same.
+yeah I guess that it affects the marketing "'cause" it mean it is a good sales ploy to say are of the remote controls out of all these buttons yeah at all but yeah.
+that's it I I just I guess a seven point the is just the things yeah yeah and I yeah alright.
+good and okay closing so.
+we have five minutes will be meeting again in thirty minutes you'll be working probably will be working on the look and feel design maybe it is that right.
+yeah and the user interfaces and.
+so this is what the trendy stuff comes in and you'll be evaluating the product poppy and Tara will have to work together using modelling clay and your personal coach will do the rest of the information of what so.
+okay alright. So anyone else have something to say I just have one question about the whole fruit and vegetable aspect yeah are we seeing is that was the most popular I think we came up out of your market research I I think we should keep to that rather than moving to animals or something because yeah yeah even if that may not seem obvious to us if that's what the surveys brought out I think we should probably go along with that yeah so I suppose I'll come out and not to the design development of a happy to go ahead with the fruit.
+now do you guys need one an idea of how many income of the casing ideas.
+yeah exactly yeah right I five.
+what I was thinking what do you think of this how often the numbers came like not a bunch of grapes but you know like purple ink and a vintage triangle like great yeah innocent fun when the but it's it's true in the yeah.
+we can have an I yeah I guess.
+ideally kind of think of age markets as well so yeah we know all you know appeal to the fifteen to twenty five year old something that your granny would want her remote control yeah yeah and international tastes as well.
+yeah a lot of things to consider lots of yeah alright okay it was to to.
+the GD alright..
+and we'll reconvene in thirty minutes okay.
+I think he has to.
+oh what are just okay.
