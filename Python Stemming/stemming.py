@@ -31,7 +31,7 @@ for aWord in wordsList:
 
 ### save to database
 for index in range(len(stemmedWords)):
-  cursor.execute("update ES2002a_grammer set stemmedWord = %s where id = %d", stemmedWords[index], index + 1)
+  cursor.execute("update ES2002a_grammer set stemmedWord = %s where id = %s", (stemmedWords[index], index + 1)
   db.commit()
 
 db.close()
