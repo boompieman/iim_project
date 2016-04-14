@@ -302,6 +302,8 @@
       <dependency observation=".*" idref="AMIwordsref1"/>
       <dependency observation=".*" idref="toptypes"/>
     </resource>
+    <resource id="topic_Sam" notloadedwith="" description="Sam&#39;s topic annotation" type="manual" annotator="Sam" path="Sam">
+    </resource>
   </resource-type>
   <resource-type coding="discussions">
     <resource id="ae1" notloadedwith="" description="Argumentation discussion annotation, Twente" type="manual" path="agrumentation/dis">
@@ -424,14 +426,6 @@
     <resource id="aptypes" notloadedwith="" description="Adjacency pair types" type="manual" path="ontologies">
     </resource>
   </resource-type>
-  <resource-type coding="ar-types">
-    <resource id="artypes" notloadedwith="" description="Argument Relation type hierarchy" type="manual" path="ontologies">
-    </resource>
-  </resource-type>
-  <resource-type coding="decisionlink">
-    <resource id="declinkmanual1" notloadedwith="" description="decision points manual coding" type="manual" annotator="MK" path="decision/manual" responsible="Sabriba Hsueh, Edinburgh">
-    </resource>
-  </resource-type>
   <resource-type coding="summlink">
     <virtual-resource id="slink_gold" notloadedwith="">
       <dependency observation=".*" idref="slinkDS"/>
@@ -461,9 +455,21 @@
       <dependency observation=".*" idref="abs_gold"/>
     </resource>
   </resource-type>
+  <resource-type coding="decisionlink">
+    <resource id="declinkmanual1" notloadedwith="" description="decision points manual coding" type="manual" annotator="MK" path="decision/manual" responsible="Sabriba Hsueh, Edinburgh">
+    </resource>
+  </resource-type>
+  <resource-type coding="ar-types">
+    <resource id="artypes" notloadedwith="" description="Argument Relation type hierarchy" type="manual" path="ontologies">
+    </resource>
+  </resource-type>
   <resource-type coding="autosubj">
     <resource id="autosubj1" notloadedwith="" description="Automatic subjectivity annotation (binary)" type="automatic" path="subjectivity/autosubj_asr_v1">
       <dependency observation=".*" idref="spurtsASRa1"/>
+    </resource>
+  </resource-type>
+  <resource-type coding="summ">
+    <resource id="psumm" notloadedwith="" description="participant summaries" type="manual" annotator="meeting participants" path="participantSummaries" responsible="AMI project" quality="variable" manual="participants asked to fill in four-part summaries">
     </resource>
   </resource-type>
   <resource-type coding="foa">
@@ -474,10 +480,6 @@
     <resource id="AMIfocusnatasa" notloadedwith="" description="Focus of attention" type="manual" annotator="natasa" path="focus/natasa">
     </resource>
     <resource id="AMIfocusIDIAP" notloadedwith="" description="Focus of attention" type="manual" annotator="IDIAP" path="focus/IDIAP">
-    </resource>
-  </resource-type>
-  <resource-type coding="summ">
-    <resource id="psumm" notloadedwith="" description="participant summaries" type="manual" annotator="meeting participants" path="participantSummaries" responsible="AMI project" quality="variable" manual="participants asked to fill in four-part summaries">
     </resource>
   </resource-type>
   <resource-type coding="words">

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<nite:root nite:id="TS3003a.topic" xmlns:nite="http://nite.sourceforge.net/">
+   <topic nite:id="TS3003a.topic.topic_Sam.5" other_description="work place">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.4)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words215)..id(TS3003a.A.words217)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.6" other_description="field">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.4)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words224)..id(TS3003a.A.words225)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.7">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.26)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words240)..id(TS3003a.A.words250)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.8" other_description="field">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.4)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words469)..id(TS3003a.A.words481)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.10">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.21)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words504)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.21" other_description="goal">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.4)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words482)..id(TS3003a.A.words493)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.11">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.22)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words556)..id(TS3003a.A.words569)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.12">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.21)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words605)..id(TS3003a.A.words708)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.13">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.14)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words718)..id(TS3003a.A.words921)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.14">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.212)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words1004)..id(TS3003a.A.words1036)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.15">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.212)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words1109)..id(TS3003a.A.words1190)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.17">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.212)"/>
+      <nite:child href="TS3003a.B.words.xml#id(TS3003a.B.words80)..id(TS3003a.B.words90)"/>
+      <nite:child href="TS3003a.D.words.xml#id(TS3003a.D.words196)..id(TS3003a.D.words202)"/>
+      <nite:child href="TS3003a.C.words.xml#id(TS3003a.C.words15)..id(TS3003a.C.words16)"/>
+      <nite:child href="TS3003a.B.words.xml#id(TS3003a.B.words91)..id(TS3003a.B.words121)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words1588)..id(TS3003a.A.words1594)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.16">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.212)"/>
+      <nite:child href="TS3003a.C.words.xml#id(TS3003a.C.words53)..id(TS3003a.C.words71)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.18" other_description="brief conclusion">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.4)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words1625)..id(TS3003a.A.words1670)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.19" other_description="selling price">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.4)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words1710)..id(TS3003a.A.words1718)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.20" other_description="goal">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.4)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words1724)..id(TS3003a.A.words1731)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.24" other_description="goal">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.4)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words1757)..id(TS3003a.A.words1786)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.22">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.211)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words1875)..id(TS3003a.A.words1884)"/>
+   </topic>
+   <topic nite:id="TS3003a.topic.topic_Sam.23" other_description="goal">
+      <nite:pointer role="scenario_topic_type"  href="default-topics.xml#id(top.4)"/>
+      <nite:child href="TS3003a.A.words.xml#id(TS3003a.A.words1861)..id(TS3003a.A.words1867)"/>
+   </topic>
+</nite:root>

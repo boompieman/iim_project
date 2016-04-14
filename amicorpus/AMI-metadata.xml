@@ -71,7 +71,7 @@ Metadata Version 2.1
         </agent-signals>
          -->
     </signals>
-    <ontologies path="ontologies">
+    <ontologies path="/Users/macbook/Desktop/iim_project/amicorpus/ontologies">
         <!-- default topic names for topic segmentation -->
         <ontology attribute-name="name"
             description="default topic names for topic segmentation"

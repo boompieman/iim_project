@@ -1,0 +1,4 @@
+nltk
+MySQL-python
+Pattern
+wheel
